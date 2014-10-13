@@ -35,7 +35,7 @@ Evaluate the impact of existing and developing coordination between EBHV program
 #### Publicly Available Reports
 
 * [Wats1 Local](./reports/2011/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
-* [Wats1 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
+* [Wats1 Remote](https://cdn.rawgit.com/OuhscBbmc/Wats/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
 * [Wats2 Local](./reports/2011/OkFertilityWithIntercensalEstimates.html). The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005). In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.
 * [Wats2 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/OkFertilityWithIntercensalEstimates.html). The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005). In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.
 
@@ -47,7 +47,7 @@ Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
 #### Publicly Available Reports
 
 * [Wats1 Local](./reports/2011/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
-* [Wats1 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
+* [Wats1 Remote](https://cdn.rawgit.com/OuhscBbmc/Wats/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
 * [Wats2 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/OkFertilityWithIntercensalEstimates.html). The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005). In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.
 
 ***
@@ -57,7 +57,7 @@ Inform, develop, and evaluate new methods for engagement and retention of client
 
 #### Publicly Available Reports
 
-* [Wats1 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
+* [Wats1 Remote](https://cdn.rawgit.com/OuhscBbmc/Wats/master/inst/doc/MbrFigures.html). This vignette produces the graphs included in the initial MBR manuscript.
 * [Wats2 Local](./reports/2011/OkFertilityWithIntercensalEstimates.html). The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005). In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.
 * [Wats2 Remote](http://htmlpreview.github.io/?https://github.com/OuhscBbmc/Wats/blob/master/inst/doc/OkFertilityWithIntercensalEstimates.html). The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005). In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.
 
