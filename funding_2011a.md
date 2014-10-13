@@ -21,11 +21,6 @@ Understanding of this proposal may benefit from the following resources:
 
 ***
 ***
-# Problem
-The purpose of the MIECHV Grant is to strengthen the system of early childhood home visiting services to improve outcomes for at-risk families who reside in communities that were identified in a statewide needs assessment. Counties identified were Comanche, Muskogee, Oklahoma, and Tulsa Counties.
-
-***
-***
 # Aims of *Evaluation*
 Our *evaluation* has five aims (not to be confused with the four goals and objectives of the *service*, desribed below).  This [project's research page](./research_2011a.html) contains more details and reports.
 
@@ -41,6 +36,8 @@ Our *evaluation* has five aims (not to be confused with the four goals and objec
 # Goals and Objectives of *Service*
 
 The *service* aspect of the project (not to be confused with the *evaluation*, desribed above) has four primary goals.
+
+The purpose of the MIECHV Grant is to strengthen the system of early childhood home visiting services to improve outcomes for at-risk families who reside in communities that were identified in a statewide needs assessment. Counties identified were Comanche, Muskogee, Oklahoma, and Tulsa Counties.
 
 ## Goal 1
 Develop a sustainable, MIECHV home visitation program infrastructure of selected, multiple models matching consumer needs to program model goals.
