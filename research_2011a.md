@@ -108,7 +108,6 @@ We use a literate programming framework and code repository that facilitates agi
 ***
 ***
 # Collaborators and Stakeholders
-?David, do you want a list of people like OSDH, OUHSC, OHCA... Anyone else?
 
  * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
  * [OSDH](./about_collaborators.html#osdh)

@@ -1,5 +1,3 @@
-[![DOI](https://zenodo.org/badge/4971/OuhscBbmc/MReportingPublic.png)](http://dx.doi.org/10.5281/zenodo.12213)
-
 ---
 title: "Oklahoma's MIECHV Evaluation"
 ---
@@ -15,4 +13,8 @@ This site is structured into primary categories, each with nested subcategories.
  * **Funding** pages describe current and previous funding proposals.  A proposal is categorized under the year it was submitted.
  * **About** covers the collaborators and stakeholders involved in Oklahoma's overall MIECHV services and evaluations.
 
+If you have any questions or comments, feel free to post them below. --*Oklahoma's MIECHV team*
+
 ![Alt text](./images/report_collage.png "Example Reports")
+
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.12234.png)](http://dx.doi.org/10.5281/zenodo.12234)

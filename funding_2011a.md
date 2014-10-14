@@ -19,23 +19,12 @@ Understanding of this proposal may benefit from the following resources:
 
  * [Expansion Program Logic Model](./funding_2011a_logic_model.png)
 
-***
-***
-# Aims of *Evaluation*
-Our *evaluation* has five aims (not to be confused with the four goals and objectives of the *service*, desribed below).  This [project's research page](./research_2011a.html) contains more details and reports.
-
- * **Aim 1** [Systems Coordination](./research_2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
- * **Aim 2** [Program Marketing](./research_2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
- * **Aim 3** [Client Enrollment and Retention](./research_2011a.html#client-enrollment-and-retention): Inform, develop, and evaluate new methods for engagement and retention of clients in EBHV services.
- * **Aim 4** [Service Need](./research_2011a.html#service-need): Evaluate the overall need for child and family services within each community.
- * **Aim 5** [HV Effectiveness and Improvement](./research_2011a.html#hv-effectiveness-and-improvement): Establish a quality improvement and control system and evaluate effectiveness of the home visitation and early childhood services continuum.
-
 
 ***
 ***
-# Goals and Objectives of *Service*
+# Goals and Objectives of *HV Service*
 
-The *service* aspect of the project (not to be confused with the *evaluation*, desribed above) has four primary goals.
+The service aspect of the project (not to be confused with the *external evaluation*, described below) has four primary goals.
 
 The purpose of the MIECHV Grant is to strengthen the system of early childhood home visiting services to improve outcomes for at-risk families who reside in communities that were identified in a statewide needs assessment. Counties identified were Comanche, Muskogee, Oklahoma, and Tulsa Counties.
 
@@ -77,6 +66,19 @@ Develop or enhance implementation of existing statewide and county level collabo
 
 ***
 ***
+# Aims of *External Evaluation*
+We were guided by [HRSA's](http://mchb.hrsa.gov/programs/homevisiting/) suggestion that a MIECHV external evaluation "should add something new and relevant to the scientific knowledge of home visiting".  Our evaluation has five aims (not to be confused with the four goals and objectives of the *service*, described above).
+
+ * **Aim 1** [Systems Coordination](./research_2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
+ * **Aim 2** [Program Marketing](./research_2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
+ * **Aim 3** [Client Enrollment and Retention](./research_2011a.html#client-enrollment-and-retention): Inform, develop, and evaluate new methods for engagement and retention of clients in EBHV services.
+ * **Aim 4** [Service Need](./research_2011a.html#service-need): Evaluate the overall need for child and family services within each community.
+ * **Aim 5** [HV Effectiveness and Improvement](./research_2011a.html#hv-effectiveness-and-improvement): Establish a quality improvement and control system and evaluate effectiveness of the home visitation and early childhood services continuum.
+
+This [project's research page](./research_2011a.html) contains more details and reports.
+  
+***
+***
 # Logic Model
 ![Alt text](./funding_2011a_logic_model.png "Logic Model")
 
@@ -88,7 +90,6 @@ Develop or enhance implementation of existing statewide and county level collabo
 ***
 ***
 # Collaborators and Stakeholders
-?David, do you want a list of people like OSDH, OUHSC, OHCA... Anyone else?
 
  * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
  * [OSDH](./about_collaborators.html#osdh)
