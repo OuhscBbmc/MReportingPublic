@@ -1,7 +1,5 @@
 encoding: UTF-8
 
-# exclude: ['Gemfile', 'Gemfile.lock', 'README.markdown']
-
 permalink: pretty
 highlighter: rouge
 safe: false
@@ -16,4 +14,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
 
-logo: favicon.png
+logo: ./images/favicon.png
