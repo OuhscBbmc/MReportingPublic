@@ -52,7 +52,9 @@ Scale-up State evidence-based home visitation program activities by adding home 
 Improve outcomes in required MIECHV Grant benchmark and their corresponding constructs.
 
  * **Objective 1**: Develop or purchase a data collection system that will support the program evaluation needs of all implemented models. The procurement process for purchasing an appropriate data collection system was initiated during Year 1.
+ 
  * **Objective 2**: Develop and or select data collection tools that can be incorporated in the practice and evaluation of all implemented program models. Development and selection of data collection tools for evaluation will be completed during Year 1.
+ 
  * **Objective 3**: Routinely analyze and report data findings related to the MIECHV Grant benchmarks/constructs as required by the MIECVH Grant. Data reporting and analysis will begin as home visiting models are implemented.
 
 ## Goal 4
@@ -70,9 +72,13 @@ Develop or enhance implementation of existing statewide and county level collabo
 We were guided by [HRSA's](http://mchb.hrsa.gov/programs/homevisiting/) suggestion that a MIECHV external evaluation "should add something new and relevant to the scientific knowledge of home visiting".  The OSDH will conduct the *internal* evaluation.  The OUHSC (University of Oklahoma Health Sciences Center) will conduct the *external* evaluation, which has five aims.
 
  * **Aim 1** [Systems Coordination](./research_2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
+ 
  * **Aim 2** [Program Marketing](./research_2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
+ 
  * **Aim 3** [Client Enrollment and Retention](./research_2011a.html#client-enrollment-and-retention): Inform, develop, and evaluate new methods for engagement and retention of clients in EBHV services.
+ 
  * **Aim 4** [Service Need](./research_2011a.html#service-need): Evaluate the overall need for child and family services within each community.
+ 
  * **Aim 5** [HV Effectiveness and Improvement](./research_2011a.html#hv-effectiveness-and-improvement): Establish a quality improvement and control system and evaluate effectiveness of the home visitation and early childhood services continuum.
 
 This [project's research page](./research_2011a.html) contains more details and reports.
