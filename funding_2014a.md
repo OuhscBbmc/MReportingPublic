@@ -18,9 +18,9 @@ This page contains material related to the proposal to be reviewed in late 2015,
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
- * [Appendix A: Benchmark Summary](./funding_2015a_benchmark_summary.pdf)
- * [Appendix B: Survey Measures](./funding_2015a_survey_measures.pdf)
- * [Appendix C: Logic Model](./funding_2015a_logic_model.pdf)
+ * [Appendix A: Benchmark Summary](./funding_2014a_benchmark_summary.pdf)
+ * [Appendix B: Survey Measures](./funding_2014a_survey_measures.pdf)
+ * [Appendix C: Logic Model](./funding_2014a_logic_model.pdf)
 
 # Problem
 ?
@@ -31,7 +31,7 @@ Understanding of this proposal may benefit from the following resources:
 
 ***
 # Logic Model
-![Alt text](./funding_2015a_logic_model.png "Logic Model")
+![Alt text](./funding_2014a_logic_model.png "Logic Model")
 
 # Additional Information
  * For more information about the RFP, please see the official HRSA page at ?link?.
