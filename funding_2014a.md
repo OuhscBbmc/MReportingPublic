@@ -18,10 +18,10 @@ This page contains material related to the proposal to be reviewed in late 2014,
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
- * [Appendix A: Benchmark Summary](./funding_2014a_benchmark_summary.pdf)
- * [Appendix B: Survey Measures](./funding_2014a_survey_measures.pdf)
+ * [Appendix A: Benchmark Summary](./funding/2014a/funding_2014a_benchmark_summary.pdf)
+ * [Appendix B: Survey Measures](./funding/2014a/funding_2014a_survey_measures.pdf)
  * **Appendix C: Donna's Crosswalk Measures:** --Need this--
- * [Logic Model](./funding_2014a_logic_model.pdf)
+ * [Logic Model](./funding/2014a/funding_2014a_logic_model.pdf)
  * **Thomas's timeline:** --Need this--
 
 # Goals and Objectives
@@ -29,7 +29,7 @@ Understanding of this proposal may benefit from the following resources:
 
 ***
 # Logic Model
-![Alt text](./funding_2014a_logic_model.png "Logic Model")
+![Alt text](./funding/2014a/funding_2014a_logic_model.png "Logic Model")
 
 # Additional Information
  * For more information about the RFP, please see the official HRSA page at ?link?.

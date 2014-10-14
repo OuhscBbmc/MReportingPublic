@@ -17,14 +17,14 @@ This page contains the material for 2011's funded proposal, [HRSA/ACF D89MC23154
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
- * [Expansion Program Logic Model](./funding_2011a_logic_model.png)
+ * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
 
 
 ***
 ***
-# Goals and Objectives of *HV Service*
+# Goals of OSDH's HV Service
 
-The service aspect of the project (not to be confused with the *external evaluation*, described below) has four primary goals.
+The service aspect of the project (not to be confused with the *external evaluation*, described below) has four primary goals.  The home visiting (HV) services will be performed by the Oklahoma State Health Dept (OSDH).
 
 The purpose of the MIECHV Grant is to strengthen the system of early childhood home visiting services to improve outcomes for at-risk families who reside in communities that were identified in a statewide needs assessment. Counties identified were Comanche, Muskogee, Oklahoma, and Tulsa Counties.
 
@@ -66,8 +66,8 @@ Develop or enhance implementation of existing statewide and county level collabo
 
 ***
 ***
-# Aims of *External Evaluation*
-We were guided by [HRSA's](http://mchb.hrsa.gov/programs/homevisiting/) suggestion that a MIECHV external evaluation "should add something new and relevant to the scientific knowledge of home visiting".  Our evaluation has five aims (not to be confused with the four goals and objectives of the *service*, described above).
+# Aims of OUHSC's External Evaluation
+We were guided by [HRSA's](http://mchb.hrsa.gov/programs/homevisiting/) suggestion that a MIECHV external evaluation "should add something new and relevant to the scientific knowledge of home visiting".  The OSDH will conduct the *internal* evaluation.  The OUHSC (University of Oklahoma Health Sciences Center) will conduct the *external* evaluation, which has five aims.
 
  * **Aim 1** [Systems Coordination](./research_2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
  * **Aim 2** [Program Marketing](./research_2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
@@ -80,7 +80,7 @@ This [project's research page](./research_2011a.html) contains more details and 
 ***
 ***
 # Logic Model
-![Alt text](./funding_2011a_logic_model.png "Logic Model")
+![Alt text](./funding/2011a/funding_2011a_logic_model.png "Logic Model")
 
 # Additional Information
  * For more information about the proposal, please see the

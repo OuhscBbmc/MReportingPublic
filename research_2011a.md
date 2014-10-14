@@ -18,7 +18,7 @@ This page contains the products from the 2011 funded proposal, [HRSA/ACF D89MC23
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
- * [Expansion Program Logic Model](./funding_2011a_logic_model.png)
+ * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
 
 
 ***
