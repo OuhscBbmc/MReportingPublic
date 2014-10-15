@@ -35,8 +35,8 @@ for( pathFile in pathFilesToBuild ) {
   #   pathMd <- base::gsub(pattern=".Rmd$", replacement=".md", x=pathRmd)
   rmarkdown::render(input = pathFile, 
                     output_format=c(
-                      #                        "pdf_document"
-                      #                       ,"md_document"
+                      # "pdf_document"
+                      #,"md_document"
                       "html_document"
                     ),
                     clean=TRUE)
