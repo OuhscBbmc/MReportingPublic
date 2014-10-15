@@ -36,7 +36,8 @@ The Pediatrics Dept has been involved with Home Visiting research for over a dec
 
 ***
 ## OHCA
-The state's medicaid organization, the [Oklahoma Health Care Authority](http://www.okhca.org/), zzz.
+
+Oklahoma's Medicaid program, known as SoonerCare, is administered by the [Oklahoma Health Care Authority](http://www.okhca.org/) (OHCA).  SoonerCare works to improve the health outcomes of Oklahomans by ensuring that medically necessary benefits and services are responsive to the health care needs of our members. Qualifying Oklahomans include certain low-income children, seniors, the disabled, those being treated for breast or cervical cancer and those seeking family planning services. [Insure Oklahoma](http://www.insureoklahoma.org/) assists qualifying adults and small business employees in obtaining health care coverage for themselves and their families. OHCA strives to educate and engage our one-million plus members regarding personal responsibilities for their health services utilization, behaviors, and outcomes in partnership with a state-wide network of 44,300 providers (FY2013). For more information, visit [www.okhca.org ](http://www.okhca.org/).
 
 <a href="http://www.okhca.org/"> 
   <img src="./images/OhcaBlueLogo.png" alt="OHCA" style="width: 250px;"/>
