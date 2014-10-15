@@ -1,19 +1,20 @@
-GoalID,AimID,SubaimName,Description,AssignedTo,IsStarted,StartDate,IsFinished,FinishDate,SubsubaimDescriptions
-1,1,1a,Reduction in duplication of services for any particular client,3,0,,0,,
-2,1,1b,Develop timeline and analytic covariates that chronicle major program events,3,0,,0,,Record successful establishment of a centralized referral/triage system;Assess frequency of home visitation coalition meetings;Record the successful establishment of Connectors in each county;Record frequency of Connector initiated network meetings;Record number of Memorandums of Agreement and/or Understanding between local services
-3,1,1c,Evaluate the frequency of referrals coming into EBHV agencies,3,0,,0,,Evaluate pre and post changes attributable to triage and connector agency establishments
-4,2,2a,"Survey large sector of eligible population for knowledge, use, and appeal of EBHV services",2,0,,0,,
-5,2,2b,Identify marketing successes/failures among client focus group participant responses,2,0,,0,,
-6,3,3a,Continually evaluate the flow of clients served per county,2,1,,0,,
-7,3,3b,Identify reasons for low engagement in services,2,0,,0,,
-8,3,3c,Examine provider barriers to program implementation with families that do not engage,2,0,,0,,
-9,3,3d,Evaluate effectiveness of new engagement enhancement strategies,3,0,,0,,
-10,3,3e,Identify reasons for attrition from services,2,0,,0,,
-11,3,3f,Evaluate effectiveness of new retention strategies,2,0,,0,,
-12,4,4a,Epidemiologic assessment of home visitation services need,1,0,,0,,
-13,4,4b,Epidemiologic assessment of developmental delays,1,0,,0,,Includes psychometric evaluation of screening instruments for Autism
-14,4,4c,Epidemiologic assessment of child sexual behavior problems,1,0,,0,,
-15,4,4d,Epidemiologic assessment of child abuse and neglect potential ,1,0,,0,,Includes psychometric evaluation of new abuse & neglect predictive measures
-16,5,5a,Compare EBHV and Community for targeted MIECHV benchmarks and constructs from EBHV clients,1,0,,0,,
-17,5,5b,"Identify system improvements and necessary quality controls through client focus groups, staff and leadership qualitative interviews, and expert systems consultations",1,0,,0,,
-18,5,5c,Implement and evaluate system of quality improvements and controls,1,0,,0,,
+GoalID,AimID,SubaimName,SubaimNameShort,Description,AssignedTo,IsStarted,StartDate,IsFinished,FinishDate,SubsubaimDescriptions
+1,1,1A,A,Reduction in duplication of services for any particular client,3,0,,0,,
+2,1,1B,B,Develop timeline and analytic covariates that chronicle major program events,3,0,,0,,Record successful establishment of a centralized referral/triage system;Assess frequency of home visitation coalition meetings;Record the successful establishment of Connectors in each county;Record frequency of Connector initiated network meetings;Record number of Memorandums of Agreement and/or Understanding between local services
+3,1,1C,C,Evaluate the frequency of referrals coming into EBHV agencies,3,0,,0,,Evaluate pre and post changes attributable to triage and connector agency establishments
+4,2,2A,A,"Survey large sector of eligible population for knowledge, use, and appeal of EBHV services",2,0,,0,,
+5,2,2B,B,Identify marketing successes/failures among client focus group participant responses,2,0,,0,,
+6,3,3A,A,Continually evaluate the flow of clients served per county,2,1,,0,,
+7,3,3B,B,Identify reasons for low engagement in services,2,0,,0,,
+8,3,3C,C,Examine provider barriers to program implementation with families that do not engage,2,0,,0,,
+9,3,3D,D,Evaluate effectiveness of new engagement enhancement strategies,3,0,,0,,
+10,3,3E,E,Identify reasons for attrition from services,2,0,,0,,
+11,3,3F,F,Evaluate effectiveness of new retention strategies,2,0,,0,,
+12,4,4A,A,Epidemiologic assessment of home visitation services need,1,0,,0,,
+13,4,4B,B,Epidemiologic assessment of developmental delays,1,0,,0,,Includes psychometric evaluation of screening instruments for Autism
+14,4,4C,C,Epidemiologic assessment of child sexual behavior problems,1,0,,0,,
+15,4,4D,D,Epidemiologic assessment of child abuse and neglect potential ,1,0,,0,,Includes psychometric evaluation of new abuse & neglect predictive measures
+16,5,5A,A,Compare EBHV and Community for targeted MIECHV benchmarks and constructs from EBHV clients,1,0,,0,,
+17,5,5B,B,"Identify system improvements and necessary quality controls through client focus groups, staff and leadership qualitative interviews, and expert systems consultations",1,0,,0,,
+18,5,5C,C,Implement and evaluate system of quality improvements and controls,1,0,,0,,
+19,6,AuxA,A,Show spatial-temporal conditions,1,1,,0,,
