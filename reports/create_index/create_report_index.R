@@ -4,13 +4,21 @@ library(DBI)
 ##################
 ## @knitr declare_globals
 path_db <- "./reports/report_index.sqlite3"
+path_person <- "./reports/create_index/tblPerson.csv"
+path_project <- "./reports/create_index/tblProject.csv"
 path_aim <- "./reports/create_index/tblAim.csv"
 path_goal <- "./reports/create_index/tblGoal.csv"
+path_report <- "./reports/create_index/tblReport.csv"
+path_junction_report_by_goal <- "./reports/create_index/tblJunctionReportByGoal.csv"
 
 ##################
 ## @knitr load_data
+ds_person <- read.csv(path_person, stringsAsFactors=FALSE)
+ds_project <- read.csv(path_project, stringsAsFactors=FALSE)
 ds_aim <- read.csv(path_aim, stringsAsFactors=FALSE)
 ds_goal <- read.csv(path_goal, stringsAsFactors=FALSE)
+ds_report <- read.csv(path_report, stringsAsFactors=FALSE)
+ds_report_by_goal <- read.csv(path_junction_report_by_goal, stringsAsFactors=FALSE)
 
 ##################
 ## @knitr open_connection
@@ -34,7 +42,8 @@ sql_create_project <- "CREATE TABLE `tblProject` (
 sql_create_aim <- "CREATE TABLE `tblAim` (
   `AimID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `ProjectID`	INTEGER NOT NULL,
-  `Name`	TEXT NOT NULL,
+  `NameShort`  TEXT NOT NULL,
+  `NamePretty`  TEXT NOT NULL,
 	`Description`	TEXT NOT NULL,
   FOREIGN KEY(ProjectID) REFERENCES tblProject(ProjectID)
 );"
@@ -42,7 +51,8 @@ sql_create_aim <- "CREATE TABLE `tblAim` (
 sql_create_goal <- "CREATE TABLE `tblGoal` (
   `GoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`AimID`	INTEGER NOT NULL,
-	`SubaimName`	TEXT NOT NULL,
+  `SubaimName`	TEXT NOT NULL,
+  `SubaimNameShort`	TEXT NOT NULL,
 	`Description`	TEXT NOT NULL,
 	`AssignedTo`	INTEGER NOT NULL,
 	`IsStarted`	INTEGER NOT NULL,
@@ -53,38 +63,34 @@ sql_create_goal <- "CREATE TABLE `tblGoal` (
   FOREIGN KEY(AssignedTo) REFERENCES tblPerson(PersonID),
   FOREIGN KEY(AimID) REFERENCES tblAim(AimID)
 );"
-# 
+
+sql_create_report <- "CREATE TABLE `tblReport` (
+  `ReportID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  `DescriptionShort`  TEXT NOT NULL,
+  `FileFormat`  TEXT NOT NULL,
+  `IsLocal`  INTEGER NOT NULL,
+  `LocalDirectory`  TEXT,
+  `LocalName`  TEXT,
+  `RemoteUri`  TEXT,
+  `DescriptionLong`  TEXT NOT NULL
+);"
+
+sql_create_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
+  `ReportByGoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  `ReportID`  INTEGER NOT NULL,
+  `GoalID`  INTEGER NOT NULL
+);"
+
 
 ##################
-## @knitr create_tables
+## @knitr create_objects
 dbSendQuery(cnn, sql_create_person)
 dbSendQuery(cnn, sql_create_project)
 dbSendQuery(cnn, sql_create_aim)
 dbSendQuery(cnn, sql_create_goal)
+dbSendQuery(cnn, sql_create_report)
+dbSendQuery(cnn, sql_create_report_by_goal)
 dbListTables(cnn)
-
-##################
-## @knitr populate_datasets
-ds_project<- data.frame(
-  ID = 1:2,
-  Name = c("2011a", "2014a"),
-  SubmissionYear = c(2011, 2014),
-  stringsAsFactors=FALSE
-)
-ds_person <- data.frame(
-  PersonID = 1:3,
-  Name = c("Will Beasley", "Thomas Wilson", "David Bard"),
-  stringsAsFactors=FALSE
-)
-# rownames(ds_person) <- NULL
-
-# ds_subaim <- read.csv(text ="
-# ID,ProjectID,Subaim,Description,AssignedTo,IsStarted,StartDate,IsFinished,FinishDate
-# 1,1,1a,'Reduction in duplication of services for any particular client',1,0,NA,0,NA
-# ")
-# str(ds_subaim)
-
-
 
 ##################
 ## @knitr populate_tables
@@ -93,8 +99,10 @@ ds_person <- data.frame(
 
 dbWriteTable(cnn, name='tblProject', value=ds_project, append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblPerson', value=ds_person, append=TRUE, row.names=FALSE)
-# dbWriteTable(cnn, name='tblAim', value=ds_aim, append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblAim', value=ds_aim, append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblGoal', value=ds_goal, append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblReport', value=ds_report, append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblJunctionReportByGoal', value=ds_report_by_goal, append=TRUE, row.names=FALSE)
 
 
 # d2 <- dbReadTable(cnn, name='tblSubaim')
