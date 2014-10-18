@@ -28,13 +28,12 @@ dsReport$Path <- ifelse(dsReport$IsLocal,
 # dsReport$Label <- paste0(dsReport$DescriptionShort, "([", dsReport$FileFormat, "](", dsReport$Path, "))")
 dsReport$ReportName <- paste0("[", dsReport$DescriptionShort, "](",  dsReport$Path, ")")
 
-
 #####################################
 ## @knitr Report
 projectID <- 1L
 dsAimProject <- dsAim[dsAim$ProjectID==projectID, ]
 
-kable(dsReport[, c("ReportName", "FileFormat")])
+kable(dsReport[, c("ReportName", "DescriptionLong", "FileFormat")])
 cat("\n\n")
 
 for( aimID in dsAimProject$AimID ) {

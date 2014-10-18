@@ -90,7 +90,7 @@ sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
 sql_create_view_report <- "CREATE VIEW vewReport AS
 SELECT tblJunctionReportByGoal.ReportByGoalID, 
   tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID,
-  tblReport.DescriptionShort, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
+  tblReport.DescriptionShort, tblReport.DescriptionLong, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
   tblReport.RemoteUri, tblReport.FileFormat
 FROM tblJunctionReportByGoal
 INNER JOIN tblReport
