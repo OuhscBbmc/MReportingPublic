@@ -28,18 +28,18 @@ dbListTables(cnn)
 
 ##################
 ## @knitr define_tables
-sql_create_person <- "CREATE TABLE `tblPerson` (
+sql_create_tbl_person <- "CREATE TABLE `tblPerson` (
   `PersonID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`Name`	TEXT NOT NULL UNIQUE
 );"
 
-sql_create_project <- "CREATE TABLE `tblProject` (
+sql_create_tbl_project <- "CREATE TABLE `tblProject` (
   `ProjectID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`Name`	TEXT NOT NULL UNIQUE,
 	`SubmissionYear`	INTEGER NOT NULL
 );"
 
-sql_create_aim <- "CREATE TABLE `tblAim` (
+sql_create_tbl_aim <- "CREATE TABLE `tblAim` (
   `AimID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `ProjectID`	INTEGER NOT NULL,
   `NameShort`  TEXT NOT NULL,
@@ -48,7 +48,7 @@ sql_create_aim <- "CREATE TABLE `tblAim` (
   FOREIGN KEY(ProjectID) REFERENCES tblProject(ProjectID)
 );"
 
-sql_create_goal <- "CREATE TABLE `tblGoal` (
+sql_create_tbl_goal <- "CREATE TABLE `tblGoal` (
   `GoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`AimID`	INTEGER NOT NULL,
   `SubaimName`	TEXT NOT NULL,
@@ -64,7 +64,7 @@ sql_create_goal <- "CREATE TABLE `tblGoal` (
   FOREIGN KEY(AimID) REFERENCES tblAim(AimID)
 );"
 
-sql_create_report <- "CREATE TABLE `tblReport` (
+sql_create_tbl_report <- "CREATE TABLE `tblReport` (
   `ReportID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `DescriptionShort`  TEXT NOT NULL,
   `FileFormat`  TEXT NOT NULL,
@@ -75,21 +75,30 @@ sql_create_report <- "CREATE TABLE `tblReport` (
   `DescriptionLong`  TEXT NOT NULL
 );"
 
-sql_create_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
+sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
   `ReportByGoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `ReportID`  INTEGER NOT NULL,
   `GoalID`  INTEGER NOT NULL
 );"
 
 
+sql_create_view_report <- "CREATE VIEW vewReport AS
+SELECT tblJunctionReportByGoal.ReportByGoalID, 
+  tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID,
+  tblReport.DescriptionShort, tblReport.IsLocal
+FROM tblJunctionReportByGoal
+INNER JOIN tblReport
+ON tblJunctionReportByGoal.ReportID=tblReport.ReportID;"
+
 ##################
 ## @knitr create_objects
-dbSendQuery(cnn, sql_create_person)
-dbSendQuery(cnn, sql_create_project)
-dbSendQuery(cnn, sql_create_aim)
-dbSendQuery(cnn, sql_create_goal)
-dbSendQuery(cnn, sql_create_report)
-dbSendQuery(cnn, sql_create_report_by_goal)
+dbSendQuery(cnn, sql_create_tbl_person)
+dbSendQuery(cnn, sql_create_tbl_project)
+dbSendQuery(cnn, sql_create_tbl_aim)
+dbSendQuery(cnn, sql_create_tbl_goal)
+dbSendQuery(cnn, sql_create_tbl_report)
+dbSendQuery(cnn, sql_create_tbl_report_by_goal)
+dbSendQuery(cnn, sql_create_view_report)
 dbListTables(cnn)
 
 ##################

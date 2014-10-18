@@ -15,7 +15,7 @@ cnn <- dbConnect(RSQLite::SQLite(), path)
 
 dsAim <- dbReadTable(cnn, "tblAim")
 dsGoal <- dbReadTable(cnn, "tblGoal")
-dsReport <- dbReadTable(cnn, "tblReport")
+dsReport <- dbReadTable(cnn, "vewReport")
 
 dbListTables(cnn)
 dbDisconnect(cnn)
@@ -29,10 +29,13 @@ projectID <- 1L
 dsAimProject <- dsAim[dsAim$ProjectID==projectID, ]
 
 for( aimID in dsAimProject$AimID ) {
+  dsAimSlice <- dsAimProject[dsAimProject$AimID==aimID, ]
+  cat("##", dsAimSlice$NamePretty, "\n")
+  cat(dsAimSlice$Description, "\n\n")
+  
   dsGoalAim <- dsGoal[dsGoal$AimID==aimID, ] 
   for( goalID in dsGoalAim$GoalID) {
-    #TODO: link to junction table
-#     dsReportGoal <- dsReport[dsReport$G]
+    dsReportGoal <- dsReport[dsReport$GoalID==goalID, ]
     
   }
 }
