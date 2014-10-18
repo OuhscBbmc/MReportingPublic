@@ -10,7 +10,7 @@
 
 
 
-<title>County-Level Data</title>
+<title>Report Index for all Reports in Oklahoma’s MIECHV External Evaluation</title>
 
 <script src="libs/jquery-1.11.0/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -167,204 +167,103 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <!-- end of before_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
 
 <div id="header">
-<h1 class="title">County-Level Data</h1>
+<h1 class="title">Report Index for all Reports in Oklahoma’s MIECHV External Evaluation</h1>
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#purpose">Purpose</a></li>
-<li><a href="#datasets">Datasets</a><ul>
-<li><a href="#county-characteristics">County Characteristics</a></li>
-<li><a href="#c1-counts">C1 Counts</a></li>
-</ul></li>
-</ul>
-</div>
 
-<hr />
-<hr />
-<div id="purpose" class="section level1">
-<h1>Purpose</h1>
-<p>These datasets are made available to assist other researchers investigating the factors affecting Oklahoma families. If you have questions, please post a comment at the bottom of this page.</p>
-<hr />
-<hr />
-</div>
-<div id="datasets" class="section level1">
-<h1>Datasets</h1>
-<p>The following datasets have one row for each Oklahoma County.</p>
-<hr />
-<div id="county-characteristics" class="section level2">
-<h2>County Characteristics</h2>
-<p><a href="./data_phi_free/CountyCharacteristics.zip">Download</a>.</p>
-<p>The dataset indicates a county’s characteristics, with the following fields:</p>
+<p>This page lists all reports available on this website, across all projects (which currently is just ‘Project <a href="./research_2011.html">2011a</a>’).</p>
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of just one directory.-->
+
+
+<!-- Set the report-wide options, and point to the external code file. -->
+
+<!-- Load the packages.  Suppress the output when loading packages. --> 
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+
+
+<!-- Load the datasets.   -->
+
+
+<!-- Tweak the datasets.   -->
+
+
+
 <table>
 <thead>
 <tr class="header">
-<th align="left">Variable Name</th>
-<th align="left">Type</th>
-<th align="left">Variable Description</th>
+<th align="left">ReportName</th>
+<th align="left">DescriptionLong</th>
+<th align="left">FileFormat</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">CountyID</td>
-<td align="left">integer</td>
-<td align="left">Alphabetically-ordered ID of a county. Notice that <code>Mc</code> precedes <code>M</code>.</td>
+<td align="left"><a href="./reports/Aim1B.html">Aim 1B</a></td>
+<td align="left">Develop timeline and analytic covariates that chronicle major program events</td>
+<td align="left">html</td>
 </tr>
 <tr class="even">
-<td align="left">CountyName</td>
-<td align="left">string</td>
-<td align="left">The name of the county.</td>
+<td align="left"><a href="./reports/aim2a_hv_summary.pdf">Aim 2A</a></td>
+<td align="left">Survey large sector of eligible population for knowledge, use, and appeal of EBHV services</td>
+<td align="left">pdf</td>
 </tr>
 <tr class="odd">
-<td align="left">GeoID</td>
-<td align="left">integer</td>
-<td align="left">The county’s FIPS code, which is useful for merging with Census data, or cartographic polygons.</td>
+<td align="left"><a href="./reports/Aim3A.pdf">Aim 3A</a></td>
+<td align="left">Continually evaluate the flow of clients served per county</td>
+<td align="left">pdf</td>
 </tr>
 <tr class="even">
-<td align="left">FundingC1</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county receives funding for C1.</td>
+<td align="left"><a href="./reports/Aim3AUnivariate.html">Aim 3A Univariate</a></td>
+<td align="left">Continually evaluate the flow of clients served per county. (Further univariate details.)</td>
+<td align="left">html</td>
 </tr>
 <tr class="odd">
-<td align="left">FundingOcap</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county receives funding for OCAP.</td>
+<td align="left"><a href="./reports/aim4a_county_level.pdf">Aim 4A</a></td>
+<td align="left">Epidemiologic assessment of home visitation services need</td>
+<td align="left">pdf</td>
 </tr>
 <tr class="even">
-<td align="left">C1LeadNurseRegion</td>
-<td align="left">integer</td>
-<td align="left">Oklahoma’s 77 counties are categorized into roughly 20 regions, each with it’s own “lead nurse”.</td>
+<td align="left"><a href="./reports/aim4a_county_level.png">Aim 4A</a></td>
+<td align="left">Epidemiologic assessment of home visitation services need</td>
+<td align="left">png</td>
 </tr>
 <tr class="odd">
-<td align="left">Urban</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county is either Oklahoma or Tulsa (because they operate differently for HV services).</td>
+<td align="left"><a href="./reports/OsdhMaps.pdf">OSDH Maps</a></td>
+<td align="left">Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for paper.)</td>
+<td align="left">pdf</td>
 </tr>
 <tr class="even">
-<td align="left">LabelLongitude</td>
-<td align="left">float</td>
-<td align="left">The longitude of a good place to label the county with on a map.</td>
-</tr>
-<tr class="odd">
-<td align="left">LabelLatitude</td>
-<td align="left">float</td>
-<td align="left">The latitude of a good place to label the county with on a map.</td>
-</tr>
-<tr class="even">
-<td align="left">MiechvEvaluation</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county participates in the 2011 MIECHV “Evaluation Grant”.</td>
-</tr>
-<tr class="odd">
-<td align="left">MiechvFormula</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county participates in the 2011 MIECHV “Formula Grant”.</td>
-</tr>
-<tr class="even">
-<td align="left">WicNeedPopInfant</td>
-<td align="left">integer</td>
-<td align="left">The number of “infants in need”, as estimated by WIC.</td>
-</tr>
-<tr class="odd">
-<td align="left">WicNeedPopTotal</td>
-<td align="left">integer</td>
-<td align="left">The number of “people in need”, as estimated by WIC.</td>
-</tr>
-<tr class="even">
-<td align="left">WicYear</td>
-<td align="left">integer</td>
-<td align="left">The of the WIC estimates of need.</td>
+<td align="left"><a href="./reports/OsdhMaps.html">OSDH Maps</a></td>
+<td align="left">Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for monitors.)</td>
+<td align="left">html</td>
 </tr>
 </tbody>
 </table>
-<hr />
-</div>
-<div id="c1-counts" class="section level2">
-<h2>C1 Counts</h2>
-<p><a href="./data_phi_free/C1CountCounty.zip">Download</a>.</p>
-<p>The dataset indicates something about C1 (i’m including this for now as a place holder)</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Variable Name</th>
-<th align="left">Type</th>
-<th align="left">Variable Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">CountyID</td>
-<td align="left">integer</td>
-<td align="left">Alphabetically-ordered ID of a county. Notice that <code>Mc</code> precedes <code>M</code>.</td>
-</tr>
-<tr class="even">
-<td align="left">CountyName</td>
-<td align="left">string</td>
-<td align="left">The name of the county.</td>
-</tr>
-<tr class="odd">
-<td align="left">GeoID</td>
-<td align="left">integer</td>
-<td align="left">The county’s FIPS code, which is useful for merging with Census data, or cartographic polygons.</td>
-</tr>
-<tr class="even">
-<td align="left">FundingC1</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county receives funding for C1.</td>
-</tr>
-<tr class="odd">
-<td align="left">FundingOcap</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county receives funding for OCAP.</td>
-</tr>
-<tr class="even">
-<td align="left">C1LeadNurseRegion</td>
-<td align="left">integer</td>
-<td align="left">Oklahoma’s 77 counties are categorized into roughly 20 regions, each with it’s own “lead nurse”.</td>
-</tr>
-<tr class="odd">
-<td align="left">Urban</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county is either Oklahoma or Tulsa (because they operate differently for HV services).</td>
-</tr>
-<tr class="even">
-<td align="left">LabelLongitude</td>
-<td align="left">float</td>
-<td align="left">The longitude of a good place to label the county with on a map.</td>
-</tr>
-<tr class="odd">
-<td align="left">LabelLatitude</td>
-<td align="left">float</td>
-<td align="left">The latitude of a good place to label the county with on a map.</td>
-</tr>
-<tr class="even">
-<td align="left">MiechvEvaluation</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county participates in the 2011 MIECHV “Evaluation Grant”.</td>
-</tr>
-<tr class="odd">
-<td align="left">MiechvFormula</td>
-<td align="left">bit</td>
-<td align="left">Indicates if the county participates in the 2011 MIECHV “Formula Grant”.</td>
-</tr>
-<tr class="even">
-<td align="left">WicNeedPopInfant</td>
-<td align="left">integer</td>
-<td align="left">The number of “infants in need”, as estimated by WIC.</td>
-</tr>
-<tr class="odd">
-<td align="left">WicNeedPopTotal</td>
-<td align="left">integer</td>
-<td align="left">The number of “people in need”, as estimated by WIC.</td>
-</tr>
-<tr class="even">
-<td align="left">WicYear</td>
-<td align="left">integer</td>
-<td align="left">The of the WIC estimates of need.</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div id="session-information" class="section level1">
+<h1>Session Information</h1>
+<p>For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.</p>
+<pre><code>Report rendered by Will at 2014-10-18, 15:55 -0500</code></pre>
+<pre><code>R version 3.1.1 Patched (2014-09-27 r66695)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+locale:
+[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] DBI_0.3.1 knitr_1.7
+
+loaded via a namespace (and not attached):
+[1] digest_0.6.4    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6 rmarkdown_0.3.3 RSQLite_0.11.4  stringr_0.6.2  
+[8] tools_3.1.1     yaml_2.1.13    </code></pre>
 </div>
 
 <!-- start of after_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->

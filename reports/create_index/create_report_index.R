@@ -86,7 +86,6 @@ sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
   `GoalID`  INTEGER NOT NULL
 );"
 
-
 sql_create_view_report <- "CREATE VIEW vewReport AS
 SELECT tblJunctionReportByGoal.ReportByGoalID, 
   tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID,
@@ -94,7 +93,8 @@ SELECT tblJunctionReportByGoal.ReportByGoalID,
   tblReport.RemoteUri, tblReport.FileFormat
 FROM tblJunctionReportByGoal
 INNER JOIN tblReport
-ON tblJunctionReportByGoal.ReportID=tblReport.ReportID;"
+ON tblJunctionReportByGoal.ReportID=tblReport.ReportID
+ORDER BY tblReport.DescriptionShort;"
 
 ##################
 ## @knitr create_objects

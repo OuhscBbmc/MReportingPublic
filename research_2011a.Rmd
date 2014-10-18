@@ -74,7 +74,6 @@ Oklahoma's Maternal, Infant, Early Childhood Home Visitation (MIECHV) Expansion 
 ```{r Report, echo=echoChunks, message=TRUE, results='asis'}
 ```
 
-
 ***
 ## Impact
 These five targeted aims of the evaluation intersect with all four of the national MIECHV areas of relevance.  The data obtained and evaluated will inform program planning and implementation (aims 1, 2, 3, 4, & 5), will evaluate effectiveness of planned strategies that are intended to enhance and sustain implementation (aims 1, 2, 3, & 5), will evaluate the capacity to support and monitor quality of scaled up evidence-based (EB) home visitation service continuum (aim 1), and will assess the effectiveness of home visitation on key outcomes that overlap with the national MIECHV benchmarks and constructs (aim 5).  

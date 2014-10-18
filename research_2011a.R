@@ -33,9 +33,6 @@ dsReport$ReportName <- paste0("[", dsReport$DescriptionShort, "](",  dsReport$Pa
 projectID <- 1L
 dsAimProject <- dsAim[dsAim$ProjectID==projectID, ]
 
-kable(dsReport[, c("ReportName", "DescriptionLong", "FileFormat")])
-cat("\n\n")
-
 for( aimID in dsAimProject$AimID ) {
   dsAimSlice <- dsAimProject[dsAimProject$AimID==aimID, ]
   cat("##", dsAimSlice$NamePretty, "\n")
@@ -48,7 +45,17 @@ for( aimID in dsAimProject$AimID ) {
     
     
     dsReportGoal <- dsReport[dsReport$GoalID==goalID, ]
-    
+      for( reportID in dsReportGoal$ReportID ) {
+        dsReportSlice <- dsReportGoal[dsReportGoal$ReportID==reportID, ]
+        cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, "\n\n", sep="")
+      }
     
   }
 }
+
+#####################################
+## @knitr Index
+
+kable(dsReport[, c("ReportName", "DescriptionLong", "FileFormat")])
+
+cat("\n\n")
