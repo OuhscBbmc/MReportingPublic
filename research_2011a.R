@@ -15,7 +15,8 @@ cnn <- dbConnect(RSQLite::SQLite(), path)
 
 dsAim <- dbReadTable(cnn, "tblAim")
 dsGoal <- dbReadTable(cnn, "tblGoal")
-dsReport <- dbReadTable(cnn, "vewReport")
+dsReport <- dbReadTable(cnn, "tblReport")
+dsReportJunction <- dbReadTable(cnn, "vewReport")
 
 # dbListTables(cnn)
 isClosed <- dbDisconnect(cnn, quietly=T)
@@ -25,8 +26,13 @@ isClosed <- dbDisconnect(cnn, quietly=T)
 dsReport$Path <- ifelse(dsReport$IsLocal,
                         file.path(dsReport$LocalDirectory, dsReport$LocalName),
                         dsReport$RemoteUri)
-# dsReport$Label <- paste0(dsReport$DescriptionShort, "([", dsReport$FileFormat, "](", dsReport$Path, "))")
 dsReport$ReportName <- paste0("[", dsReport$DescriptionShort, "](",  dsReport$Path, ")")
+
+
+dsReportJunction$Path <- ifelse(dsReportJunction$IsLocal,
+                        file.path(dsReportJunction$LocalDirectory, dsReportJunction$LocalName),
+                        dsReportJunction$RemoteUri)
+dsReportJunction$ReportName <- paste0("[", dsReportJunction$DescriptionShort, "](",  dsReportJunction$Path, ")")
 
 #####################################
 ## @knitr Report
@@ -44,10 +50,10 @@ for( aimID in dsAimProject$AimID ) {
     cat("**", dsGoalSlice$SubaimNameShort, ": ", dsGoalSlice$Description, "**\n\n", sep="")
     
     
-    dsReportGoal <- dsReport[dsReport$GoalID==goalID, ]
+    dsReportGoal <- dsReportJunction[dsReportJunction$GoalID==goalID, ]
       for( reportID in dsReportGoal$ReportID ) {
         dsReportSlice <- dsReportGoal[dsReportGoal$ReportID==reportID, ]
-        cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, "\n\n", sep="")
+        cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, " [", dsReportSlice$FileFormat, "]\n\n", sep="")
       }
     
   }
@@ -56,6 +62,6 @@ for( aimID in dsAimProject$AimID ) {
 #####################################
 ## @knitr Index
 
-kable(dsReport[, c("ReportName", "DescriptionLong", "FileFormat")])
+kable(dsReport[, c("ReportName", "FileFormat", "DescriptionLong")])
 
 cat("\n\n")
