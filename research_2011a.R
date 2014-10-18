@@ -22,11 +22,20 @@ isClosed <- dbDisconnect(cnn, quietly=T)
 
 #####################################
 ## @knitr TweakData
+dsReport$Path <- ifelse(dsReport$IsLocal,
+                        file.path(dsReport$LocalDirectory, dsReport$LocalName),
+                        dsReport$RemoteUri)
+# dsReport$Label <- paste0(dsReport$DescriptionShort, "([", dsReport$FileFormat, "](", dsReport$Path, "))")
+dsReport$ReportName <- paste0("[", dsReport$DescriptionShort, "](",  dsReport$Path, ")")
+
 
 #####################################
 ## @knitr Report
 projectID <- 1L
 dsAimProject <- dsAim[dsAim$ProjectID==projectID, ]
+
+kable(dsReport[, c("ReportName", "FileFormat")])
+cat("\n\n")
 
 for( aimID in dsAimProject$AimID ) {
   dsAimSlice <- dsAimProject[dsAimProject$AimID==aimID, ]
@@ -40,6 +49,7 @@ for( aimID in dsAimProject$AimID ) {
     
     
     dsReportGoal <- dsReport[dsReport$GoalID==goalID, ]
+    
     
   }
 }

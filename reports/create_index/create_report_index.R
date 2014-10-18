@@ -21,6 +21,11 @@ ds_report <- read.csv(path_report, stringsAsFactors=FALSE)
 ds_report_by_goal <- read.csv(path_junction_report_by_goal, stringsAsFactors=FALSE)
 
 ##################
+## @knitr remove_old_db
+if( file.exists(path_db) ) 
+  file.remove(path_db)
+
+##################
 ## @knitr open_connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
 RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
@@ -85,7 +90,8 @@ sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
 sql_create_view_report <- "CREATE VIEW vewReport AS
 SELECT tblJunctionReportByGoal.ReportByGoalID, 
   tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID,
-  tblReport.DescriptionShort, tblReport.IsLocal
+  tblReport.DescriptionShort, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
+  tblReport.RemoteUri, tblReport.FileFormat
 FROM tblJunctionReportByGoal
 INNER JOIN tblReport
 ON tblJunctionReportByGoal.ReportID=tblReport.ReportID;"
