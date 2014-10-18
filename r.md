@@ -18,14 +18,6 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
 <!-- Load the datasets.   -->
 
-```
-[1] "sqlite_sequence"         "tblAim"                  "tblGoal"                 "tblJunctionReportByGoal"
-[5] "tblPerson"               "tblProject"              "tblReport"               "vewReport"              
-```
-
-```
-[1] TRUE
-```
 
 <!-- Tweak the datasets.   -->
 
@@ -86,12 +78,13 @@ There was a need to examine other questions and distribute the reports to stakeh
 
 **A: Show spatial-temporal conditions**
 
+<!--
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 
 ```
-Report rendered by Will at 2014-10-18, 12:41 -0500
+Report rendered by Will at 2014-10-18, 13:18 -0500
 ```
 
 ```
@@ -112,3 +105,4 @@ loaded via a namespace (and not attached):
 [1] digest_0.6.4    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6 rmarkdown_0.3.3 RSQLite_0.11.4  stringr_0.6.2  
 [8] tools_3.1.1     yaml_2.1.13    
 ```
+-->

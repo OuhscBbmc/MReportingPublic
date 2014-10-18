@@ -1,11 +1,24 @@
 ---
-output:
-  html_document:
-    keep_md: yes
+title: "Research Products: HRSA/ACF D89MC23154"
+
 ---
-Research
-=================================================
-This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
+
+***
+***
+# Overview
+
+Project Duration: 2011-2015
+
+> Evaluates MIECHV expansion and enhancement of Evidence-based Home Visitation programs in four Oklahoma counties.
+
+This page contains the products from the 2011 funded proposal, [HRSA/ACF D89MC23154](https://perf-data.hrsa.gov/mchb/DGISReports/Abstract/AbstractDetails.aspx?Source=TVIS&GrantNo=D89MC23154&FY=2012): "OUHSC CCAN Independent Evaluation of the State of Oklahoma Competitive Maternal, Infant, and Early Childhood Home Visiting (MIECHV) Project." 
+
+***
+***
+# Resources and Files
+Understanding of this proposal may benefit from the following resources: 
+
+ * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of just one directory.-->
 ```{r, echo=F, message=F} 
@@ -52,9 +65,16 @@ read_chunk("./r.R") #This allows knitr to call chunks tagged in the underlying *
 ```{r TweakData, echo=echoChunks, results='show', message=FALSE}
 ```
 
+***
+***
+# Aims of the External Evaluation
+#### Description
+Oklahoma's Maternal, Infant, Early Childhood Home Visitation (MIECHV) Expansion project has two primary branches  of evaluation, the *internal* evaluation conducted by the Oklahoma State Dept. of Health (OSDH) and the *external* evaluation conducted by the OU Health Sciences Center, Center on Child Abuse and Neglect (CCAN).  This summary report describes the progress to date for the external evaluation which uses a mixed‐method (quantitative/qualitative) approach to inform and evaluate change in five specific targeted areas identified for improvement: 
+
 ```{r Report, echo=echoChunks, message=TRUE, results='asis'}
 ```
 
+<!--
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
@@ -62,3 +82,4 @@ For the sake of documentation and reproducibility, the current report was render
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
 sessionInfo()
 ```
+-->

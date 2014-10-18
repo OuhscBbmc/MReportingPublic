@@ -17,8 +17,8 @@ dsAim <- dbReadTable(cnn, "tblAim")
 dsGoal <- dbReadTable(cnn, "tblGoal")
 dsReport <- dbReadTable(cnn, "vewReport")
 
-dbListTables(cnn)
-dbDisconnect(cnn)
+# dbListTables(cnn)
+isClosed <- dbDisconnect(cnn, quietly=T)
 
 #####################################
 ## @knitr TweakData
