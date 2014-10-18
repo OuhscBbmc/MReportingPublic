@@ -35,6 +35,10 @@ for( aimID in dsAimProject$AimID ) {
   
   dsGoalAim <- dsGoal[dsGoal$AimID==aimID, ] 
   for( goalID in dsGoalAim$GoalID) {
+    dsGoalSlice <- dsGoalAim[dsGoalAim$GoalID==goalID, ]
+    cat("**", dsGoalSlice$SubaimNameShort, ": ", dsGoalSlice$Description, "**\n\n", sep="")
+    
+    
     dsReportGoal <- dsReport[dsReport$GoalID==goalID, ]
     
   }
