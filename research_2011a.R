@@ -54,8 +54,7 @@ for( aimID in dsAimProject$AimID ) {
       for( reportID in dsReportGoal$ReportID ) {
         dsReportSlice <- dsReportGoal[dsReportGoal$ReportID==reportID, ]
         cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, " [", dsReportSlice$FileFormat, "]\n\n", sep="")
-      }
-    
+      }    
   }
 }
 
