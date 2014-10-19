@@ -45,6 +45,10 @@ Oklahoma's Medicaid program, known as SoonerCare, is administered by the [Oklaho
 
 ***
 ## parentPRO
-<a href="http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/parentPRO/index.html">
+[parentPRO](http://parentpro.funnelstaging.com/) is a free service that connects families to parenting programs that take place in the participant’s home.  These programs are designed to strengthen families and help Oklahoma’s children grow healthy and strong by reducing the stress that comes with being a parent. The goals of the programs are to promote maternal and child health, well-being, family stability, family safety and economic self-sufficiency.
+
+When you call parentPRO, you will be matched to the program that best fits your needs, strengths, and qualifications. Since the programs take place in the individual’s home, the services are convenient for families. They don’t have to worry about transportation or childcare.
+
+<a href="http://parentpro.funnelstaging.com/">
   <img src="./images/10802_OSDH_PPLogo_F.jpg" alt="parentPRO" style="width: 300px;"/>
 </a>
