@@ -17,6 +17,7 @@ This page contains the material for 2011's funded proposal, [HRSA/ACF D89MC23154
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
+ * [Protocol Description](./funding/2011a/HrsaProtocolV4.pdf)
  * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
 
 
