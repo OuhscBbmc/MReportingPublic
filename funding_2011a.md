@@ -19,6 +19,7 @@ Understanding of this proposal may benefit from the following resources:
 
  * [Protocol Description](./funding/2011a/HrsaProtocolV4.pdf)
  * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
+ * [HHS MIECHV FOA Announcement](http://www.hrsa.gov/about/news/pressreleases/110601homevisiting.html)
 
 
 ***
@@ -101,3 +102,4 @@ This [project's research page](./research_2011a.html) contains more details and 
  * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
  * [OSDH](./about_collaborators.html#osdh)
  * [OHCA](./about_collaborators.html#ohca)
+ * [Smart Start Oklahoma](http://www.smartstartok.org/)

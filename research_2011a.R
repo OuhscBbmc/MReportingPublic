@@ -23,6 +23,7 @@ isClosed <- dbDisconnect(cnn, quietly=T)
 
 #####################################
 ## @knitr TweakData
+dsReport <- dsReport[order(dsReport$DescriptionShort), ]
 dsReport$Path <- ifelse(dsReport$IsLocal,
                         file.path(dsReport$LocalDirectory, dsReport$LocalName),
                         dsReport$RemoteUri)
