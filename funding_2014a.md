@@ -24,10 +24,10 @@ Understanding of this proposal may benefit from the following resources:
 
  * [Appendix A: Benchmark Summary](./funding/2014a/funding_2014a_benchmark_summary.pdf)
  * [Appendix B: Survey Measures](./funding/2014a/funding_2014a_survey_measures.pdf)
- * **Appendix C: Donna's Crosswalk Measures:** --Need this--
+ * [Appendix C: Donna's Crosswalk Measures](./funding/2014a/benchmark_measures_redcap_and_osdh_2014-10-06.pdf)
  * [Logic Model](./funding/2014a/funding_2014a_logic_model.pdf)
- * **Thomas's timeline:** --Need this--
-
+ * [Timeline](./reports/Aim1B.html)  (Is the correct one?)
+ 
 ***
 ***
 # Goals of OSDH's HV Service
