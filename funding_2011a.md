@@ -20,7 +20,7 @@ Understanding of this proposal may benefit from the following resources:
  * [Protocol Description](./funding/2011a/HrsaProtocolV4.pdf)
  * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
  * [HHS MIECHV FOA Announcement](http://www.hrsa.gov/about/news/pressreleases/110601homevisiting.html)
-
+ * [External Evaluation Crosswalk Measures](./funding/2011a/benchmark_measures_redcap_and_osdh_2014-10-06.html).  This document compares the (a) measures in the community survey to the (b) MIECHV benchmarks.
 
 ***
 ***
