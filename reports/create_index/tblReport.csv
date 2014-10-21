@@ -1,13 +1,13 @@
 ReportID,DescriptionShort,FileFormat,IsLocal,LocalDirectory,LocalName,RemoteUri,DescriptionLong
-1,OSDH Maps,pdf,1,./reports,OsdhMaps.pdf,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for paper.)
-2,OSDH Maps,html,1,./reports,OsdhMaps.html,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for monitors.)
-3,Aim 3A,pdf,1,./reports,Aim3A.pdf,,Continually evaluate the flow of clients served per county
-4,Aim 3A Univariate,html,1,./reports,Aim3AUnivariate.html,,Continually evaluate the flow of clients served per county.  (Further univariate details.)
-5,Aim 1B,html,1,./reports,Aim1B.html,,Develop timeline and analytic covariates that chronicle major program events
-6,Aim 2A,pdf,1,./reports,aim2a_hv_summary.pdf,,"Survey large sector of eligible population for knowledge, use, and appeal of EBHV services"
-7,Aim 4A,pdf,1,./reports,aim4a_county_level.pdf,,Epidemiologic assessment of home visitation services need
-8,Aim 4A,png,1,./reports,aim4a_county_level.png,,Epidemiologic assessment of home visitation services need
-9,Stub Aim 3D and 3F,html,1,./reports,Stub3DAnd3F.html,,Place holder for eventual report.
-10,Stub Aim 4D,html,1,./reports,Stub4D.html,,Place holder for eventual report.
-11,Stub Aim 5A,html,1,./reports,Stub5A.html,,Place holder for eventual report.
-12,Stub Aim 5C,html,1,./reports,Stub5C.html,,Place holder for eventual report.
+1,OSDH Maps,pdf,1,./reports,OsdhMaps.pdf,,"Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for paper.)"
+2,OSDH Maps,html,1,./reports,OsdhMaps.html,,"Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for monitors.)"
+3,Aim 3A,pdf,1,./reports,Aim3A.pdf,,"Continually evaluate the flow of clients served per county."
+4,Aim 3A Univariate,html,1,./reports,Aim3AUnivariate.html,,"Continually evaluate the flow of clients served per county.  (Further univariate details.)"
+5,Aim 1B,html,1,./reports,Aim1B.html,,"Develop timeline and analytic covariates that chronicle major program events."
+6,Aim 2A,pdf,1,./reports,aim2a_hv_summary.pdf,,"Survey large sector of eligible population for knowledge, use, and appeal of EBHV services."
+7,Aim 4A,pdf,1,./reports,aim4a_county_level.pdf,,"Epidemiologic assessment of home visitation services need."
+8,Aim 4A,png,1,./reports,aim4a_county_level.png,,"Epidemiologic assessment of home visitation services need."
+9,Aim 3D and 3F,html,1,./reports,Stub3DAnd3F.html,,"Evaluate effectiveness of new engagement enhancement strategies and new retention strategies.  (The report is under development.)"
+10,Aim 4D,html,1,./reports,Stub4D.html,,"Epidemiologic assessment of child abuse and neglect potential.  (The report is under development.)"
+11,Aim 5A,html,1,./reports,Stub5A.html,,"Compare EBHV and Community for targeted MIECHV benchmarks and constructs from EBHV clients.  (The report is under development.)"
+12,Aim 5C,html,1,./reports,Stub5C.html,,"Implement and evaluate system of quality improvements and controls.  (The report is under development.)"

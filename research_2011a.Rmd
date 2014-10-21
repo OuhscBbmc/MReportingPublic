@@ -96,7 +96,7 @@ We use a literate programming framework and code repository that facilitates agi
 ***
 ***
 # Additional Information
- * For more information about the grant proposal, please see the project's
+ * For more information about the grant proposal, please see the project's 
 [funding page](./funding_2011a.html).
 
 <!--

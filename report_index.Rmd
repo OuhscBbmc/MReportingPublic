@@ -1,9 +1,9 @@
 ---
-title: "Report Index for all Reports in Oklahoma's MIECHV External Evaluation"
+title: "Report Index for All Reports in Oklahoma's MIECHV External Evaluation"
 toc: false
 ---
 
-This page lists all reports available on this website, across all projects (which currently is just 'Project [2011a](./research_2011.html)').
+This page lists all reports available on this website, across all projects (which currently is just  Project [2011a](./research_2011.html)).
 
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of just one directory.-->
