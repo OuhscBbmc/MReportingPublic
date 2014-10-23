@@ -83,17 +83,19 @@ sql_create_tbl_report <- "CREATE TABLE `tblReport` (
 sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
   `ReportByGoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `ReportID`  INTEGER NOT NULL,
-  `GoalID`  INTEGER NOT NULL
+  `GoalID`  INTEGER NOT NULL,
+  `Visible` INTEGER NOT NULL
 );"
 
 sql_create_view_report <- "CREATE VIEW vewReport AS
 SELECT tblJunctionReportByGoal.ReportByGoalID, 
-  tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID,
+  tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID, tblJunctionReportByGoal.Visible,
   tblReport.DescriptionShort, tblReport.DescriptionLong, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
   tblReport.RemoteUri, tblReport.FileFormat
 FROM tblJunctionReportByGoal
 INNER JOIN tblReport
 ON tblJunctionReportByGoal.ReportID=tblReport.ReportID
+WHERE tblJunctionReportByGoal.Visible=1
 ORDER BY tblReport.DescriptionShort;"
 
 ##################
@@ -108,6 +110,10 @@ dbSendQuery(cnn, sql_create_view_report)
 dbListTables(cnn)
 
 ##################
+## @knitr tweak_tables
+ds_report_by_goal$Visible <- as.integer(ds_report_by_goal$Visible)
+
+##################
 ## @knitr populate_tables
 # d1 <- dbReadTable(cnn, name='tblSubaim')
 # str(d1)
@@ -118,10 +124,6 @@ dbWriteTable(cnn, name='tblAim', value=ds_aim, append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblGoal', value=ds_goal, append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblReport', value=ds_report, append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblJunctionReportByGoal', value=ds_report_by_goal, append=TRUE, row.names=FALSE)
-
-
-# d2 <- dbReadTable(cnn, name='tblSubaim')
-# str(d2)
 
 ##################
 ## @knitr close_connection

@@ -23,17 +23,19 @@ isClosed <- dbDisconnect(cnn, quietly=T)
 
 #####################################
 ## @knitr TweakData
+# Tweak dsReport
 dsReport <- dsReport[order(dsReport$DescriptionShort), ]
 dsReport$Path <- ifelse(dsReport$IsLocal,
                         file.path(dsReport$LocalDirectory, dsReport$LocalName),
                         dsReport$RemoteUri)
 dsReport$ReportName <- paste0("[", dsReport$DescriptionShort, "](",  dsReport$Path, ")")
 
-
+# Tweak dsReportJunction
 dsReportJunction$Path <- ifelse(dsReportJunction$IsLocal,
                         file.path(dsReportJunction$LocalDirectory, dsReportJunction$LocalName),
                         dsReportJunction$RemoteUri)
 dsReportJunction$ReportName <- paste0("[", dsReportJunction$DescriptionShort, "](",  dsReportJunction$Path, ")")
+dsReportJunction$Visible <- as.logical(dsReportJunction$Visible)
 
 #####################################
 ## @knitr Report
