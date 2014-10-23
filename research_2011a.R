@@ -64,6 +64,8 @@ for( aimID in dsAimProject$AimID ) {
 #####################################
 ## @knitr Index
 
-kable(dsReport[, c("ReportName", "FileFormat", "DescriptionLong")])
+kable(dsReport[, c("ReportName", "FileFormat", "DescriptionLong")],
+      col.names = c("Report Name", "Format", "Description"),
+      row.names = FALSE)
 
 cat("\n\n")
