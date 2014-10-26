@@ -55,4 +55,4 @@ Understanding of this proposal may benefit from the following resources:
  * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
  * [OSDH](./about_collaborators.html#osdh)
  * [OHCA](./about_collaborators.html#ohca)
- * [Smart Start Oklahoma](http://www.smartstartok.org/)
+ * [Smart Start Oklahoma](./about_collaborators.html#smart-start-oklahoma)

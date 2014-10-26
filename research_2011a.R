@@ -19,7 +19,7 @@ dsReport <- dbReadTable(cnn, "tblReport")
 dsReportJunction <- dbReadTable(cnn, "vewReport")
 
 # dbListTables(cnn)
-isClosed <- dbDisconnect(cnn, quietly=T)
+isClosed <- dbDisconnect(cnn)
 
 #####################################
 ## @knitr TweakData
