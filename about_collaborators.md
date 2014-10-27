@@ -36,9 +36,9 @@ The Pediatrics Dept has been involved with Home Visiting research for over a dec
 
 ***
 ## parentPRO
-[parentPRO](http://parentpro.funnelstaging.com/) is a free service that connects families to parenting programs that take place in the participant’s home.  These programs are designed to strengthen families and help Oklahoma’s children grow healthy and strong by reducing the stress that comes with being a parent. The goals of the programs are to promote maternal and child health, well-being, family stability, family safety and economic self-sufficiency.
+[parentPRO](http://parentpro.funnelstaging.com/) is a free service that connects families to parenting programs that take place in the participant's home.  These programs are designed to strengthen families and help Oklahoma's children grow healthy and strong by reducing the stress that comes with being a parent. The goals of the programs are to promote maternal and child health, well-being, family stability, family safety and economic self-sufficiency.
 
-When you call parentPRO, you will be matched to the program that best fits your needs, strengths, and qualifications. Since the programs take place in the individual’s home, the services are convenient for families. They don’t have to worry about transportation or childcare.
+When you call parentPRO, you will be matched to the program that best fits your needs, strengths, and qualifications. Since the programs take place in the individual's home, the services are convenient for families. They don't have to worry about transportation or childcare.
 
 <a href="http://parentpro.funnelstaging.com/">
   <img src="./images/10802_OSDH_PPLogo_F.jpg" alt="parentPRO" style="width: 300px;"/>
