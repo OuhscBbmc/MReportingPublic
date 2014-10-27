@@ -1,6 +1,7 @@
 ---
 title: "Oklahoma's MIECHV Evaluation"
 ---
+**(This site currently works only on desktops/laptops.  In future versions, the site will be fully functional on mobile devices.)**
 
 ### Welcome
 

@@ -33,7 +33,7 @@ Understanding of this proposal may benefit from the following resources:
 ***
 ***
 # Goals of OSDH's HV Service
-(*To be added once the grant submitted officially.*)
+(*To be added once the grant is submitted officially.*)
 
 ***
 ***
