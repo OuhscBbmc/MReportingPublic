@@ -1,6 +1,6 @@
 html_document:
   self_contained: false
-  theme: cerulean
+  theme: journal
   highlight: textmate
   mathjax: null
   toc: true
