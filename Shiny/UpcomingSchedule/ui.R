@@ -16,9 +16,10 @@ shinyUI(fluidPage(
     ") #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
   ),#tags$head  
   tabsetPanel( type = "tabs",
+               
     tabPanel(
       title = "Upcoming Schedule", 
-      # HTML("<font color='green'><em>{Elizabeth, is there some explanatory text you'd like here?}</em></font>"),
+      HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
       # titlePanel("Item Progress"),    
       # Create a new Row in the UI for selectInputs
       fluidRow(
@@ -35,16 +36,29 @@ shinyUI(fluidPage(
       ), #End fluid row with the dropdown boxes
       # Create a new row for the table.
       fluidRow(
-        dataTableOutput(outputId = "UpcomingScheduleTable")
+        dataTableOutput(outputId = "ScheduleTableUpcoming")
       ) #End fluid row with the Group Call table
     ), #End the (first) tab with the Group Call table
+
+    tabPanel(
+      title = "Past Schedule", 
+      HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
+      # titlePanel("Item Progress"),    
+      # Create a new row for the table.
+      fluidRow(
+        dataTableOutput(outputId = "ScheduleTablePast")
+      ) #End fluid row with the Group Call table
+    ), #End the (first) tab with the Group Call table
+
     tabPanel(
       title = "General Links", 
-      # HTML("<font color='green'><em>{We need to discuss this graph: https://github.com/OuhscBbmc/Tfcbt/issues/10}</em></font>"),
-      # titlePanel("Trauma Symptoms"), 
-      "Tracking symptom severity over the life of the TF-CBT case. Trainers suggest, at a minimum, administering pre-treatment and post-treatment trauma measures."#,
-#       plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
-    )#, #End the (second) tab with the symptoms
+      "Is there some explanatory text you'd like here?",
+      HTML('<br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month">Monthly Outlook</a><br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week">Weekly Outlook</a><br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day">Daily Outlook</a><br/>')
+      # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
+    )#, #End the (third) tab with the symptoms
  
   ) #End the tabsetPanel
 )) #End the fluidPage and shinyUI
