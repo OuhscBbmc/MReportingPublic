@@ -1,7 +1,63 @@
-# R & RStudio files
-.Rhistory
-.Rproj.user
-.Rdata
-
-# Ruby/Jekyll files
+############
+## Ruby/Jekyll files
+############
 _site
+
+############
+## Protected Information
+############
+DataPhiFreeCache/
+
+!DataPhiFreeCache/README.md
+
+############
+## Potential PHI
+############
+*.zip
+*.Zip
+*.ZIP
+*.Rhistory
+.Rproj.user
+
+#I'm afraid this might contain PHI if someone knew how to decode it.
+us.stackdump 
+
+*.rdata
+*.Rdata
+*.RData
+*.RDATA
+*.RDS
+*.rds
+*.csv
+*.mdb
+*.accdb
+*.sav
+*.sas7bdat
+*.xls
+*.xlsx
+
+############
+## Explicit exceptions for PHI-free data
+############ 
+!UtilityScripts/PackageDependencyList.csv
+
+!DataPhiFree/CountyCharacteristics.csv
+!DataPhiFree/redacted-aocs_client_removed.csv
+!DataPhiFree/ModelVariableAnnotation.csv
+!DataPhiFree/RedactedRiskSalzburgHallwang.csv
+
+############
+## Documentation and Presentation material (that is PHI-free)
+############ 
+!PresentationMaterials/rollingRecruitmentCounts.xlsx
+!Documentation/Measures/DefinitionsByEvan-2014-12-04.xlsx
+
+!Documentation/Measures/Crosswalk of Old and New AOCS.xlsx
+
+############
+## Windows
+############
+# Windows image file caches
+Thumbs.db
+# Folder config file
+Desktop.ini
