@@ -8,6 +8,13 @@ pathUpcomingSchedule <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
 redcap_version <- "5.11.3"
 project_id <- 35L
 
+reportTheme <- theme_bw() +
+  theme(axis.text = element_text(colour="gray40")) +
+  theme(axis.title = element_text(colour="gray40")) +
+  theme(panel.border = element_rect(colour="gray80")) +
+  theme(axis.ticks = element_line(colour="gray80")) +
+  theme(axis.ticks.length = grid::unit(0, "cm"))
+
 #####################################
 #' LoadData
 dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
@@ -51,9 +58,11 @@ shinyServer( function(input, output) {
     
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
-    d$event_description <- gsub("^Year (\\d)", "Y\\1 ", d$event_description)
-    d$event_description <- gsub("Month (\\d{1,2})", "M\\1", d$event_description)
-    d$event_description <- gsub("Interview Reminder Call", "Reminder Call", d$event_description)
+    d$event_description <- gsub("^Year (\\d)", "Y\\1", d$event_description) #Shorten 'Year' to 'Y'
+    d$event_description <- gsub("Month (\\d{1})\b", "Month 0\\1", d$event_description) #Pad one-digit month numbers
+    d$event_description <- gsub("Month (\\d{2})", "M\\1", d$event_description) #Shorten 'Month' to 'M'
+    d$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", d$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
+    d$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", d$event_description) #Prepend "Y1" to the 1st year contacts
     
     d$arm_name <- gsub("^Year (\\d) Cohort$", "Y\\1", d$arm_name)
     d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
@@ -69,9 +78,10 @@ shinyServer( function(input, output) {
     d$arm_id <- NULL
     d$arm_num <- NULL
     d$day_offset <- NULL
+    d$event_type <- NULL
     
     d <- plyr::rename(d, replace=c(
-      "record" = "record",
+      "record" = "participant",
       "group_name" = "county",
       "arm_name" = "arm",
       "event_status" = "status",
