@@ -6,6 +6,7 @@ library(grid)
 #####################################
 #' DeclareGlobals
 pathUpcomingSchedule <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
+redcap_version <- "5.11.3"
 project_id <- 35L
 
 #####################################
@@ -52,12 +53,16 @@ shinyServer( function(input, output) {
       "4" = "No Show"
     ))
     
+    d$jump <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">Monthly Outlook</a>',
+                      redcap_version, project_id, d$record, d$event_id)
+    d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s" target="_blank">%s</a>',
+                  redcap_version, project_id, d$arm_num,  d$record, d$record)
     d$cal_id <- NULL
     d$group_id <- NULL
     d$project_id <- NULL
     
     d <- plyr::rename(d, replace=c(
-      "record" = "record__",
+      "record" = "record",
       "group_name" = "county",
       "arm_name" = "arm",
       "event_status" = "status",

@@ -54,9 +54,10 @@ shinyUI(fluidPage(
       title = "General Links", 
       "Is there some explanatory text you'd like here?",
       HTML('<br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month">Monthly Outlook</a><br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week">Weekly Outlook</a><br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day">Daily Outlook</a><br/>')
+      HTML('<br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month" target="_blank">Monthly Outlook</a><br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week" target="_blank">Weekly Outlook</a><br/>'),
+      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day" target="_blank">Daily Outlook</a><br/>')
       # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
     )#, #End the (third) tab with the symptoms
  
