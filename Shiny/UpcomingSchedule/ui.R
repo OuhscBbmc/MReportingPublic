@@ -18,7 +18,7 @@ shinyUI(fluidPage(
   tabsetPanel( type = "tabs",
                
     tabPanel(
-      title = "Upcoming Schedule", 
+      title = "Upcoming", 
       HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
       # titlePanel("Item Progress"),    
       # Create a new Row in the UI for selectInputs
@@ -41,7 +41,7 @@ shinyUI(fluidPage(
     ), #End the (first) tab with the Group Call table
 
     tabPanel(
-      title = "Past Schedule", 
+      title = "Past", 
       HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
       # titlePanel("Item Progress"),    
       # Create a new row for the table.
@@ -51,13 +51,21 @@ shinyUI(fluidPage(
     ), #End the (first) tab with the Group Call table
 
     tabPanel(
+      title = "Graph", 
+      shiny::plotOutput(outputId = "GraphEventType", width='95%', height='800px')
+    ), #End the (first) tab with the Group Call table
+
+    tabPanel(
       title = "General Links", 
       "Is there some explanatory text you'd like here?",
       HTML('<br/>'),
       HTML('<br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month" target="_blank">Monthly Outlook</a><br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week" target="_blank">Weekly Outlook</a><br/>'),
-      HTML('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day" target="_blank">Daily Outlook</a><br/>')
+      HTML('REDCap Outlooks<br/>'),
+      HTML('<ul>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a><br/></li>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a><br/></li>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a><br/></li>'),
+      HTML('</ul>')
       # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
     )#, #End the (third) tab with the symptoms
  

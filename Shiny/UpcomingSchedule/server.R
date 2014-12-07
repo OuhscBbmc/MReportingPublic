@@ -2,7 +2,6 @@ library(shiny)
 library(ggplot2)
 library(grid)
 
-
 #####################################
 #' DeclareGlobals
 pathUpcomingSchedule <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
@@ -13,8 +12,20 @@ project_id <- 35L
 #' LoadData
 dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
 
+#####################################
+#' TweakData
+dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
+dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
+dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=c(
+  "0" = "Due Date", 
+  "1" = "Scheduled", 
+  "2" = "Confirmed", 
+  "3" = "Cancelled", 
+  "4" = "No Show"
+))
 
-# Define a server for the Shiny app
+#####################################
+#' Define a server for the Shiny app
 shinyServer( function(input, output) {
   
   #######################################
@@ -42,22 +53,16 @@ shinyServer( function(input, output) {
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
     d$event_description <- gsub("^Year (\\d)", "Y\\1 ", d$event_description)
     d$event_description <- gsub("Month (\\d{1,2})", "M\\1", d$event_description)
-    d$event_description <- gsub("Interview Reminder Call", "Int Reminder", d$event_description)
+    d$event_description <- gsub("Interview Reminder Call", "Reminder Call", d$event_description)
     
     d$arm_name <- gsub("^Year (\\d) Cohort$", "Y\\1", d$arm_name)
-    
-    d$event_status <- plyr::revalue(as.character(d$event_status), warn_missing=F, replace=c(
-      "0" = "Due Date", 
-      "1" = "Scheduled", 
-      "2" = "Confirmed", 
-      "3" = "Cancelled", 
-      "4" = "No Show"
-    ))
+    d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
     
     d$event_date <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
                       redcap_version, project_id, d$record, d$event_id, d$event_date)
     d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s" target="_blank">%s</a>',
                   redcap_version, project_id, d$arm_num,  d$record, d$record)
+    
     d$cal_id <- NULL
     d$group_id <- NULL
     d$project_id <- NULL
@@ -72,6 +77,7 @@ shinyServer( function(input, output) {
       "event_status" = "status",
       "event_description" = "description"
     ))
+    
     colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
     
     return( as.data.frame(d) )
@@ -112,11 +118,24 @@ shinyServer( function(input, output) {
     return( retrieve_schedule(start_date=Sys.Date()) )
   }, options = table_options_schedule
   )
-    
+  
   output$ScheduleTablePast <- renderDataTable({
     return( retrieve_schedule(stop_date=Sys.Date()) )
   }, options = table_options_schedule
-  )
+  )    
+  
+  output$GraphEventType <- renderPlot({
+#     d <- retrieve_schedule()
+    ggplot(dsUpcomingSchedule, aes(x=event_date, color=event_status)) +
+      geom_line(stat="bin", binwidth=1) +
+      geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
+      scale_color_brewer(palette="Dark2") + 
+      facet_grid(event_type ~ group_name, scales="free_y") +
+      reportTheme +
+      theme(legend.position="top") +
+      theme(axis.text.x = element_text(angle=90, hjust=1)) +
+      labs(x=NULL, y="Events per Day", color="Status")
+  })
   
   
 })
