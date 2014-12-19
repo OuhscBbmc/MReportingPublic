@@ -1,11 +1,10 @@
 ---
 title: "Oklahoma's MIECHV Evaluation"
 ---
-**(This site currently works only on desktops/laptops.  In future versions, the site will be fully functional on mobile devices.)**
 
 ### Welcome
 
-Welcome to Oklahoma's MIECHV Evaluation. This public-facing site provides aggregate reports and de-identified datasets to communicate the results of Oklahoma's MIECHV evaluation and distribute the 
+Welcome to Oklahoma's MIECHV Evaluation. This public-facing site provides aggregate reports and de-identified datasets to communicate the results of Oklahoma's MIECHV evaluation and distribute material to assist similar efforts.
 
 This site is structured into primary categories, each with nested subcategories.  Please navigate this site with the dropdown boxes at the top of the page.
 
