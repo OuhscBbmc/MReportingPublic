@@ -29,24 +29,16 @@ body {
   padding-top: 50px;
   padding-bottom: 40px;
 }
-@media (max-width: 979px) {
-  body {
-    padding-top: 0;
-  }
-}
 
 /* offset scroll position for anchor links (for fixed navbar)  */
-@media (min-width: 980px) {
-  .section h2 {
-    padding-top: 52px;
-    margin-top: -52px;
-  }
-  .section h3 {
-    padding-top: 52px;
-    margin-top: -52px;
-  }
+.section h2 {
+  padding-top: 55px;
+  margin-top: -55px;
 }
-
+.section h3 {
+  padding-top: 55px;
+  margin-top: -55px;
+}
 
 /* don't use link color in navbar */
 .dropdown-menu>li>a {
@@ -57,7 +49,6 @@ body {
 #disqus_thread {
   margin-top: 45px;
 }
-
 </style>
 
 <link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
@@ -101,14 +92,14 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div class="navbar navbar-inverse navbar-default">
   <div class="navbar-inner">
     <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#navigationbar">
         <!-- navbar will automatically collapse into a button when the screen size is too small–which is much friendlier to mobile devices: http://brizzled.clapper.org/blog/2012/03/05/using-twitter-bootstrap-with-jekyll/ -->
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
       <a class="brand" href="/MReportingPublic/">MReporting Public</a>
-      <div class="nav-collapse collapse">
+      <div class="nav-collapse collapse" id="navigationbar">
         <ul class="nav">
         
           <li class="dropdown">
@@ -377,11 +368,11 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by Will at 2014-11-11, 11:59 -0600
+Report rendered by Will at 2014-12-19, 15:43 -0600
 ```
 
 ```
-R version 3.1.2 Patched (2014-10-31 r66921)
+R version 3.1.2 Patched (2014-12-11 r67168)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -392,11 +383,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] DBI_0.3.1 knitr_1.7
+[1] DBI_0.3.1 knitr_1.8
 
 loaded via a namespace (and not attached):
-[1] digest_0.6.4    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6 rmarkdown_0.3.3 RSQLite_1.0.0   stringr_0.6.2  
-[8] tools_3.1.2     yaml_2.1.13    
+[1] digest_0.6.6     evaluate_0.5.5   formatR_1.0      htmltools_0.2.6  rmarkdown_0.3.11 RSQLite_1.0.0   
+[7] stringr_0.6.2    tools_3.1.2      yaml_2.1.13     
 ```
 -->
 

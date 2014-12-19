@@ -29,24 +29,16 @@ body {
   padding-top: 50px;
   padding-bottom: 40px;
 }
-@media (max-width: 979px) {
-  body {
-    padding-top: 0;
-  }
-}
 
 /* offset scroll position for anchor links (for fixed navbar)  */
-@media (min-width: 980px) {
-  .section h2 {
-    padding-top: 52px;
-    margin-top: -52px;
-  }
-  .section h3 {
-    padding-top: 52px;
-    margin-top: -52px;
-  }
+.section h2 {
+  padding-top: 55px;
+  margin-top: -55px;
 }
-
+.section h3 {
+  padding-top: 55px;
+  margin-top: -55px;
+}
 
 /* don't use link color in navbar */
 .dropdown-menu>li>a {
@@ -57,7 +49,6 @@ body {
 #disqus_thread {
   margin-top: 45px;
 }
-
 </style>
 
 <link rel="stylesheet" href="libs/font-awesome-4.1.0/css/font-awesome.min.css"/>
@@ -101,14 +92,14 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div class="navbar navbar-inverse navbar-default">
   <div class="navbar-inner">
     <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#navigationbar">
         <!-- navbar will automatically collapse into a button when the screen size is too small–which is much friendlier to mobile devices: http://brizzled.clapper.org/blog/2012/03/05/using-twitter-bootstrap-with-jekyll/ -->
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
       <a class="brand" href="/MReportingPublic/">MReporting Public</a>
-      <div class="nav-collapse collapse">
+      <div class="nav-collapse collapse" id="navigationbar">
         <ul class="nav">
         
           <li class="dropdown">
