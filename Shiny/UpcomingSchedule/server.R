@@ -129,12 +129,14 @@ shinyServer( function(input, output) {
   
   output$ScheduleTableUpcoming <- renderDataTable({
     return( retrieve_schedule(start_date=Sys.Date()) )
-  }, options = table_options_schedule
+  }, options = table_options_schedule,
+    escape = FALSE
   )
   
   output$ScheduleTablePast <- renderDataTable({
     return( retrieve_schedule(stop_date=Sys.Date()) )
-  }, options = table_options_schedule
+  }, options = table_options_schedule,
+    escape = FALSE
   )    
   
   output$GraphEventType <- renderPlot({
