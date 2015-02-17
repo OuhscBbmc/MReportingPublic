@@ -59,7 +59,7 @@ shinyServer( function(input, output) {
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
     d$event_description <- gsub("^Year (\\d)", "Y\\1", d$event_description) #Shorten 'Year' to 'Y'
-    d$event_description <- gsub("Month (\\d{1})\b", "Month 0\\1", d$event_description) #Pad one-digit month numbers
+    d$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", d$event_description) #Pad one-digit month numbers
     d$event_description <- gsub("Month (\\d{2})", "M\\1", d$event_description) #Shorten 'Month' to 'M'
     d$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", d$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
     d$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", d$event_description) #Prepend "Y1" to the 1st year contacts
@@ -72,18 +72,21 @@ shinyServer( function(input, output) {
     d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s" target="_blank">%s</a>',
                   redcap_version, project_id, d$arm_num,  d$record, d$record)
     
+    d$event_time <- NULL
     d$cal_id <- NULL
     d$group_id <- NULL
     d$project_id <- NULL
+    d$event_id <- NULL
     d$arm_id <- NULL
     d$arm_num <- NULL
     d$day_offset <- NULL
     d$event_type <- NULL
+    d$arm_name <- NULL
     
     d <- plyr::rename(d, replace=c(
       "record" = "participant",
       "group_name" = "county",
-      "arm_name" = "arm",
+      #"arm_name" = "arm",
       "event_status" = "status",
       "event_description" = "description"
     ))
