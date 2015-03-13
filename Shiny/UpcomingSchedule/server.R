@@ -4,8 +4,9 @@ library(grid)
 
 #####################################
 #' DeclareGlobals
+pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
+pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
 pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
-pathUpcomingScheduleServer <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 
 redcap_version <- "6.0.2"
 project_id <- 35L
@@ -19,8 +20,10 @@ reportTheme <- theme_bw() +
 
 #####################################
 #' LoadData
-if( file.exists(pathUpcomingScheduleServer) ) {
-  pathUpcomingSchedule <- pathUpcomingScheduleServer  
+if( file.exists(pathUpcomingScheduleServerOutside) ) {
+  pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
+} else if( file.exists(pathUpcomingScheduleServerInside) ) {
+  pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
 } else {
   pathUpcomingSchedule <- pathUpcomingScheduleRepo
 }

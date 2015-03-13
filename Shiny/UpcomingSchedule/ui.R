@@ -1,7 +1,6 @@
 #Starting with http://shiny.rstudio.com/gallery/basic-datatable.html
 library(shiny)
 library(ggplot2)
-library(ShinyDash) # To install, run devtools::install_github('trestletech/ShinyDash') #See https://groups.google.com/forum/#!topic/shiny-discuss/V7WUQA7aAiI
 
 # Define the overall UI
 shinyUI(fluidPage(
