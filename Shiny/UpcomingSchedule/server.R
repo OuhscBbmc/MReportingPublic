@@ -4,8 +4,10 @@ library(grid)
 
 #####################################
 #' DeclareGlobals
-pathUpcomingSchedule <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
-redcap_version <- "5.11.3"
+pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
+pathUpcomingScheduleServer <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
+
+redcap_version <- "6.0.2"
 project_id <- 35L
 
 reportTheme <- theme_bw() +
@@ -17,6 +19,12 @@ reportTheme <- theme_bw() +
 
 #####################################
 #' LoadData
+if( file.exists(pathUpcomingScheduleServer) ) {
+  pathUpcomingSchedule <- pathUpcomingScheduleServer  
+} else {
+  pathUpcomingSchedule <- pathUpcomingScheduleRepo
+}
+
 dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
 
 #####################################
@@ -151,6 +159,7 @@ shinyServer( function(input, output) {
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
       labs(x=NULL, y="Events per Day", color="Status")
   })
-  
-  
+  output$path_data_bullet <- renderText({
+    return( paste0("<li>Data Path: ", pathUpcomingSchedule, "</li>") )
+  })
 })

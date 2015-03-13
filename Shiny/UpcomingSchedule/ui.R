@@ -1,7 +1,7 @@
 #Starting with http://shiny.rstudio.com/gallery/basic-datatable.html
 library(shiny)
 library(ggplot2)
-# library(ShinyDash) # To install, run devtools::install_github('ShinyDash', 'trestletech') #See https://groups.google.com/forum/#!topic/shiny-discuss/V7WUQA7aAiI
+library(ShinyDash) # To install, run devtools::install_github('trestletech/ShinyDash') #See https://groups.google.com/forum/#!topic/shiny-discuss/V7WUQA7aAiI
 
 # Define the overall UI
 shinyUI(fluidPage(
@@ -62,9 +62,13 @@ shinyUI(fluidPage(
       HTML('<br/>'),
       HTML('REDCap Outlooks<br/>'),
       HTML('<ul>'),
-      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a><br/></li>'),
-      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a><br/></li>'),
-      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v5.11.3/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a><br/></li>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a></li>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a></li>'),
+      HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a></li>'),
+      HTML('</ul>'),
+      HTML('Details<br/>'),
+      HTML('<ul>'),
+      htmlOutput(outputId='path_data_bullet'),
       HTML('</ul>')
       # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
     )#, #End the (third) tab with the symptoms
