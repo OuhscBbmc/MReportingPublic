@@ -162,7 +162,13 @@ shinyServer( function(input, output) {
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
       labs(x=NULL, y="Events per Day", color="Status")
   })
-  output$path_data_bullet <- renderText({
-    return( paste0("<li>Data Path: ", pathUpcomingSchedule, "</li>") )
+  output$table_file_info <- renderText({
+    return( paste0(
+      "<table border='0' cellspacing='1' cellpadding='2' >",
+        "<tr><td>Data Path:<td/><td>&nbsp;", pathUpcomingSchedule, "<td/><tr/>",
+        "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathUpcomingSchedule)$mtime, "<td/><tr/>",
+        "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
+      "<table/>"
+    ) )
   })
 })

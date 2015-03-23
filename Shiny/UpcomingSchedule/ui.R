@@ -67,7 +67,7 @@ shinyUI(fluidPage(
       HTML('</ul>'),
       HTML('Details<br/>'),
       HTML('<ul>'),
-      htmlOutput(outputId='path_data_bullet'),
+      htmlOutput(outputId='table_file_info'),
       HTML('</ul>')
       # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
     )#, #End the (third) tab with the symptoms
