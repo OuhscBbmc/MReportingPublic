@@ -79,10 +79,12 @@ shinyServer( function(input, output) {
     d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
     
     d$event_date <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
-                      redcap_version, project_id, d$record, d$event_id, d$event_date)
-    d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s" target="_blank">%s</a>',
-                  redcap_version, project_id, d$arm_num,  d$record, d$record)
-    
+                            redcap_version, project_id, d$record, d$event_id, d$event_date)
+    d$dc_currently_responsible <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
+                                          redcap_version, project_id, d$record, d$dc_currently_responsible)
+    d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
+                       redcap_version, project_id, d$arm_num, d$record, d$record)
+
     d$event_time <- NULL
     d$cal_id <- NULL
     d$group_id <- NULL
@@ -93,13 +95,14 @@ shinyServer( function(input, output) {
     d$day_offset <- NULL
     d$event_type <- NULL
     d$arm_name <- NULL
+    d$redcap_event_name <- NULL
     
     d <- plyr::rename(d, replace=c(
       "record" = "participant",
       "group_name" = "county",
       #"arm_name" = "arm",
       "event_status" = "status",
-      "event_description" = "description"
+      "dc_currently_responsible"= "dc"
     ))
     
     colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
