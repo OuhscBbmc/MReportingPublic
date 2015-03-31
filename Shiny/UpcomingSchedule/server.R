@@ -130,17 +130,20 @@ shinyServer( function(input, output) {
     # columnDefs = list(list(targets = c(3, 4) - 1, searchable = FALSE)),
     searching = TRUE,
     paging = TRUE,
-    sort = TRUE#,
-    # $("td:eq(0)", nRow).css("font-weight", "bold");
-    # $("td:eq(0)", nRow).css("font-size", "large");
-    # rowCallback = I('
-    #   function(nRow, aData) {
-    #   // Emphasize rows where the `branch_item` column equals to 1
-    #     if (aData[aData.length-1] == "1") {
-    #       $("td", nRow).css("background-color", "#aaaaaa");
-    #     }
-    #   }')
+    sort = TRUE,
+    
+    #http://stackoverflow.com/questions/28359626
+    #http://stackoverflow.com/questions/22850562
+    rowCallback = I(
+      'function(row, data) {
+        if (data[5].indexOf("Interview") > -1 ) {
+          $("td:eq(5)", row).addClass("interviewEvent");
+          $("td", row).addClass("interviewRow"); 
+          //$("td", row).css("font-weight", "bold");
+        }
+      }'
     )
+  )
   
   output$ScheduleTableUpcoming <- renderDataTable({
     return( retrieve_schedule(start_date=Sys.Date()) )

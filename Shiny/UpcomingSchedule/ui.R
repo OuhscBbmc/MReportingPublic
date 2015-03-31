@@ -12,26 +12,23 @@ shinyUI(fluidPage(
       .table .smallish {font-size: 80%;padding: 0px; }
       .table .alignRight {text-align: right;font-size: 80%;padding: 0px;}
       .table .semihide {color: #cccccc;font-size: 50%;padding: 0px;}
+      .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
+      .table .interviewRow {font-size:90%;font-weight:bold}
     ") #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
   ),#tags$head  
   tabsetPanel( type = "tabs",
                
     tabPanel(
       title = "Upcoming", 
-      HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
-      # titlePanel("Item Progress"),    
-      # Create a new Row in the UI for selectInputs
+      HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font>"),
+        # titlePanel("Item Progress"),    
+        # Create a new Row in the UI for selectInputs
       fluidRow(
-#         column(width = 9, 
-#           selectInput(inputId="item_progress_therapist_tag", label="Therapist Tag:", width="100%",
-#             choices=c("--Select a Therapist--", sort(unique(as.character(dsItemProgress$therapist_tag))))
-#           )
-#         ),
-#         column(width = 3, 
-#           selectInput(inputId="item_progress_client_number", label="Client within Therapist:", width="100%", 
-#                       choices=unique(as.character(dsItemProgress$client_sequence))
-#           )
-#         )#,     
+        # column(width = 3, 
+        #   selectInput(inputId="item_progress_client_number", label="Client within Therapist:", width="100%", 
+        #               choices=unique(as.character(dsItemProgress$client_sequence))
+        #   )
+        # )#,     
       ), #End fluid row with the dropdown boxes
       # Create a new row for the table.
       fluidRow(
@@ -41,7 +38,7 @@ shinyUI(fluidPage(
 
     tabPanel(
       title = "Past", 
-      HTML("<font color='green'><em>{Is there some explanatory text you'd like here?}</em></font>"),
+      HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font>"),
       # titlePanel("Item Progress"),    
       # Create a new row for the table.
       fluidRow(
@@ -56,7 +53,7 @@ shinyUI(fluidPage(
 
     tabPanel(
       title = "General Links", 
-      "Is there some explanatory text you'd like here?",
+      "La'Chanda, Is there some explanatory text you'd like here?",
       HTML('<br/>'),
       HTML('<br/>'),
       HTML('REDCap Outlooks<br/>'),
