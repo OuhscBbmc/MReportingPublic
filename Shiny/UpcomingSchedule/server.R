@@ -102,6 +102,7 @@ shinyServer( function(input, output) {
       "group_name" = "county",
       #"arm_name" = "arm",
       "event_status" = "status",
+      "event_description" = "arm & event",
       "dc_currently_responsible"= "dc"
     ))
     
