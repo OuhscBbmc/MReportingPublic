@@ -18,6 +18,10 @@ reportTheme <- theme_bw() +
   theme(axis.ticks = element_line(colour="gray80")) +
   theme(axis.ticks.length = grid::unit(0, "cm"))
 
+move_to_last <- function(data, move) {
+  data[c(setdiff(names(data), move), move)]
+}
+
 #####################################
 #' LoadData
 if( file.exists(pathUpcomingScheduleServerOutside) ) {
@@ -99,7 +103,6 @@ shinyServer( function(input, output) {
     d$event_description <- paste0("A", d$arm_num, ": ", d$event_description)
 
     d$baseline_date <- NULL
-    d$group_name <- NULL #county
     d$event_time <- NULL
     d$cal_id <- NULL
     d$group_id <- NULL
@@ -114,12 +117,15 @@ shinyServer( function(input, output) {
     
     d <- plyr::rename(d, replace=c(
       "record" = "participant",
-      #"group_name" = "county",
+      "group_name" = "county",
       #"arm_name" = "arm",
       "event_status" = "status",
       "event_description" = "arm: event",
       "dc_currently_responsible"= "dc"
     ))
+    
+    if( input$show_county )  d <- move_to_last(d, c("county"))
+    else d$county <- NULL
     
     colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
     
@@ -155,8 +161,13 @@ shinyServer( function(input, output) {
           $("td:eq(0)", row).addClass("interviewEvent");
           $("td:eq(3)", row).addClass("interviewEvent");
           $("td", row).addClass("interviewRow"); 
-          //$("td", row).css("font-weight", "bold");
         }
+
+        if (data[2].indexOf("Due Date") > -1 ) $("td:eq(2)", row).css("color", "#bb2288");
+        else if (data[2].indexOf("Confirmed") > -1 ) $("td:eq(2)", row).css("color", "#387566");
+        else if (data[2].indexOf("Cancelled") > -1 ) $("td:eq(2)", row).css("color", "#b8b49b");
+        else if (data[2].indexOf("No Show") > -1 ) $("td:eq(2)", row).css("color", "#fba047");
+        else if (data[2].indexOf("Scheduled") > -1 ) $("td:eq(2)", row).css("color", "#3875bb");
       }'
     )
   )
@@ -174,8 +185,15 @@ shinyServer( function(input, output) {
   )    
   
   output$GraphEventType <- renderPlot({
-#     d <- retrieve_schedule()
-    ggplot(dsUpcomingSchedule, aes(x=event_date, color=event_status)) +
+    d <- dsUpcomingSchedule
+    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
+    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
+    # browser()
+    
+    if( SideInputs()$county != "All" )
+      d <- d[d$group_name==SideInputs()$county, ]
+    
+    ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
       scale_color_manual(values=palette_status) +
@@ -185,7 +203,7 @@ shinyServer( function(input, output) {
       reportTheme +
       theme(legend.position="top") +
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
-      labs(x=NULL, y="Events per Day", color="Status", title="Weekly Events")
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events")
   })
   output$table_file_info <- renderText({
     return( paste0(

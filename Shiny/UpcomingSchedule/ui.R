@@ -7,6 +7,10 @@ library(ggplot2)
 dashboardPage(skin="purple",
   dashboardHeader(title = "GPAV Schedule"),
   dashboardSidebar(
+    checkboxInput(
+      inputId = "show_county", 
+      label = "Display County",
+      value = FALSE),
     selectInput(
       inputId = "county",
       label = "County",
