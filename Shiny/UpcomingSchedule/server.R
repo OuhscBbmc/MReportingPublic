@@ -55,6 +55,15 @@ shinyServer( function(input, output) {
   
   
   #######################################
+  # Prepare inputs -----------------------------------
+  SideInputs <- reactive({
+    return(list(
+      upcoming_date_range=input$upcoming_date_range,
+      past_date_range=input$past_date_range
+    ))
+  })
+  
+  #######################################
   ### Prepare schedule data to be called for two different tables
   retrieve_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
     # Filter schedule based on selections
@@ -64,8 +73,6 @@ shinyServer( function(input, output) {
     
     # if (input$item_progress_therapist_tag != "All")
     #   d <- d[d$therapist_tag == input$item_progress_therapist_tag, ]
-    # if (input$item_progress_client_number != "All")
-    #   d <- d[d$client_sequence == input$item_progress_client_number, ]
     
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
@@ -85,6 +92,7 @@ shinyServer( function(input, output) {
     d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
                        redcap_version, project_id, d$arm_num, d$record, d$record)
 
+    d$baseline_date <- NULL
     d$event_time <- NULL
     d$cal_id <- NULL
     d$group_id <- NULL
@@ -136,8 +144,9 @@ shinyServer( function(input, output) {
     #http://stackoverflow.com/questions/22850562
     rowCallback = I(
       'function(row, data) {
-        if (data[5].indexOf("Interview") > -1 ) {
-          $("td:eq(5)", row).addClass("interviewEvent");
+        if (data[4].indexOf("Interview") > -1 ) {
+          $("td:eq(0)", row).addClass("interviewEvent");
+          $("td:eq(4)", row).addClass("interviewEvent");
           $("td", row).addClass("interviewRow"); 
           //$("td", row).css("font-weight", "bold");
         }
@@ -146,13 +155,13 @@ shinyServer( function(input, output) {
   )
   
   output$ScheduleTableUpcoming <- renderDataTable({
-    return( retrieve_schedule(start_date=Sys.Date()) )
+    return( retrieve_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2]) )
   }, options = table_options_schedule,
     escape = FALSE
   )
   
   output$ScheduleTablePast <- renderDataTable({
-    return( retrieve_schedule(stop_date=Sys.Date()) )
+    return( retrieve_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2]) )
   }, options = table_options_schedule,
     escape = FALSE
   )    

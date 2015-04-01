@@ -7,20 +7,27 @@ library(ggplot2)
 dashboardPage(skin="purple",
   dashboardHeader(title = "GPAV Schedule"),
   dashboardSidebar(
-
+    dateRangeInput(
+      inputId = 'upcoming_date_range', 
+      separator = "-",
+      label = 'Upcoming Dates: yyyy-mm-dd',
+      start = Sys.Date(), end = Sys.Date() + 45
+    ),
+    dateRangeInput(
+      inputId = 'past_date_range', 
+      separator = "-",
+      label = 'Past Dates: yyyy-mm-dd',
+      start = Sys.Date()-60, end = Sys.Date()
+    )
   ),
   dashboardBody(
     shiny::tags$head(
       includeCSS("./www/styles.css"), # Include our custom CSS
-      #;font-family:courier
       tags$style(HTML("
-               .table .session {font-size: 80%;padding: 0px; text-align:center}
-               .table .smallish {font-size: 80%;padding: 0px; }
-               .table .alignRight {text-align: right;font-size: 80%;padding: 0px;}
-               .table .semihide {color: #cccccc;font-size: 50%;padding: 0px;}
-               .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
-               .table .interviewRow {font-size:90%;font-weight:bold}
-               ")) #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
+        .table .smallish {font-size: 80%; padding:2px; }
+        .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
+        .table .interviewRow {font-size:90%; font-weight:bold}
+      ")) #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
     ),#tags$head 
     # Boxes need to be put in a row (or column)
     tabsetPanel( type = "tabs",
