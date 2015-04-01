@@ -46,6 +46,28 @@ dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule
   "4" = "No Show"
 ))
 
+dsUpcomingSchedule$group_name <- ifelse(is.na(dsUpcomingSchedule$group_name), "Missing", dsUpcomingSchedule$group_name)
+dsUpcomingSchedule$group_name <- gsub("^(.+?)( County)$", "\\1", dsUpcomingSchedule$group_name)
+
+dsUpcomingSchedule$event_description <- gsub("^Year (\\d)", "Y\\1", dsUpcomingSchedule$event_description) #Shorten 'Year' to 'Y'
+dsUpcomingSchedule$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", dsUpcomingSchedule$event_description) #Pad one-digit month numbers
+dsUpcomingSchedule$event_description <- gsub("Month (\\d{2})", "M\\1", dsUpcomingSchedule$event_description) #Shorten 'Month' to 'M'
+dsUpcomingSchedule$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", dsUpcomingSchedule$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
+dsUpcomingSchedule$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", dsUpcomingSchedule$event_description) #Prepend "Y1" to the 1st year contacts
+
+dsUpcomingSchedule$record_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
+                           redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
+dsUpcomingSchedule$event_date_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
+                               redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
+dsUpcomingSchedule$event_status_pretty <- dsUpcomingSchedule$event_status
+dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
+dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
+                                             redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
+
+# d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
+# d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
+# d$arm_name <- gsub("^Year (\\d) Cohort$", "Y\\1", d$arm_name)
+
 #####################################
 #' Define a server for the Shiny app
 shinyServer( function(input, output) {
@@ -72,65 +94,57 @@ shinyServer( function(input, output) {
   
   #######################################
   ### Prepare schedule data to be called for two different tables
-  retrieve_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
+  filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
     # Filter schedule based on selections
     
     d <- dsUpcomingSchedule
     
-    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
-    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     if( SideInputs()$county != "All" )
       d <- d[d$group_name==SideInputs()$county, ]
     
-    # browser()
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
     
-    #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
-    d$event_description <- gsub("^Year (\\d)", "Y\\1", d$event_description) #Shorten 'Year' to 'Y'
-    d$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", d$event_description) #Pad one-digit month numbers
-    d$event_description <- gsub("Month (\\d{2})", "M\\1", d$event_description) #Shorten 'Month' to 'M'
-    d$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", d$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
-    d$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", d$event_description) #Prepend "Y1" to the 1st year contacts
-    
-    d$arm_name <- gsub("^Year (\\d) Cohort$", "Y\\1", d$arm_name)
-    d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
-    
-    d$event_date <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
-                            redcap_version, project_id, d$record, d$event_id, d$event_date)
-    d$dc_currently_responsible <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
-                                          redcap_version, project_id, d$record, d$dc_currently_responsible)
-    d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
-                       redcap_version, project_id, d$arm_num, d$record, d$record)
-    d$event_description <- paste0("A", d$arm_num, ": ", d$event_description)
+    return( d )
+  }
 
-    d$baseline_date <- NULL
-    d$event_time <- NULL
-    d$cal_id <- NULL
-    d$group_id <- NULL
-    d$project_id <- NULL
-    d$event_id <- NULL
-    d$arm_id <- NULL
-    d$arm_num <- NULL
-    d$day_offset <- NULL
-    d$event_type <- NULL
-    d$arm_name <- NULL
-    d$redcap_event_name <- NULL
-    
+  prettify_schedule <- function( d, pretty_only=TRUE ){
     d <- plyr::rename(d, replace=c(
-      "record" = "participant",
-      "group_name" = "county",
-      #"arm_name" = "arm",
-      "event_status" = "status",
-      "event_description" = "arm: event",
-      "dc_currently_responsible"= "dc"
+      "record_pretty" = "participant",
+      "event_date_pretty" = "event date",
+      "event_status_pretty" = "status",
+      "event_description_pretty" = "arm: event",
+      "dc_currently_responsible_pretty"= "dc",
+      "group_name" = "county"
     ))
     
-    if( input$show_county )  d <- move_to_last(d, c("county"))
-    else d$county <- NULL
+    if( input$show_county ) 
+      d <- move_to_last(d, c("county"))
+    else 
+      d$county <- NULL
     
-    colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
+    if( pretty_only ) {
+      d$record <- NULL
+      d$event_date <- NULL
+      d$event_status <- NULL
+      d$event_description <- NULL
+      d$dc_currently_responsible <- NULL
+      
+      d$baseline_date <- NULL
+      d$event_time <- NULL
+      d$cal_id <- NULL
+      d$group_id <- NULL
+      d$project_id <- NULL
+      d$event_id <- NULL
+      d$arm_id <- NULL
+      d$arm_num <- NULL
+      d$day_offset <- NULL
+      d$event_type <- NULL
+      d$arm_name <- NULL
+      d$redcap_event_name <- NULL
+    }
+    # colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
     
-    return( as.data.frame(d) )
+    return( d )
     
     #TODO: add column for day of week? (eg, `Thursday`)
   }
@@ -174,13 +188,15 @@ shinyServer( function(input, output) {
   )
   
   output$ScheduleTableUpcoming <- renderDataTable({
-    return( retrieve_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2]) )
+    d <- prettify_schedule(filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2]))
+    return( d )
   }, options = table_options_schedule,
     escape = FALSE
   )
   
   output$ScheduleTablePast <- renderDataTable({
-    return( retrieve_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2]) )
+    d <- prettify_schedule(filter_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2]))
+    return( d )
   }, options = table_options_schedule,
     escape = FALSE
   )    
@@ -189,7 +205,6 @@ shinyServer( function(input, output) {
     d <- dsUpcomingSchedule
     d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
-    # browser()
     
     if( SideInputs()$county != "All" )
       d <- d[d$group_name==SideInputs()$county, ]
@@ -214,5 +229,40 @@ shinyServer( function(input, output) {
         "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
       "<table/>"
     ) )
+  })
+  
+#   output$a2 <- renderDropdownMenu({
+#     dropdownMenu("Menu item", icon = icon("calendar"))
+#   })
+#   output$menu <- renderMenu({
+#     sidebarMenu(
+#       menuItem("Menu item", icon = icon("calendar"))
+#     )
+#   })
+  messageData <- data.frame(
+    from = c("Admininstrator", "New User", "Support"),
+    message = c(
+      "Sales are steady this month.",
+      "How do I register?",
+      "The new server is ready."
+    ),
+    stringsAsFactors = FALSE
+  )
+  
+  output$messageMenuUpcoming <- renderUI({
+    # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
+    # Code to generate each of the messageItems here, in a list. messageData is a data frame with two columns, 'from' and 'message'.
+    # Also add on slider value to the message content, so that messages update.
+    d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
+    
+    # browser()
+    msgs <- apply(messageData, 1, function(row) {
+      messageItem(
+        from = row[["from"]],
+        message = paste(row[["message"]], input$county)
+      )
+    })
+    
+    dropdownMenu(type = "messages", .list = msgs)
   })
 })
