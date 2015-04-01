@@ -7,6 +7,12 @@ library(ggplot2)
 dashboardPage(skin="purple",
   dashboardHeader(title = "GPAV Schedule"),
   dashboardSidebar(
+    selectInput(
+      inputId = "county",
+      label = "County",
+      choices = list("Comanche", "Muskogee", "Oklahoma", "Tulsa", "Missing"),
+      selected = "Missing"
+    ),
     dateRangeInput(
       inputId = 'upcoming_date_range', 
       separator = "-",

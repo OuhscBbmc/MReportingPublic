@@ -58,8 +58,9 @@ shinyServer( function(input, output) {
   # Prepare inputs -----------------------------------
   SideInputs <- reactive({
     return(list(
-      upcoming_date_range=input$upcoming_date_range,
-      past_date_range=input$past_date_range
+      county = input$county,
+      upcoming_date_range = input$upcoming_date_range,
+      past_date_range = input$past_date_range
     ))
   })
   
@@ -69,12 +70,16 @@ shinyServer( function(input, output) {
     # Filter schedule based on selections
     
     d <- dsUpcomingSchedule
+    
+    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
+    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
+    d <- d[d$group_name==SideInputs()$county, ]
+    
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
     
     # if (input$item_progress_therapist_tag != "All")
     #   d <- d[d$therapist_tag == input$item_progress_therapist_tag, ]
     
-    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
     d$event_description <- gsub("^Year (\\d)", "Y\\1", d$event_description) #Shorten 'Year' to 'Y'
     d$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", d$event_description) #Pad one-digit month numbers
@@ -91,8 +96,10 @@ shinyServer( function(input, output) {
                                           redcap_version, project_id, d$record, d$dc_currently_responsible)
     d$record <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
                        redcap_version, project_id, d$arm_num, d$record, d$record)
+    d$event_description <- paste0("A", d$arm_num, ": ", d$event_description)
 
     d$baseline_date <- NULL
+    d$group_name <- NULL #county
     d$event_time <- NULL
     d$cal_id <- NULL
     d$group_id <- NULL
@@ -107,10 +114,10 @@ shinyServer( function(input, output) {
     
     d <- plyr::rename(d, replace=c(
       "record" = "participant",
-      "group_name" = "county",
+      #"group_name" = "county",
       #"arm_name" = "arm",
       "event_status" = "status",
-      "event_description" = "arm & event",
+      "event_description" = "arm: event",
       "dc_currently_responsible"= "dc"
     ))
     
@@ -144,9 +151,9 @@ shinyServer( function(input, output) {
     #http://stackoverflow.com/questions/22850562
     rowCallback = I(
       'function(row, data) {
-        if (data[4].indexOf("Interview") > -1 ) {
+        if (data[3].indexOf("Interview") > -1 ) {
           $("td:eq(0)", row).addClass("interviewEvent");
-          $("td:eq(4)", row).addClass("interviewEvent");
+          $("td:eq(3)", row).addClass("interviewEvent");
           $("td", row).addClass("interviewRow"); 
           //$("td", row).css("font-weight", "bold");
         }
