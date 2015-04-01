@@ -7,6 +7,7 @@ library(ggplot2)
 dashboardPage(skin="purple",
   dashboardHeader(title = "GPAV Schedule"),
   dashboardSidebar(
+    HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
     checkboxInput(
       inputId = "show_county", 
       label = "Display County",
@@ -29,6 +30,7 @@ dashboardPage(skin="purple",
       label = 'Past Dates: yyyy-mm-dd',
       start = Sys.Date()-60, end = Sys.Date()-1
     ),
+    HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Upcoming", tabName = "upcoming"),
       menuItem("Past", tabName = "past"),
@@ -40,6 +42,7 @@ dashboardPage(skin="purple",
     shiny::tags$head(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML("
+        .panelHeader {color:#605CA8; font-size: 200%}
         .table .smallish {font-size: 80%; padding:2px; }
         .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
         .table .interviewRow {font-size:90%; font-weight:bold}
