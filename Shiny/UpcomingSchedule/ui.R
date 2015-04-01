@@ -28,6 +28,12 @@ dashboardPage(skin="purple",
       separator = "-",
       label = 'Past Dates: yyyy-mm-dd',
       start = Sys.Date()-60, end = Sys.Date()-1
+    ),
+    sidebarMenu(
+      menuItem("Upcoming", tabName = "upcoming"),
+      menuItem("Past", tabName = "past"),
+      menuItem("Graph", tabName = "graph"),
+      menuItem("General Links", tabName = "general_links")
     )
   ),
   dashboardBody(
@@ -40,9 +46,9 @@ dashboardPage(skin="purple",
       ")) #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
     ),#tags$head 
     # Boxes need to be put in a row (or column)
-    tabsetPanel( type = "tabs",
-      tabPanel(
-        title = "Upcoming", 
+    tabItems( #type = "tabs",
+      tabItem(
+        tabName = "upcoming", 
         # titlePanel("Item Progress"),    
         # Create a new Row in the UI for selectInputs
         fluidRow(
@@ -60,8 +66,8 @@ dashboardPage(skin="purple",
         HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
       ), #End the (first) tab with the Group Call table
       
-      tabPanel(
-        title = "Past", 
+      tabItem(
+        tabName = "past",
         # titlePanel("Item Progress"),    
         # Create a new row for the table.
         fluidRow(
@@ -72,13 +78,13 @@ dashboardPage(skin="purple",
         
       ), #End the (first) tab with the Group Call table
       
-      tabPanel(
-        title = "Graph", 
+      tabItem(
+        tabName = "graph", 
         shiny::plotOutput(outputId = "GraphEventType", width='95%', height='800px')
       ), #End the (first) tab with the Group Call table
       
-      tabPanel(
-        title = "General Links", 
+      tabItem(
+        tabName = "general_links", 
         "La'Chanda, Is there some explanatory text you'd like here?",
         HTML('<br/>'),
         HTML('<br/>'),
