@@ -49,6 +49,8 @@ shinyServer( function(input, output) {
   #######################################
   ### Set any sesion-wide options
   # options(shiny.trace=TRUE)
+  #palette_status <- c("Due Date"="#bb2288", "Confirmed"="", "Cancelled"="#dd0000", "No Show"="", "Scheduled"="")
+  palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
   
   #######################################
   ### Call source files that contain semi-encapsulated functions.
@@ -73,12 +75,10 @@ shinyServer( function(input, output) {
     
     d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
-    d <- d[d$group_name==SideInputs()$county, ]
+    if( SideInputs()$county != "All" )
+      d <- d[d$group_name==SideInputs()$county, ]
     
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
-    
-    # if (input$item_progress_therapist_tag != "All")
-    #   d <- d[d$therapist_tag == input$item_progress_therapist_tag, ]
     
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
     d$event_description <- gsub("^Year (\\d)", "Y\\1", d$event_description) #Shorten 'Year' to 'Y'
@@ -176,14 +176,16 @@ shinyServer( function(input, output) {
   output$GraphEventType <- renderPlot({
 #     d <- retrieve_schedule()
     ggplot(dsUpcomingSchedule, aes(x=event_date, color=event_status)) +
-      geom_line(stat="bin", binwidth=1) +
+      geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
-      scale_color_brewer(palette="Dark2") + 
+      scale_color_manual(values=palette_status) +
+      # scale_color_brewer(palette="Dark2") + 
+      guides(colour = guide_legend(override.aes = list(size = 3))) +
       facet_grid(event_type ~ group_name, scales="free_y") +
       reportTheme +
       theme(legend.position="top") +
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
-      labs(x=NULL, y="Events per Day", color="Status")
+      labs(x=NULL, y="Events per Day", color="Status", title="Weekly Events")
   })
   output$table_file_info <- renderText({
     return( paste0(

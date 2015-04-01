@@ -10,7 +10,7 @@ dashboardPage(skin="purple",
     selectInput(
       inputId = "county",
       label = "County",
-      choices = list("Comanche", "Muskogee", "Oklahoma", "Tulsa", "Missing"),
+      choices = list("Missing", "Comanche", "Muskogee", "Oklahoma", "Tulsa", "All"),
       selected = "Missing"
     ),
     dateRangeInput(
