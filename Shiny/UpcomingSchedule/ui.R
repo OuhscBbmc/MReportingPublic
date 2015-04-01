@@ -3,9 +3,43 @@ library(shiny)
 library(shinydashboard)
 library(ggplot2)
 
+
+header <- dashboardHeader(title = "GPAV Schedule",
+  # Dropdown menu for messages
+  dropdownMenu(type = "messages", badgeStatus = "success",
+    messageItem("Support Team",
+      "This is the content of a message.",
+      time = "5 mins"
+    ),
+    messageItem("Support Team",
+      "This is the content of another message.",
+      time = "2 hours"
+    ),
+    messageItem("New User",
+      "Can I get some help?",
+      time = "Today"
+    )
+  ),
+  dropdownMenu(type = "tasks", badgeStatus = "success",
+    taskItem(value = 90, color = "green",
+      "Documentation"
+    ),
+    taskItem(value = 17, color = "aqua",
+      "Project X"
+    ),
+    taskItem(value = 75, color = "yellow",
+      "Server deployment"
+    ),
+    taskItem(value = 80, color = "red",
+      "Overall project"
+    )
+  )
+)
+
 # Define the overall UI
-dashboardPage(skin="purple",
-  dashboardHeader(title = "GPAV Schedule"),
+dashboardPage(
+  skin="purple",
+  header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
     checkboxInput(
