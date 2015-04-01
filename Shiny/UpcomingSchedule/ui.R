@@ -1,3 +1,9 @@
+#Starting with http://shiny.rstudio.com/gallery/basic-datatable.html
+library(shiny)
+library(shinydashboard)
+library(ggplot2)
+
+# Define the overall UI
 dashboardPage(skin="purple",
   dashboardHeader(title = "GPAV Schedule"),
   dashboardSidebar(
