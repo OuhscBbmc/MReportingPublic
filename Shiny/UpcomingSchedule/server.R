@@ -18,7 +18,7 @@ reportTheme <- theme_bw() +
   theme(axis.ticks = element_line(colour="gray80")) +
   theme(axis.ticks.length = grid::unit(0, "cm"))
 
-move_to_last <- function(data, move) {
+move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339370
   data[c(setdiff(names(data), move), move)]
 }
 
@@ -82,6 +82,7 @@ shinyServer( function(input, output) {
     if( SideInputs()$county != "All" )
       d <- d[d$group_name==SideInputs()$county, ]
     
+    # browser()
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
     
     #d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
@@ -203,7 +204,7 @@ shinyServer( function(input, output) {
       reportTheme +
       theme(legend.position="top") +
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
-      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events")
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
   })
   output$table_file_info <- renderText({
     return( paste0(

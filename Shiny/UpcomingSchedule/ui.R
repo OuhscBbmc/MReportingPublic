@@ -21,13 +21,13 @@ dashboardPage(skin="purple",
       inputId = 'upcoming_date_range', 
       separator = "-",
       label = 'Upcoming Dates: yyyy-mm-dd',
-      start = Sys.Date(), end = Sys.Date() + 45
+      start = Sys.Date(), end = Sys.Date()+45
     ),
     dateRangeInput(
       inputId = 'past_date_range', 
       separator = "-",
       label = 'Past Dates: yyyy-mm-dd',
-      start = Sys.Date()-60, end = Sys.Date()
+      start = Sys.Date()-60, end = Sys.Date()-1
     )
   ),
   dashboardBody(
@@ -43,7 +43,6 @@ dashboardPage(skin="purple",
     tabsetPanel( type = "tabs",
       tabPanel(
         title = "Upcoming", 
-        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font>"),
         # titlePanel("Item Progress"),    
         # Create a new Row in the UI for selectInputs
         fluidRow(
@@ -56,17 +55,21 @@ dashboardPage(skin="purple",
         # Create a new row for the table.
         fluidRow(
           dataTableOutput(outputId = "ScheduleTableUpcoming")
-        ) #End fluid row with the Group Call table
+        ), #End fluid row with the Group Call table
+        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
+        HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
       ), #End the (first) tab with the Group Call table
       
       tabPanel(
         title = "Past", 
-        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font>"),
         # titlePanel("Item Progress"),    
         # Create a new row for the table.
         fluidRow(
           dataTableOutput(outputId = "ScheduleTablePast")
-        ) #End fluid row with the Group Call table
+        ), #End fluid row with the Group Call table
+        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
+        HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
+        
       ), #End the (first) tab with the Group Call table
       
       tabPanel(
