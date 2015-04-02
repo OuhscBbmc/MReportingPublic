@@ -84,15 +84,7 @@ shinyServer( function(input, output) {
   
   #######################################
   # Prepare inputs -----------------------------------
-  SideInputs <- reactive({
-    return(list(
-      county = input$county,
-      dc = input$dc,
-      upcoming_date_range = input$upcoming_date_range,
-      past_date_range = input$past_date_range
-    ))
-  })
-  
+
   #######################################
   ### Prepare schedule data to be called for two different tables
   filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
@@ -100,10 +92,10 @@ shinyServer( function(input, output) {
     
     d <- dsUpcomingSchedule
     
-    if( nrow(d)>0 & SideInputs()$county != "All" )
-      d <- d[d$group_name==SideInputs()$county, ]
-    if( nrow(d)>0 &  SideInputs()$dc != "All" )
-      d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==SideInputs()$dc), ]
+    if( nrow(d)>0 & input$county != "All" )
+      d <- d[d$group_name==input$county, ]
+    if( nrow(d)>0 &  input$dc != "All" )
+      d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==input$dc), ]
     
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
     
@@ -112,23 +104,23 @@ shinyServer( function(input, output) {
 
   prettify_schedule <- function( d, pretty_only=TRUE ){
     d <- plyr::rename(d, replace=c(
-      "record_pretty" = "participant",
-      "event_date_pretty" = "event date",
-      "event_status_pretty" = "status",
-      "event_description_pretty" = "arm: event",
-      "dc_currently_responsible_pretty"= "dc",
-      "group_name" = "county"
+      "record_pretty" = "Participant",
+      "event_date_pretty" = "Event Date",
+      "event_status_pretty" = "Status",
+      "event_description_pretty" = "Arm: Event",
+      "dc_currently_responsible_pretty"= "DC",
+      "group_name" = "County"
     ))
     
     if( input$show_dc ) 
-      d <- move_to_last(d, c("dc"))
+      d <- move_to_last(d, c("DC"))
     else 
-      d$dc <- NULL
+      d$DC <- NULL
     
     if( input$show_county ) 
-      d <- move_to_last(d, c("county"))
+      d <- move_to_last(d, c("County"))
     else 
-      d$county <- NULL
+      d$County <- NULL
     
     if( pretty_only ) {
       d$record <- NULL
@@ -194,14 +186,14 @@ shinyServer( function(input, output) {
   )
   
   output$ScheduleTableUpcoming <- renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2]))
+    d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
     return( d )
   }, options = table_options_schedule,
     escape = FALSE
   )
   
   output$ScheduleTablePast <- renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2]))
+    d <- prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
     return( d )
   }, options = table_options_schedule,
     escape = FALSE
@@ -212,8 +204,8 @@ shinyServer( function(input, output) {
     d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     
-    if( SideInputs()$county != "All" )
-      d <- d[d$group_name==SideInputs()$county, ]
+    if( input$county != "All" )
+      d <- d[d$group_name==input$county, ]
     
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
@@ -251,20 +243,19 @@ shinyServer( function(input, output) {
   create_schedule_dropdown <- function( upcoming = TRUE ) {
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
     if( any(upcoming) ) {
-      d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
+      d <- filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2])
       label <- "upcoming"
       icon_name <- "calendar"
     } else {
-      d <- filter_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2])
+      d <- filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2])
       label <- "past"
       icon_name <- "calendar-o"
     }
     
     d_status <- d %>%
       dplyr::group_by(event_status) %>%
-      dplyr::summarize(
-        status_count = n()
-      )
+      dplyr::summarize(status_count = n())
+    
     d_status$icon <- icons_status[d_status$event_status]
     d_status$status_count_pretty <- format(d_status$status_count, big.mark=",")
     d_status$order <- order_status[d_status$event_status]
