@@ -1,10 +1,10 @@
+# LoadPackages  -----------------------------------
 library(shiny)
 library(ggplot2)
-library(grid)
+#library(grid)
 library(magrittr)
 
-#####################################
-#' DeclareGlobals
+# DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
 pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
@@ -28,8 +28,7 @@ icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "
 order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
 #order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
 
-#####################################
-#' LoadData
+# LoadData -----------------------------------
 if( file.exists(pathUpcomingScheduleServerOutside) ) {
   pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
 } else if( file.exists(pathUpcomingScheduleServerInside) ) {
@@ -40,8 +39,7 @@ if( file.exists(pathUpcomingScheduleServerOutside) ) {
 
 dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
 
-#####################################
-#' TweakData
+# TweakData -----------------------------------
 dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
 dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
 dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=status_levels)
@@ -64,29 +62,21 @@ dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$ar
 dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                               dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
 
-# d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
 # d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
-# d$arm_name <- gsub("^Year (\\d) Cohort$", "Y\\1", d$arm_name)
 
-#####################################
-#' Define a server for the Shiny app
+# Define a server for the Shiny app  -----------------------------------
 shinyServer( function(input, output) {
   
-  #######################################
-  ### Set any sesion-wide options
+  # Set any sesion-wide options  -----------------------------------
   # options(shiny.trace=TRUE)
   #palette_status <- c("Due Date"="#bb2288", "Confirmed"="", "Cancelled"="#dd0000", "No Show"="", "Scheduled"="")
   palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
   
-  #######################################
-  ### Call source files that contain semi-encapsulated functions.
+  # Call source files that contain semi-encapsulated functions -----------------------------------
   
-  
-  #######################################
   # Prepare inputs -----------------------------------
 
-  #######################################
-  ### Prepare schedule data to be called for two different tables
+  # Prepare schedule data to be called for two different tables -----------------------------------
   filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
     # Filter schedule based on selections
     
@@ -142,15 +132,12 @@ shinyServer( function(input, output) {
       d$arm_name <- NULL
       d$redcap_event_name <- NULL
     }
-    # colnames(d) <- gsub("(\\_)", " ", colnames(d), perl=TRUE);
-    
     return( d )
     
     #TODO: add column for day of week? (eg, `Thursday`)
   }
   
-  #######################################
-  ### Create the DataTables objects (a jQuery library): http://www.datatables.net/
+  # Create the DataTables objects  ----------------------------------- (a jQuery library): http://www.datatables.net/ 
   
   #This list is pulled out so it can be used by both function
   table_options_schedule <- list(
