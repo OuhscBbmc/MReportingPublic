@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(grid)
+library(dplyr)
 
 #####################################
 #' DeclareGlobals
@@ -239,30 +240,27 @@ shinyServer( function(input, output) {
 #       menuItem("Menu item", icon = icon("calendar"))
 #     )
 #   })
-  messageData <- data.frame(
-    from = c("Admininstrator", "New User", "Support"),
-    message = c(
-      "Sales are steady this month.",
-      "How do I register?",
-      "The new server is ready."
-    ),
-    stringsAsFactors = FALSE
-  )
-  
+
   output$messageMenuUpcoming <- renderUI({
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
     # Code to generate each of the messageItems here, in a list. messageData is a data frame with two columns, 'from' and 'message'.
     # Also add on slider value to the message content, so that messages update.
     d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
     
-    # browser()
-    msgs <- apply(messageData, 1, function(row) {
+    d_status <- d %>%
+      group_by(event_status) %>%
+      summarize(
+        status_count = n()
+      )
+    
+    msgs <- apply(d_status, 1, function(row) {
       messageItem(
-        from = row[["from"]],
-        message = paste(row[["message"]], input$county)
+        icon = icon("bookmark"),
+        from = row[["event_status"]],
+        message = paste(row[["status_count"]], input$county)
       )
     })
     
-    dropdownMenu(type = "messages", .list = msgs)
+    dropdownMenu(type = "messages", .list = msgs, icon=icon("calendar"))
   })
 })
