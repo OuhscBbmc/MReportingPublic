@@ -63,6 +63,8 @@ dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sortin
                                                               dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
 
 # d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
+#TODO: add column for day of week? (eg, `Thursday`)
+
 
 # Define a server for the Shiny app  -----------------------------------
 shinyServer( function(input, output) {
@@ -77,9 +79,7 @@ shinyServer( function(input, output) {
   # Prepare inputs -----------------------------------
 
   # Prepare schedule data to be called for two different tables -----------------------------------
-  filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {
-    # Filter schedule based on selections
-    
+  filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
     d <- dsUpcomingSchedule
     
     if( nrow(d)>0 & input$county != "All" )
@@ -88,7 +88,6 @@ shinyServer( function(input, output) {
       d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==input$dc), ]
     
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
-    
     return( d )
   }
 
@@ -133,8 +132,6 @@ shinyServer( function(input, output) {
       d$redcap_event_name <- NULL
     }
     return( d )
-    
-    #TODO: add column for day of week? (eg, `Thursday`)
   }
   
   # Create the DataTables objects  ----------------------------------- (a jQuery library): http://www.datatables.net/ 
@@ -198,8 +195,7 @@ shinyServer( function(input, output) {
       geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
       scale_color_manual(values=palette_status) +
-      # scale_color_brewer(palette="Dark2") + 
-      guides(colour = guide_legend(override.aes = list(size = 3))) +
+      guides(colour = guide_legend(override.aes=list(size=3))) +
       facet_grid(event_type ~ group_name, scales="free_y") +
       reportTheme +
       theme(legend.position="top") +
