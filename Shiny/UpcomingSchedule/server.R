@@ -22,7 +22,11 @@ reportTheme <- theme_bw() +
 move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339370
   data[c(setdiff(names(data), move), move)]
 }
+
+status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
 icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
+order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
+#order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
 
 #####################################
 #' LoadData
@@ -40,13 +44,7 @@ dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE)
 #' TweakData
 dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
 dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
-dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=c(
-  "0" = "Due Date", 
-  "1" = "Scheduled", 
-  "2" = "Confirmed", 
-  "3" = "Cancelled", 
-  "4" = "No Show"
-))
+dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=status_levels)
 
 dsUpcomingSchedule$group_name <- ifelse(is.na(dsUpcomingSchedule$group_name), "Missing", dsUpcomingSchedule$group_name)
 dsUpcomingSchedule$group_name <- gsub("^(.+?)( County)$", "\\1", dsUpcomingSchedule$group_name)
@@ -233,10 +231,17 @@ shinyServer( function(input, output) {
     ) )
   })
 
-
-  output$messageMenuUpcoming <- renderUI({
+  create_schedule_dropdown <- function( upcoming = TRUE ) {
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
-    d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
+    if( any(upcoming) ) {
+      d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
+      label <- "upcoming"
+      icon_name <- "calendar"
+    } else {
+      d <- filter_schedule(start_date=SideInputs()$past_date_range[1], stop_date=SideInputs()$past_date_range[2])
+      label <- "past"
+      icon_name <- "calendar-o"
+    }
     
     d_status <- d %>%
       group_by(event_status) %>%
@@ -246,11 +251,13 @@ shinyServer( function(input, output) {
     # d_status$icon <- "bicycle"
     d_status$icon <- icons_status[d_status$event_status]
     d_status$status_count_pretty <- format(d_status$status_count, big.mark=",")
+    d_status$order <- order_status[d_status$event_status]
+    d_status <- d_status[order(d_status$order), ]
     
     msgs <- apply(d_status, 1, function(row) {
       messageItem(
         icon = icon(row[["icon"]]),
-        from = paste(row[["event_status"]], "(upcoming)"),
+        from = paste0(row[["event_status"]], " (", label, ")"),
         message = paste(row[["status_count_pretty"]], "in", input$county, ifelse(input$county=="All", "Counties", "County"))
       )
       # taskItem(
@@ -259,6 +266,12 @@ shinyServer( function(input, output) {
       # )
     })
     #paste(format(d_status$status_count, big.mark=","), "in", input$county, ifelse(input$county=="All", "Counties", "County"))
-    dropdownMenu(type = "messages", .list = msgs, icon=icon("calendar"))
+    dropdownMenu(type = "messages", .list = msgs, icon=icon(icon_name))    
+  }
+  output$messageMenuUpcoming <- renderUI({
+    create_schedule_dropdown()
+  })
+  output$messageMenuPast <- renderUI({
+    create_schedule_dropdown(upcoming=FALSE)
   })
 })
