@@ -22,6 +22,7 @@ reportTheme <- theme_bw() +
 move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339370
   data[c(setdiff(names(data), move), move)]
 }
+icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
 
 #####################################
 #' LoadData
@@ -231,20 +232,10 @@ shinyServer( function(input, output) {
       "<table/>"
     ) )
   })
-  
-#   output$a2 <- renderDropdownMenu({
-#     dropdownMenu("Menu item", icon = icon("calendar"))
-#   })
-#   output$menu <- renderMenu({
-#     sidebarMenu(
-#       menuItem("Menu item", icon = icon("calendar"))
-#     )
-#   })
+
 
   output$messageMenuUpcoming <- renderUI({
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
-    # Code to generate each of the messageItems here, in a list. messageData is a data frame with two columns, 'from' and 'message'.
-    # Also add on slider value to the message content, so that messages update.
     d <- filter_schedule(start_date=SideInputs()$upcoming_date_range[1], stop_date=SideInputs()$upcoming_date_range[2])
     
     d_status <- d %>%
@@ -252,15 +243,22 @@ shinyServer( function(input, output) {
       summarize(
         status_count = n()
       )
+    # d_status$icon <- "bicycle"
+    d_status$icon <- icons_status[d_status$event_status]
+    d_status$status_count_pretty <- format(d_status$status_count, big.mark=",")
     
     msgs <- apply(d_status, 1, function(row) {
       messageItem(
-        icon = icon("bookmark"),
-        from = row[["event_status"]],
-        message = paste(row[["status_count"]], input$county)
+        icon = icon(row[["icon"]]),
+        from = paste(row[["event_status"]], "(upcoming)"),
+        message = paste(row[["status_count_pretty"]], "in", input$county, ifelse(input$county=="All", "Counties", "County"))
       )
+      # taskItem(
+      #   value = row[["status_count"]],
+      #   text = paste(row[["event_status"]], input$county)
+      # )
     })
-    
+    #paste(format(d_status$status_count, big.mark=","), "in", input$county, ifelse(input$county=="All", "Counties", "County"))
     dropdownMenu(type = "messages", .list = msgs, icon=icon("calendar"))
   })
 })
