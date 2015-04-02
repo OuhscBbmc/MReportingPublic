@@ -86,7 +86,6 @@ dashboardPage(
         ), #End fluid row with the Group Call table
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
-        
       ), #End the (first) tab with the Group Call table
       
       tabItem(
@@ -96,19 +95,9 @@ dashboardPage(
       
       tabItem(
         tabName = "general_links", 
-        "La'Chanda, Is there some explanatory text you'd like here?",
-        HTML('<br/>'),
-        HTML('<br/>'),
-        HTML('REDCap Outlooks<br/>'),
-        HTML('<ul>'),
-        HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a></li>'),
-        HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a></li>'),
-        HTML('<li><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a></li>'),
-        HTML('</ul>'),
-        HTML('Details<br/>'),
-        HTML('<ul>'),
-        htmlOutput(outputId='table_file_info'),
-        HTML('</ul>')
+        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
+        htmlOutput(outputId='redcap_outlooks'),
+        htmlOutput(outputId='table_file_info')
         # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
       )#, #End the (third) tab with the symptoms
                  

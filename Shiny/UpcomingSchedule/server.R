@@ -56,13 +56,13 @@ dsUpcomingSchedule$event_description <- gsub("^(Y\\d) Interview Reminder Call$",
 dsUpcomingSchedule$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", dsUpcomingSchedule$event_description) #Prepend "Y1" to the 1st year contacts
 
 dsUpcomingSchedule$record_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
-                           redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
-dsUpcomingSchedule$event_date_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
-                               redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
+                                            redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
+dsUpcomingSchedule$event_date_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
+                                                dsUpcomingSchedule$event_date, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
 dsUpcomingSchedule$event_status_pretty <- dsUpcomingSchedule$event_status
 dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
-dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
-                                             redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
+dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
+                                                              dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
 
 # d$event_description <- gsub("^Year (\\d) Month (\\d{1,2}) Contact$", "Y\\1M\\2", d$event_description)
 # d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
@@ -221,12 +221,23 @@ shinyServer( function(input, output) {
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
       labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
   })
+  output$redcap_outlooks <- renderText({
+    return( paste0(
+      "<h2>REDCap Outlooks</h2>",
+      "<table border='0' cellspacing='1' cellpadding='2' >",
+      '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a></td></tr>',
+      '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a></td></tr>',
+      '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a></td></tr>',
+      "<table/>"
+    ) )
+  })
   output$table_file_info <- renderText({
     return( paste0(
+      "<h2>Details</h2>",
       "<table border='0' cellspacing='1' cellpadding='2' >",
-        "<tr><td>Data Path:<td/><td>&nbsp;", pathUpcomingSchedule, "<td/><tr/>",
-        "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathUpcomingSchedule)$mtime, "<td/><tr/>",
-        "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
+      "<tr><td>Data Path:<td/><td>&nbsp;", pathUpcomingSchedule, "<td/><tr/>",
+      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathUpcomingSchedule)$mtime, "<td/><tr/>",
+      "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
       "<table/>"
     ) )
   })
