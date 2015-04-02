@@ -1,7 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(grid)
-library(dplyr)
+library(magrittr)
 
 #####################################
 #' DeclareGlobals
@@ -87,6 +87,7 @@ shinyServer( function(input, output) {
   SideInputs <- reactive({
     return(list(
       county = input$county,
+      dc = input$dc,
       upcoming_date_range = input$upcoming_date_range,
       past_date_range = input$past_date_range
     ))
@@ -99,8 +100,10 @@ shinyServer( function(input, output) {
     
     d <- dsUpcomingSchedule
     
-    if( SideInputs()$county != "All" )
+    if( nrow(d)>0 & SideInputs()$county != "All" )
       d <- d[d$group_name==SideInputs()$county, ]
+    if( nrow(d)>0 &  SideInputs()$dc != "All" )
+      d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==SideInputs()$dc), ]
     
     d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
     
@@ -116,6 +119,11 @@ shinyServer( function(input, output) {
       "dc_currently_responsible_pretty"= "dc",
       "group_name" = "county"
     ))
+    
+    if( input$show_dc ) 
+      d <- move_to_last(d, c("dc"))
+    else 
+      d$dc <- NULL
     
     if( input$show_county ) 
       d <- move_to_last(d, c("county"))
@@ -155,11 +163,9 @@ shinyServer( function(input, output) {
   #This list is pulled out so it can be used by both function
   table_options_schedule <- list(
     # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
-    # pageLength = length(unique(dsItemProgress$item)), #34,
-    language = list(emptyTable="--<em>Please select a therapist above to populate this table.</em>--"),
+    language = list(emptyTable="--<em>Please loosen the filter to populate this table.</em>--"),
     aoColumnDefs = list( #http://legacy.datatables.net/usage/columns
       # list(sClass="semihide", aTargets=-1),
-      # list(sClass="alignRight", aTargets=0),
       # list(sClass="session", aTargets=1:length(unique(dsItemProgress$item))),
       list(sClass="smallish", aTargets="_all")
     ),
@@ -223,7 +229,7 @@ shinyServer( function(input, output) {
   })
   output$redcap_outlooks <- renderText({
     return( paste0(
-      "<h2>REDCap Outlooks</h2>",
+      "<h3>REDCap Outlooks</h3>",
       "<table border='0' cellspacing='1' cellpadding='2' >",
       '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a></td></tr>',
       '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a></td></tr>',
@@ -233,7 +239,7 @@ shinyServer( function(input, output) {
   })
   output$table_file_info <- renderText({
     return( paste0(
-      "<h2>Details</h2>",
+      '<h3>Details</h3>',
       "<table border='0' cellspacing='1' cellpadding='2' >",
       "<tr><td>Data Path:<td/><td>&nbsp;", pathUpcomingSchedule, "<td/><tr/>",
       "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathUpcomingSchedule)$mtime, "<td/><tr/>",
@@ -255,29 +261,27 @@ shinyServer( function(input, output) {
     }
     
     d_status <- d %>%
-      group_by(event_status) %>%
-      summarize(
+      dplyr::group_by(event_status) %>%
+      dplyr::summarize(
         status_count = n()
       )
-    # d_status$icon <- "bicycle"
     d_status$icon <- icons_status[d_status$event_status]
     d_status$status_count_pretty <- format(d_status$status_count, big.mark=",")
     d_status$order <- order_status[d_status$event_status]
     d_status <- d_status[order(d_status$order), ]
     
-    msgs <- apply(d_status, 1, function(row) {
-      messageItem(
-        icon = icon(row[["icon"]]),
-        from = paste0(row[["event_status"]], " (", label, ")"),
-        message = paste(row[["status_count_pretty"]], "in", input$county, ifelse(input$county=="All", "Counties", "County"))
-      )
-      # taskItem(
-      #   value = row[["status_count"]],
-      #   text = paste(row[["event_status"]], input$county)
-      # )
-    })
-    #paste(format(d_status$status_count, big.mark=","), "in", input$county, ifelse(input$county=="All", "Counties", "County"))
-    dropdownMenu(type = "messages", .list = msgs, icon=icon(icon_name))    
+    if( nrow(d_status) == 0L ) {
+      msgs <- character(0)
+    } else {
+      msgs <- apply(d_status, 1, function(row) {
+        messageItem(
+          icon = icon(row[["icon"]]),
+          from = paste0(row[["event_status"]], " (", label, ")"),
+          message = paste(row[["status_count_pretty"]], "in", ifelse(input$county=="All", "All Counties", paste(input$county, "County")), ifelse(input$dc=="All", "", paste(" with", input$dc)))
+        )
+      })
+    }
+    dropdownMenu(type="messages", .list=msgs, icon=icon(icon_name))    
   }
   output$messageMenuUpcoming <- renderUI({
     create_schedule_dropdown()

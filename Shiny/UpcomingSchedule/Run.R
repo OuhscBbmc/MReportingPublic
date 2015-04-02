@@ -6,7 +6,7 @@ shiny::runApp('./Shiny/UpcomingSchedule', launch.browser=TRUE, port=6149)
 # To stop the Shiny server, click the red stop sign in the 'Console window.
 
 # Deploy the **master** branch shinyapps.io if the change is stable.  See https://github.com/rstudio/shinyapps/blob/master/guide/guide.md
-shinyapps::deployApp(account="wibeasley", appDir='./Shiny/TherapistProgress')
+shinyapps::deployApp(account="wibeasley", appDir='./Shiny/MReportingPublic')
 # devtools::install_github("rstudio/shinyapps")
 # shinyapps::showLogs(account="wibeasley")
 # shinyapps::taskLog(taskId=17795, account="wibeasley")

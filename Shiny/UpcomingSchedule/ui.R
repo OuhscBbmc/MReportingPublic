@@ -16,15 +16,27 @@ dashboardPage(
   header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
-    checkboxInput(
-      inputId = "show_county", 
-      label = "Display County",
-      value = FALSE),
     selectInput(
       inputId = "county",
       label = "County",
       choices = list("Missing", "Comanche", "Muskogee", "Oklahoma", "Tulsa", "All"),
       selected = "Missing"
+    ),
+    checkboxInput(
+      inputId = "show_county", 
+      label = "Display County",
+      value = FALSE
+    ),
+    selectInput(
+      inputId = "dc",
+      label = "DC",
+      choices = list("(please assign)", "Beverly", "Julie", "Felisa", "Crystal", "Denise", "Kalyn", "All"),
+      selected = "All"
+    ),
+    checkboxInput(
+      inputId = "show_dc", 
+      label = "Display DC",
+      value = TRUE
     ),
     dateRangeInput(
       inputId = 'upcoming_date_range', 
@@ -50,8 +62,8 @@ dashboardPage(
     shiny::tags$head(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML("
-        .panelHeader {color:#605CA8; font-size: 200%}
-        .table .smallish {font-size: 80%; padding:2px; }
+        .panelHeader {color:#605CA8; font-size:200%}
+        .table .smallish {font-size:80%; padding:2px; }
         .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
         .table .interviewRow {font-size:90%; font-weight:bold}
       ")) #Right align the columns of this class (in the DataTables). http://stackoverflow.com/questions/22884224/how-to-right-align-columns-of-datatable-in-r-shiny
@@ -60,30 +72,14 @@ dashboardPage(
     tabItems( #type = "tabs",
       tabItem(
         tabName = "upcoming", 
-        # titlePanel("Item Progress"),    
-        # Create a new Row in the UI for selectInputs
-        fluidRow(
-          # column(width = 3, 
-          #   selectInput(inputId="item_progress_client_number", label="Client within Therapist:", width="100%", 
-          #               choices=unique(as.character(dsItemProgress$client_sequence))
-          #   )
-          # )#,     
-        ), #End fluid row with the dropdown boxes
-        # Create a new row for the table.
-        fluidRow(
-          dataTableOutput(outputId = "ScheduleTableUpcoming")
-        ), #End fluid row with the Group Call table
+        dataTableOutput(outputId = "ScheduleTableUpcoming"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
       ), #End the (first) tab with the Group Call table
       
       tabItem(
         tabName = "past",
-        # titlePanel("Item Progress"),    
-        # Create a new row for the table.
-        fluidRow(
-          dataTableOutput(outputId = "ScheduleTablePast")
-        ), #End fluid row with the Group Call table
+        dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         HTML("<font color='green'>{<em>Warning - The event date column doesn't always sort correctly.</em>}</font>")
       ), #End the (first) tab with the Group Call table
