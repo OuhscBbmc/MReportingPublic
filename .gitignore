@@ -6,9 +6,7 @@ _site
 ############
 ## Protected Information
 ############
-DataPhiFreeCache/
-
-!DataPhiFreeCache/README.md
+DataPhiFreeCache/.*
 
 ############
 ## Potential PHI
@@ -50,9 +48,9 @@ us.stackdump
 ## Documentation and Presentation material (that is PHI-free)
 ############ 
 !PresentationMaterials/rollingRecruitmentCounts.xlsx
-!Documentation/Measures/DefinitionsByEvan-2014-12-04.xlsx
 
-!Documentation/Measures/Crosswalk of Old and New AOCS.xlsx
+!DataPhiFreeCache/README.md
+!DataPhiFreeCache/Raw/C1/C1DataDictionary.md
 
 ############
 ## Windows
