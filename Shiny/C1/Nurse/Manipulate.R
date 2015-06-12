@@ -8,21 +8,22 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
 ## @knitr load_packages
+library(magrittr)
 requireNamespace("plyr", quietly=TRUE)
 requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("scales", quietly=TRUE)
+requireNamespace("lubridate", quietly=TRUE)
 # requireNamespace("readr", quietly=TRUE)
 # library(ggplot2)
 
 ############################
 ## @knitr declare_globals
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
-pathOutput <- "./DataPhiFree/Derived/C1/C1NurseMonth.rds"
+pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 
-FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, startMonth, stopMonth ){
-  possibleMonths <- seq.Date(from=startMonth, to=stopMonth, by="month")
-  # browser()
-  groupLevels <- sort(unique(dsToFillIn[, groupVariable]))
+FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
+  possibleMonths <- seq.Date(from=dateRange[1], to=dateRange[2], by="month")
+  groupLevels <- sort(unique(as.data.frame(dsToFillIn)[, groupVariable]))
   lubridate::day(possibleMonths) <- 15L
   dsEmpty <- expand.grid(Month=possibleMonths, Group=groupLevels, stringsAsFactors=FALSE) 
   
@@ -33,7 +34,6 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
   }
   return( dsToFillIn )
 }
-
 ############################
 ## @knitr load_data
 ds <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
@@ -42,39 +42,56 @@ ds <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
 ## @knitr tweak_data
 
 ds <- dplyr::rename_(ds,
-                     "ProgramUniqueID"   = "Program.Unique.Identifier"
+                     "CountyID"          = "Program.Unique.Identifier"
                      , "EntitySiteID"    = "Entity.Site.Identifier"
                      , "CaseNumber"      = "Case.Number"
                      , "PhocisID"        = "PHOCIS.ID"
                      , "StaffSiteID"     = "Staff.Site.Identifier"
-                     , "CaseWorkerName"    = "Case.Worker"
+                     , "CaseWorkerName"  = "Case.Worker"
                      , "DismissalReason" = "Reason.For.Dismissal"
                      , "ProgramName"     = "Program.Name"
-                     , "VisitDate"        = "Date.Taken_208"
+                     , "VisitDate"       = "Date.Taken_208"
                      , "OriginalDate"    = "Originally.scheduled.for_9397"
                      , "MileageTotal"    = "Total.Miles_9404"
                      , "OSIIS.ID"        = "OSIIS.ID"
 )
 sapply(ds, class)
 sapply(ds, function(x) sum(is.na(x)))
-sapply(ds, function(x) sum(nchar(x)==0))
+sapply(ds, function(x) sum(nchar(iconv(x))==0))
+
 
 # Add a unique identifier
 # ds$CarID <- seq_len(nrow(ds))
 
 ds$VisitDate <- as.Date(ds$VisitDate, format="%Y/%m/%d")
 ds$OriginalDate <- as.Date(ds$OriginalDate, format="%Y/%m/%d")
-
+ds$VisitMonth <- ds$VisitDate
+lubridate::day(ds$VisitMonth) <- 15L
 
 ## Drop non-C1 visits.
 isC1 <- grep("^C1-.+$", ds$ProgramName)
 message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  Non-C1 visits will be dropped.")
 ds <- ds[isC1, ]
 
+message("There are ", sum(is.na(ds$VisitDate)), " visits missing dates (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  These records will be dropped.")
+ds <- ds[!is.na(ds$VisitDate), ]
+
 length(unique(ds$EntitySiteID))
+rangeDate <- range(ds$VisitDate)
 ############################
-## @knitr erase_artifacts
+## @knitr collapse_county_month
+ds_county_month <- ds %>%
+  dplyr::group_by(
+    CountyID,
+    VisitMonth
+  ) %>%
+  dplyr::summarise(
+    VisitCount = length(VisitMonth)
+  )
+
+ds_county_month <- FillInMonthsForGroups(ds_county_month, "CountyID", "VisitMonth", "VisitCount", rangeDate)
+# function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
 
 ############################
 ## @knitr save_to_disk
-saveRDS(ds, file=pathOutput, compress="xz")
+saveRDS(ds_county_month, file=pathOutput, compress="xz")
