@@ -63,14 +63,14 @@ dsCounty <- ds %>%
     ProgramName
   ) %>%
   dplyr::summarise(
-    Tag = NA_character_
+    CountyTag = NA_character_
   )
 
 ############################
 ## @knitr assign_tags
 dsCountyTagged <- dsCounty
-dsCountyTagged$Tag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
-head(dsCountyTagged$Tag)
+dsCountyTagged$CountyTag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
+head(dsCountyTagged$CountyTag)
 ############################
 ## @knitr save_to_disk
 # message("The C1 county-month summary contains ", length(unique(dsCounty_month$CountyID)), " different counties and ", length(unique(dsCounty_month$VisitMonth)), " different months.")

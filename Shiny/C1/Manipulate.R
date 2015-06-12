@@ -19,6 +19,7 @@ requireNamespace("lubridate", quietly=TRUE)
 ############################
 ## @knitr declare_globals
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
+pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 
 rangeDate <- c(as.Date("2015-01-01"), Sys.Date())
@@ -29,16 +30,16 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
   lubridate::day(possibleMonths) <- 15L
   dsEmpty <- expand.grid(Month=possibleMonths, Group=groupLevels, stringsAsFactors=FALSE) 
   
-  
   dsToFillIn <-  merge(x=dsToFillIn, y=dsEmpty, by.x=c(groupVariable, monthVariable), by.y=c("Group", "Month"), all.y=TRUE)
   for( dvName in dvNamesToFillWIthZeroes ) {
-    dsToFillIn[is.na(dsToFillIn[, dvName]), dvName] <- 0  
+    dsToFillIn[is.na(dsToFillIn[, dvName]), dvName] <- 0
   }
   return( dsToFillIn )
 }
 ############################
 ## @knitr load_data
 ds <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
+dsCountyLookup <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
 
 ############################
 ## @knitr tweak_data
@@ -67,8 +68,8 @@ sapply(ds, function(x) sum(nchar(iconv(x))==0))
 
 ds$VisitDate <- as.Date(ds$VisitDate, format="%Y/%m/%d")
 ds$OriginalDate <- as.Date(ds$OriginalDate, format="%Y/%m/%d")
-ds$VisitMonth <- ds$VisitDate
-lubridate::day(ds$VisitMonth) <- 15L
+ds$ActivityMonth <- ds$VisitDate
+lubridate::day(ds$ActivityMonth) <- 15L
 
 ## Drop non-C1 visits.
 isC1 <- grep("^C1-.+$", ds$ProgramName)
@@ -79,10 +80,12 @@ message("There are ", scales::comma(sum(is.na(ds$VisitDate))), " visits missing 
 ds <- ds[!is.na(ds$VisitDate), ]
 
 tooEarly <- (ds$VisitDate < rangeDate[1])
+# write.csv(ds[tooEarly, ], "./DataPhiFreeCache/Derived/C1/C1TooEarly.csv", row.names=F)
 message("There are ", scales::comma(sum(tooEarly)), " visits before ", rangeDate[1], " that will be dropped.")
 ds <- ds[!tooEarly, ]
 
 tooLate <- (rangeDate[2] < ds$VisitDate)
+# write.csv(ds[tooLate, ], "./DataPhiFreeCache/Derived/C1/C1TooLate.csv", row.names=F)
 message("There are ", scales::comma(sum(tooLate)), " visits after ", rangeDate[2], " that will be dropped.")
 ds <- ds[!tooLate, ]
 
@@ -91,19 +94,30 @@ length(unique(ds$EntitySiteID))
 rm(isC1, tooEarly, tooLate)
 ############################
 ## @knitr collapse_county_month
-ds_county_month <- ds %>%
+dsCountyMonth <- ds %>%
   dplyr::group_by(
     CountyID,
-    VisitMonth
+    ActivityMonth
   ) %>%
   dplyr::summarise(
-    VisitCount = length(VisitMonth)
+    VisitCount = length(ActivityMonth)
   )
 
-ds_county_month <- FillInMonthsForGroups(ds_county_month, "CountyID", "VisitMonth", "VisitCount", rangeDate)
+dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyID", "ActivityMonth", "VisitCount", rangeDate)
 # function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
-# table(ds$VisitMonth)
+# table(ds$ActivityMonth)
+############################
+## @knitr join_tag
+dsCountyMonth <- dsCountyMonth %>%
+  dplyr::left_join(dsCountyLookup) %>%
+  dplyr::select_(
+    "CountyTag", 
+    "ActivityMonth", 
+    "VisitCount"
+  )
+
+
 ############################
 ## @knitr save_to_disk
-message("The C1 county-month summary contains ", length(unique(ds_county_month$CountyID)), " different counties and ", length(unique(ds_county_month$VisitMonth)), " different months.")
-saveRDS(ds_county_month, file=pathOutput, compress="xz")
+message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyID)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
+saveRDS(dsCountyMonth, file=pathOutput, compress="xz")
