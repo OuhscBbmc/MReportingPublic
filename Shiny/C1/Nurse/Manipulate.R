@@ -21,6 +21,8 @@ requireNamespace("lubridate", quietly=TRUE)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 
+rangeDate <- c(as.Date("2015-01-01"), Sys.Date())
+
 FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
   possibleMonths <- seq.Date(from=dateRange[1], to=dateRange[2], by="month")
   groupLevels <- sort(unique(as.data.frame(dsToFillIn)[, groupVariable]))
@@ -73,11 +75,20 @@ isC1 <- grep("^C1-.+$", ds$ProgramName)
 message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  Non-C1 visits will be dropped.")
 ds <- ds[isC1, ]
 
-message("There are ", sum(is.na(ds$VisitDate)), " visits missing dates (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  These records will be dropped.")
+message("There are ", scales::comma(sum(is.na(ds$VisitDate))), " visits missing dates (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  These records will be dropped.")
 ds <- ds[!is.na(ds$VisitDate), ]
 
+tooEarly <- (ds$VisitDate < rangeDate[1])
+message("There are ", scales::comma(sum(tooEarly)), " visits before ", rangeDate[1], " that will be dropped.")
+ds <- ds[!tooEarly, ]
+
+tooLate <- (rangeDate[2] < ds$VisitDate)
+message("There are ", scales::comma(sum(tooLate)), " visits after ", rangeDate[2], " that will be dropped.")
+ds <- ds[!tooLate, ]
+
 length(unique(ds$EntitySiteID))
-rangeDate <- range(ds$VisitDate)
+# rangeDate <- range(ds$VisitDate)
+rm(isC1, tooEarly, tooLate)
 ############################
 ## @knitr collapse_county_month
 ds_county_month <- ds %>%
@@ -91,7 +102,8 @@ ds_county_month <- ds %>%
 
 ds_county_month <- FillInMonthsForGroups(ds_county_month, "CountyID", "VisitMonth", "VisitCount", rangeDate)
 # function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
-
+# table(ds$VisitMonth)
 ############################
 ## @knitr save_to_disk
+message("The C1 county-month summary contains ", length(unique(ds_county_month$CountyID)), " different counties and ", length(unique(ds_county_month$VisitMonth)), " different months.")
 saveRDS(ds_county_month, file=pathOutput, compress="xz")
