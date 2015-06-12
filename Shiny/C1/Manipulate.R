@@ -38,63 +38,63 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
 }
 ############################
 ## @knitr load_data
-ds <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
+dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
 dsCountyLookup <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
 
 ############################
 ## @knitr tweak_data
 
-ds <- dplyr::rename_(ds,
-                     "CountyID"          = "Program.Unique.Identifier"
-                     , "EntitySiteID"    = "Entity.Site.Identifier"
-                     , "CaseNumber"      = "Case.Number"
-                     , "PhocisID"        = "PHOCIS.ID"
-                     , "StaffSiteID"     = "Staff.Site.Identifier"
-                     , "CaseWorkerName"  = "Case.Worker"
-                     , "DismissalReason" = "Reason.For.Dismissal"
-                     , "ProgramName"     = "Program.Name"
-                     , "VisitDate"       = "Date.Taken_208"
-                     , "OriginalDate"    = "Originally.scheduled.for_9397"
-                     , "MileageTotal"    = "Total.Miles_9404"
-                     , "OSIIS.ID"        = "OSIIS.ID"
+dsVisit <- dplyr::rename_(dsVisit,
+  "CountyID"          = "Program.Unique.Identifier"
+  , "EntitySiteID"    = "Entity.Site.Identifier"
+  , "CaseNumber"      = "Case.Number"
+  , "PhocisID"        = "PHOCIS.ID"
+  , "StaffSiteID"     = "Staff.Site.Identifier"
+  , "CaseWorkerName"  = "Case.Worker"
+  , "DismissalReason" = "Reason.For.Dismissal"
+  , "ProgramName"     = "Program.Name"
+  , "VisitDate"       = "Date.Taken_208"
+  , "OriginalDate"    = "Originally.scheduled.for_9397"
+  , "MileageTotal"    = "Total.Miles_9404"
+  , "OSIIS.ID"        = "OSIIS.ID"
 )
-sapply(ds, class)
-sapply(ds, function(x) sum(is.na(x)))
-sapply(ds, function(x) sum(nchar(iconv(x))==0))
+sapply(dsVisit, class)
+sapply(dsVisit, function(x) sum(is.na(x)))
+sapply(dsVisit, function(x) sum(nchar(iconv(x))==0))
 
 
 # Add a unique identifier
-# ds$CarID <- seq_len(nrow(ds))
+# dsVisit$CarID <- seq_len(nrow(dsVisit))
 
-ds$VisitDate <- as.Date(ds$VisitDate, format="%Y/%m/%d")
-ds$OriginalDate <- as.Date(ds$OriginalDate, format="%Y/%m/%d")
-ds$ActivityMonth <- ds$VisitDate
-lubridate::day(ds$ActivityMonth) <- 15L
+dsVisit$VisitDate <- as.Date(dsVisit$VisitDate, format="%Y/%m/%d")
+dsVisit$OriginalDate <- as.Date(dsVisit$OriginalDate, format="%Y/%m/%d")
+dsVisit$ActivityMonth <- dsVisit$VisitDate
+lubridate::day(dsVisit$ActivityMonth) <- 15L
 
 ## Drop non-C1 visits.
-isC1 <- grep("^C1-.+$", ds$ProgramName)
-message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  Non-C1 visits will be dropped.")
-ds <- ds[isC1, ]
+isC1 <- grep("^C1-.+$", dsVisit$ProgramName)
+message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(dsVisit)), " MIECHV Visits).  Non-C1 visits will be dropped.")
+dsVisit <- dsVisit[isC1, ]
 
-message("There are ", scales::comma(sum(is.na(ds$VisitDate))), " visits missing dates (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  These records will be dropped.")
-ds <- ds[!is.na(ds$VisitDate), ]
+message("There are ", scales::comma(sum(is.na(dsVisit$VisitDate))), " visits missing dates (out of ", scales::comma(nrow(dsVisit)), " MIECHV Visits).  These records will be dropped.")
+dsVisit <- dsVisit[!is.na(dsVisit$VisitDate), ]
 
-tooEarly <- (ds$VisitDate < rangeDate[1])
-# write.csv(ds[tooEarly, ], "./DataPhiFreeCache/Derived/C1/C1TooEarly.csv", row.names=F)
+tooEarly <- (dsVisit$VisitDate < rangeDate[1])
+# write.csv(dsVisit[tooEarly, ], "./DataPhiFreeCache/Derived/C1/C1TooEarly.csv", row.names=F)
 message("There are ", scales::comma(sum(tooEarly)), " visits before ", rangeDate[1], " that will be dropped.")
-ds <- ds[!tooEarly, ]
+dsVisit <- dsVisit[!tooEarly, ]
 
-tooLate <- (rangeDate[2] < ds$VisitDate)
-# write.csv(ds[tooLate, ], "./DataPhiFreeCache/Derived/C1/C1TooLate.csv", row.names=F)
+tooLate <- (rangeDate[2] < dsVisit$VisitDate)
+# write.csv(dsVisit[tooLate, ], "./DataPhiFreeCache/Derived/C1/C1TooLate.csv", row.names=F)
 message("There are ", scales::comma(sum(tooLate)), " visits after ", rangeDate[2], " that will be dropped.")
-ds <- ds[!tooLate, ]
+dsVisit <- dsVisit[!tooLate, ]
 
-length(unique(ds$EntitySiteID))
-# rangeDate <- range(ds$VisitDate)
+length(unique(dsVisit$EntitySiteID))
+# rangeDate <- range(dsVisit$VisitDate)
 rm(isC1, tooEarly, tooLate)
 ############################
 ## @knitr collapse_county_month
-dsCountyMonth <- ds %>%
+dsCountyMonth <- dsVisit %>%
   dplyr::group_by(
     CountyID,
     ActivityMonth
@@ -105,7 +105,7 @@ dsCountyMonth <- ds %>%
 
 dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyID", "ActivityMonth", "VisitCount", rangeDate)
 # function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
-# table(ds$ActivityMonth)
+# table(dsVisit$ActivityMonth)
 ############################
 ## @knitr join_tag
 dsCountyMonth <- dsCountyMonth %>%
@@ -115,7 +115,6 @@ dsCountyMonth <- dsCountyMonth %>%
     "ActivityMonth", 
     "VisitCount"
   )
-
 
 ############################
 ## @knitr save_to_disk
