@@ -17,7 +17,7 @@ header <- dashboardHeader(
 )
 
 dashboardPage(
-  skin = "red",
+  skin = "green",
   header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),

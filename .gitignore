@@ -40,9 +40,7 @@ us.stackdump
 !UtilityScripts/PackageDependencyList.csv
 
 !DataPhiFree/CountyCharacteristics.csv
-!DataPhiFree/redacted-aocs_client_removed.csv
-!DataPhiFree/ModelVariableAnnotation.csv
-!DataPhiFree/RedactedRiskSalzburgHallwang.csv
+!DataPhiFree/Derived/C1/C1CountyMonth.rds
 
 ############
 ## Documentation and Presentation material (that is PHI-free)
