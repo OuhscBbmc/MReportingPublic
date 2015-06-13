@@ -71,6 +71,7 @@ dsCounty <- ds %>%
 dsCountyTagged <- dsCounty
 dsCountyTagged$CountyTag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
 head(dsCountyTagged$CountyTag)
+
 ############################
 ## @knitr save_to_disk
 # message("The C1 county-month summary contains ", length(unique(dsCounty_month$CountyID)), " different counties and ", length(unique(dsCounty_month$VisitMonth)), " different months.")

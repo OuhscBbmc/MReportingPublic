@@ -47,4 +47,20 @@ function(input, output) {
     data <- histdata[seq_len(input$slider)]
     hist(data)
   })
+  output$ScheduleTablePast <- renderDataTable({
+    d <- dsC1CountyMonth# prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
+    return( d )
+  }, #options = table_options_schedule,
+    escape = FALSE
+  ) 
+  output$table_file_info <- renderText({
+    return( paste0(
+      '<h3>Details</h3>',
+      "<table border='0' cellspacing='1' cellpadding='2' >",
+      "<tr><td>Data Path:<td/><td>&nbsp;", pathC1CountyMonth, "<td/><tr/>",
+      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathC1CountyMonth)$mtime, "<td/><tr/>",
+      "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
+      "<table/>"
+    ) )
+  })
 }
