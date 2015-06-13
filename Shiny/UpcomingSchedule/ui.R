@@ -1,4 +1,3 @@
-#Starting with http://shiny.rstudio.com/gallery/basic-datatable.html
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
@@ -64,12 +63,12 @@ dashboardPage(
     tabItems( #type = "tabs",
       tabItem(
         tabName = "upcoming", 
-        dataTableOutput(outputId = "ScheduleTableUpcoming"),
+        DT::dataTableOutput(outputId = "ScheduleTableUpcoming"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (first) tab with the 'upcoming' table
       tabItem(
         tabName = "past",
-        dataTableOutput(outputId = "ScheduleTablePast"),
+        DT::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (second) tab with the 'past' table
       tabItem(
