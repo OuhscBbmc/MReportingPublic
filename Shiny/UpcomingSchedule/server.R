@@ -169,14 +169,14 @@ shinyServer( function(input, output) {
     )
   )
   
-  output$ScheduleTableUpcoming <- renderDataTable({
+  output$ScheduleTableUpcoming <- shiny::renderDataTable({
     d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
     return( d )
   }, options = table_options_schedule,
     escape = FALSE
   )
   
-  output$ScheduleTablePast <- renderDataTable({
+  output$ScheduleTablePast <- shiny::renderDataTable({
     d <- prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
     return( d )
   }, options = table_options_schedule,

@@ -63,12 +63,12 @@ dashboardPage(
     tabItems( #type = "tabs",
       tabItem(
         tabName = "upcoming", 
-        DT::dataTableOutput(outputId = "ScheduleTableUpcoming"),
+        shiny::dataTableOutput(outputId = "ScheduleTableUpcoming"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (first) tab with the 'upcoming' table
       tabItem(
         tabName = "past",
-        DT::dataTableOutput(outputId = "ScheduleTablePast"),
+        shiny::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (second) tab with the 'past' table
       tabItem(
