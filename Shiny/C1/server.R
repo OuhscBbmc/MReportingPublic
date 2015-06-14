@@ -94,16 +94,13 @@ function(input, output) {
     sort      = FALSE),
     escape    = TRUE #Change to 'FALSE' if you embed something like HTML links
   )   
-  output$GraphActivity <- renderPlot({
+  output$GraphVisitCount <- renderPlot({
     d <- FilterCountyMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-    
-    # d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
-    # d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
-    # 
-    # if( input$county != "All" )
-    #   d <- d[d$group_name==input$county, ]
-    
     ActivityEachMonth(d, responseVariable="VisitCount", mainTitle="Visit Each Month (per county)")
+  })
+  output$GraphVisitPerNeed <- renderPlot({
+    d <- FilterCountyMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", mainTitle="Visit Each Month per WIC Need (per county)")
   })
   output$table_file_info <- renderText({
     return( paste0(

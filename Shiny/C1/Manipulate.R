@@ -20,6 +20,7 @@ requireNamespace("lubridate", quietly=TRUE)
 ## @knitr declare_globals
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
+pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
 pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 
 defaultDayOfMonth <- 2L
@@ -42,6 +43,7 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
 ## @knitr load_data
 dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
 dsCountyLookup <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
+dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
 
 ############################
 ## @knitr tweak_data
@@ -114,12 +116,33 @@ dsCountyMonth <- dsCountyMonth %>%
   dplyr::left_join(dsCountyLookup) %>%
   dplyr::select_(
     "CountyTag", 
+    "CountyName", 
     "ActivityMonth", 
     "VisitCount"
   )
 
 #To hard-code into the Shiny dashboard
 # dput(dsCountyLookup$CountyTag)
+
+############################
+## @knitr join_characteristics
+dsCountyMonth <- dsCountyMonth %>%
+  dplyr::left_join(dsCountyCharacteristics, by="CountyName") %>%
+  dplyr::select_(
+    "CountyTag", 
+    # "CountyName",
+    "ActivityMonth", 
+    "VisitCount",
+    "WicNeedPopInfant"
+  )
+
+if( any(is.na(dsCountyMonth$WicNeedPopInfant)) )
+  stop("At least one county was not correctly joined to its WIC Need.")
+
+############################
+## @knitr population_derived
+dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
+
 ############################
 ## @knitr save_to_disk
 message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
