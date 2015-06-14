@@ -22,12 +22,14 @@ pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 
+defaultDayOfMonth <- 2L
+
 rangeDate <- c(as.Date("2015-01-01"), Sys.Date())
 
 FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
   possibleMonths <- seq.Date(from=dateRange[1], to=dateRange[2], by="month")
   groupLevels <- sort(unique(as.data.frame(dsToFillIn)[, groupVariable]))
-  lubridate::day(possibleMonths) <- 15L
+  lubridate::day(possibleMonths) <- defaultDayOfMonth
   dsEmpty <- expand.grid(Month=possibleMonths, Group=groupLevels, stringsAsFactors=FALSE) 
   
   dsToFillIn <-  merge(x=dsToFillIn, y=dsEmpty, by.x=c(groupVariable, monthVariable), by.y=c("Group", "Month"), all.y=TRUE)
@@ -69,7 +71,7 @@ sapply(dsVisit, function(x) sum(nchar(iconv(x))==0))
 dsVisit$VisitDate <- as.Date(dsVisit$VisitDate, format="%Y/%m/%d")
 dsVisit$OriginalDate <- as.Date(dsVisit$OriginalDate, format="%Y/%m/%d")
 dsVisit$ActivityMonth <- dsVisit$VisitDate
-lubridate::day(dsVisit$ActivityMonth) <- 15L
+lubridate::day(dsVisit$ActivityMonth) <- defaultDayOfMonth
 
 ## Drop non-C1 visits.
 isC1 <- grep("^C1-.+$", dsVisit$ProgramName)
@@ -118,5 +120,5 @@ dsCountyMonth <- dsCountyMonth %>%
 
 ############################
 ## @knitr save_to_disk
-message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyID)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
+message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
 saveRDS(dsCountyMonth, file=pathOutput, compress="xz")

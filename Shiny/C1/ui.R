@@ -32,24 +32,20 @@ dashboardPage(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML(tags_style))
     ),#End tags$head 
-    
-        # htmlOutput(outputId='table_file_info'),
     tabItems( #type = "tabs",
       tabItem(
         tabName = "past",
         shiny::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (second) tab with the 'past' table
-#       # tabItem(
-#       #   tabName = "graph", 
-#       #   shiny::plotOutput(outputId = "GraphEventType", width='95%', height='800px')
-#       # ), #End the (third) tab with the graph
+      tabItem(
+        tabName = "graph", 
+        shiny::plotOutput(outputId = "GraphActivity", width='95%', height='800px')
+      ), #End the (third) tab with the graph
       tabItem(
         tabName = "general_links", 
-#         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
-#         htmlOutput(outputId='redcap_outlooks'),
+        HTML("<font color='green'>{<em>David, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         htmlOutput(outputId='table_file_info')
-        # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
       )#, #End the (fourth) tab with the links & details
     ) #End the tabsetPanel
   ) #End the dashboardBody
