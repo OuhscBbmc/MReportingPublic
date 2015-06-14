@@ -118,6 +118,8 @@ dsCountyMonth <- dsCountyMonth %>%
     "VisitCount"
   )
 
+#To hard-code into the Shiny dashboard
+# dput(dsCountyLookup$CountyTag)
 ############################
 ## @knitr save_to_disk
 message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")

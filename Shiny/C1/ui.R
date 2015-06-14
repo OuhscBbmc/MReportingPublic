@@ -20,9 +20,30 @@ dashboardPage(
   skin = "green",
   header = header,
   dashboardSidebar(
+    HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
+    selectInput(
+      inputId = "countyTag",
+      label = "County",
+      choices = list("All", 
+        "ibq", "qtl", "mxt", "ddw", "duz", "ftj", "wvh", "ltr", "mjf", 
+        "ssp", "bqf", "guc", "pim", "bwa", "wfa", "eag", "tnn", "xub", 
+        "jjc", "zqy", "qid", "ela", "ito", "mpy", "nck", "kmz", "edc", 
+        "lwt", "wnp", "fpz", "zpw", "sjv", "ywu", "dwt", "egc", "jsz", 
+        "dee", "ibo", "psc", "ibb", "ukx", "hbu", "jpb", "yxc", "ilc", 
+        "vqo", "agy", "okg", "rmw", "mtb", "lmu", "fjy", "pxs", "uxq", 
+        "lbf", "tee", "tax", "dec", "amp", "wlp", "kmi", "wwo", "kdj", 
+        "jrg", "fwu"),
+      selected = "All"
+    ),    
+    dateRangeInput(
+      inputId = 'dateRange', 
+      separator = "-",
+      label = 'Dates: yyyy-mm-dd',
+      start = as.Date("2015-01-01"), end = lubridate::floor_date(Sys.Date(), "month")
+    ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
-      menuItem("Past", tabName="past"),
+      menuItem("Table", tabName="table"),
       menuItem("Graph", tabName="graph"),
       menuItem("General Links", tabName="general_links")
     )
@@ -34,10 +55,10 @@ dashboardPage(
     ),#End tags$head 
     tabItems( #type = "tabs",
       tabItem(
-        tabName = "past",
+        tabName = "table",
         shiny::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>Is there some explanatory text you'd like here?</em>}</font><br/>")
-      ), #End the (second) tab with the 'past' table
+      ), #End the (second) tab with the 'table' table
       tabItem(
         tabName = "graph", 
         shiny::plotOutput(outputId = "GraphActivity", width='95%', height='800px')
