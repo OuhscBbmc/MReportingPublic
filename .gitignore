@@ -41,6 +41,7 @@ us.stackdump
 
 !DataPhiFree/Raw/CountyCharacteristics.csv
 !DataPhiFree/Derived/C1/C1CountyMonth.rds
+!DataPhiFree/Derived/C1/C1RegionMonth.rds
 
 ############
 ## Documentation and Presentation material (that is PHI-free)
