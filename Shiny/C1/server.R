@@ -8,7 +8,8 @@ requireNamespace("grid")
 # DeclareGlobals  -----------------------------------
 # pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 # pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
-pathC1CountyMonthRepo <- "../.././DataPhiFree/Derived/C1/C1CountyMonth.rds"
+# pathC1CountyMonthRepo <- "../.././DataPhiFree/Derived/C1/C1CountyMonth.rds"
+pathC1RegionMonthRepo <- "../.././DataPhiFree/Derived/C1/C1RegionMonth.rds"
 
 reportTheme <- theme_bw() +
   theme(axis.text         = element_text(colour="gray40")) +
@@ -27,7 +28,7 @@ reportTheme <- theme_bw() +
 
 
 ActivityEachMonth <- function( dsPlot, responseVariable, 
-  monthVariable="ActivityMonth", groupVariable="CountyTag", colorVariable=groupVariable, 
+  monthVariable="ActivityMonth", groupVariable="RegionTag", colorVariable=groupVariable, 
   #highlightedRegions=character(0),
   highlightedRegions="ftj",
   mainTitle=NULL, xTitle=NULL, yTitle=NULL, baseSize=8, palette=NULL ) {
@@ -44,7 +45,7 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
   g <- g + scale_x_date(breaks="1 month", labels=date_format("%Y\n%b"))
 
   if( (highlightedRegions != "All") & (length(highlightedRegions)==1) ) {
-    dsHighlight <- dsPlot[dsPlot$CountyTag %in% highlightedRegions, ]
+    dsHighlight <- dsPlot[dsPlot$RegionTag %in% highlightedRegions, ]
     dsLabelLeft <- dsHighlight[dsHighlight[, monthVariable]==min(dsHighlight[, monthVariable], na.rm=T), ]
     dsLabelRight <- dsHighlight[dsHighlight[, monthVariable]==max(dsHighlight[, monthVariable], na.rm=T), ]
     
@@ -69,10 +70,10 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
 # } else if( file.exists(pathUpcomingScheduleServerInside) ) {
 #   pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
 # } else {
-pathC1CountyMonth <- pathC1CountyMonthRepo
+pathC1RegionMonth <- pathC1RegionMonthRepo
 # }
 
-dsC1CountyMonth <- readRDS(pathC1CountyMonth) 
+dsC1CountyMonth <- readRDS(pathC1RegionMonth) 
 
 # TweakData -----------------------------------
 
@@ -82,8 +83,8 @@ function(input, output) {
   FilterCountyMonth <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
     d <- dsC1CountyMonth
     
-    if( nrow(d)>0 & input$countyTag != "All" )
-      d <- d[d$CountyTag==input$countyTag, ]
+    if( nrow(d)>0 & input$regionTag != "All" )
+      d <- d[d$RegionTag==input$regionTag, ]
    
     d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
     return( d )
@@ -113,13 +114,13 @@ function(input, output) {
   )   
   output$GraphVisitCount <- renderPlot({
     d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-    highlightedRegions <- input$countyTag
+    highlightedRegions <- input$regionTag
     ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per county)") + 
       scale_y_continuous(labels=comma_format())  
   })
   output$GraphVisitPerNeed <- renderPlot({
     d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-    highlightedRegions <- input$countyTag
+    highlightedRegions <- input$regionTag
     ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month per WIC Need (per county)") + 
       scale_y_continuous(labels=percent_format())  
   })
@@ -127,8 +128,8 @@ function(input, output) {
     return( paste0(
       '<h3>Details</h3>',
       "<table border='0' cellspacing='1' cellpadding='2' >",
-      "<tr><td>Data Path:<td/><td>&nbsp;", pathC1CountyMonth, "<td/><tr/>",
-      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathC1CountyMonth)$mtime, "<td/><tr/>",
+      "<tr><td>Data Path:<td/><td>&nbsp;", pathC1RegionMonth, "<td/><tr/>",
+      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathC1RegionMonth)$mtime, "<td/><tr/>",
       "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
       "<table/>"
     ) )

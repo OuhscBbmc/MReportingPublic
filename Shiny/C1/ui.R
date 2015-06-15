@@ -22,17 +22,11 @@ dashboardPage(
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
     selectInput(
-      inputId = "countyTag",
-      label = "County",
+      inputId = "regionTag",
+      label = "Region",
       choices = list("All", 
-        "ibq", "qtl", "mxt", "ddw", "duz", "ftj", "wvh", "ltr", "mjf", 
-        "ssp", "bqf", "guc", "pim", "bwa", "wfa", "eag", "tnn", "xub", 
-        "jjc", "zqy", "qid", "ela", "ito", "mpy", "nck", "kmz", "edc", 
-        "lwt", "wnp", "fpz", "zpw", "sjv", "ywu", "dwt", "egc", "jsz", 
-        "dee", "ibo", "psc", "ibb", "ukx", "hbu", "jpb", "yxc", "ilc", 
-        "vqo", "agy", "okg", "rmw", "mtb", "lmu", "fjy", "pxs", "uxq", 
-        "lbf", "tee", "tax", "dec", "amp", "wlp", "kmi", "wwo", "kdj", 
-        "jrg", "fwu"),
+                     "fm", "pd", "wn", "ua", "jr", "it", "wr", "uq", "ii", "zj", 
+                     "qs", "qc", "yn", "ao", "tq", "aq", "sx", "zi", "kc", "rv"),
       selected = "All"
     ),    
     dateRangeInput(

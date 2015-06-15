@@ -21,7 +21,10 @@ requireNamespace("lubridate", quietly=TRUE)
 set.seed(184)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathOutputLookup <- "./DataPhiFree/Derived/C1/CountyLookup.csv"
-pathOutputCachedTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
+pathOutputCachedCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
+pathOutputCachedRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
+
+regions <- 1L:20L
 
 #urn=c(0:9, letters)
 DrawTag <- function( tagLength=3L, urn=letters ) {
@@ -53,6 +56,9 @@ ds$CountyName <- gsub("( CHD| CCHD)?", "", ds$CountyName)
 ds$CountyName <- gsub("^C1-([A-Za-z ]+)", "\\1", ds$CountyName)
 # table(ds$CountyName)
 
+ds$CountyName <- ifelse(ds$CountyName=="Mcclain", "McClain", ds$CountyName)
+ds$CountyName <- ifelse(ds$CountyName=="Leflore", "Le Flore", ds$CountyName)
+# table(ds$CountyName)
 rm(isC1)
 ############################
 ## @knitr collapse_county_month
@@ -67,13 +73,23 @@ dsCounty <- ds %>%
   )
 
 ############################
-## @knitr assign_tags
+## @knitr assign_tag_county
 dsCountyTagged <- dsCounty
 dsCountyTagged$CountyTag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
 head(dsCountyTagged$CountyTag)
 
 ############################
+## @knitr assign_tag_region
+dsRegionTagged <- data.frame(
+  RegionID = regions,
+  RegionTag = sapply(rep(2L, length(regions)), DrawTag),
+  stringsAsFactors = F
+)
+
+# dput(dsRegionTagged$RegionTag) #To hard-code into Shiny dropdown box.
+############################
 ## @knitr save_to_disk
 # message("The C1 county-month summary contains ", length(unique(dsCounty_month$CountyID)), " different counties and ", length(unique(dsCounty_month$VisitMonth)), " different months.")
 write.csv(dsCounty, file=pathOutputLookup, row.names=F)
-write.csv(dsCountyTagged, file=pathOutputCachedTagged, row.names=F)
+write.csv(dsCountyTagged, file=pathOutputCachedCountyTagged, row.names=F)
+write.csv(dsRegionTagged, file=pathOutputCachedRegionTagged, row.names=F)

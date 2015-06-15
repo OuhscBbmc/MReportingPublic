@@ -20,8 +20,10 @@ requireNamespace("lubridate", quietly=TRUE)
 ## @knitr declare_globals
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
+pathInputRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
 pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
-pathOutput <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
+pathOutputCounty <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
+pathOutputRegion <- "./DataPhiFree/Derived/C1/C1RegionMonth.rds"
 
 defaultDayOfMonth <- 2L
 
@@ -42,7 +44,8 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
 ############################
 ## @knitr load_data
 dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
-dsCountyLookup <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
+dsCountyTag <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
+dsRegionTag <- read.csv(pathInputRegionTagged, stringsAsFactors=FALSE)
 dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
 
 ############################
@@ -96,54 +99,70 @@ dsVisit <- dsVisit[!tooLate, ]
 length(unique(dsVisit$EntitySiteID))
 # rangeDate <- range(dsVisit$VisitDate)
 rm(isC1, tooEarly, tooLate)
+
+############################
+## @knitr join_tag
+dsCountyTag$ProgramName <- NULL
+dsCountyCharacteristics <- dsCountyCharacteristics %>%
+  dplyr::select(
+    CountyName,
+    RegionID = C1LeadNurseRegion,
+    WicNeedPopInfant
+  )
+
+dsVisit <- dsVisit %>%
+  dplyr::left_join(dsCountyTag, by="CountyID") 
+dsVisit <- dsVisit %>%
+  dplyr::left_join(dsCountyCharacteristics, by="CountyName")
+dsVisit <- dsVisit %>%
+  dplyr::left_join(dsRegionTag, by="RegionID") 
+
+
 ############################
 ## @knitr collapse_county_month
 dsCountyMonth <- dsVisit %>%
   dplyr::group_by(
-    CountyID,
+    CountyTag, #CountyID,
     ActivityMonth
   ) %>%
   dplyr::summarise(
-    VisitCount = length(ActivityMonth)
-  )
-
-dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyID", "ActivityMonth", "VisitCount", rangeDate)
-# function( dsToFillIn, groupVariable, monthVariable, dvNamesToFillWIthZeroes, dateRange ){
-# table(dsVisit$ActivityMonth)
-############################
-## @knitr join_tag
-dsCountyMonth <- dsCountyMonth %>%
-  dplyr::left_join(dsCountyLookup) %>%
-  dplyr::select_(
-    "CountyTag", 
-    "CountyName", 
-    "ActivityMonth", 
-    "VisitCount"
-  )
-
-#To hard-code into the Shiny dashboard
-# dput(dsCountyLookup$CountyTag)
-
-############################
-## @knitr join_characteristics
-dsCountyMonth <- dsCountyMonth %>%
-  dplyr::left_join(dsCountyCharacteristics, by="CountyName") %>%
-  dplyr::select_(
-    "CountyTag", 
-    # "CountyName",
-    "ActivityMonth", 
-    "VisitCount",
-    "WicNeedPopInfant"
+    VisitCount = length(ActivityMonth),
+    WicNeedPopInfant = mean(WicNeedPopInfant)
   )
 
 if( any(is.na(dsCountyMonth$WicNeedPopInfant)) )
   stop("At least one county was not correctly joined to its WIC Need.")
 
-############################
-## @knitr population_derived
+dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyTag", "ActivityMonth", c("VisitCount", "WicNeedPopInfant"), rangeDate)
+
 dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
+dsCountyMonth$VisitsPerInfantNeed <- ifelse(dsCountyMonth$VisitCount==0, 0, dsCountyMonth$VisitsPerInfantNeed)
+
+# TODO: link from CountyTag to CountyID to CountyName to RegionTag
+############################
+## @knitr collapse_region_month
+dsRegionMonth <- dsVisit %>%
+  dplyr::group_by(
+    RegionTag, #RegionID,
+    ActivityMonth
+  ) %>%
+  dplyr::summarise(
+    VisitCount = length(ActivityMonth),
+    WicNeedPopInfant = mean(WicNeedPopInfant)
+  )
+
+if( any(is.na(dsRegionMonth$WicNeedPopInfant)) )
+  stop("At least one Region was not correctly joined to its WIC Need.")
+
+dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount", "WicNeedPopInfant"), rangeDate)
+
+dsRegionMonth$VisitsPerInfantNeed <- dsRegionMonth$VisitCount / dsRegionMonth$WicNeedPopInfant
+dsRegionMonth$VisitsPerInfantNeed <- ifelse(dsRegionMonth$VisitCount==0, 0, dsRegionMonth$VisitsPerInfantNeed)
 
 ############################
 ## @knitr save_to_disk
 message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
-saveRDS(dsCountyMonth, file=pathOutput, compress="xz")
+saveRDS(dsCountyMonth, file=pathOutputCounty, compress="xz")
+
+message("The C1 region-month summary contains ", length(unique(dsRegionMonth$RegionTag)), " different regions and ", length(unique(dsRegionMonth$ActivityMonth)), " different months.")
+saveRDS(dsRegionMonth, file=pathOutputRegion, compress="xz")
