@@ -26,7 +26,10 @@ reportTheme <- theme_bw() +
 # order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
 
 
-ActivityEachMonth <- function( dsPlot, responseVariable, colorVariable=NULL, monthVariable="ActivityMonth", groupVariable="CountyTag", 
+ActivityEachMonth <- function( dsPlot, responseVariable, 
+  monthVariable="ActivityMonth", groupVariable="CountyTag", colorVariable=groupVariable, 
+  #highlightedRegions=character(0),
+  highlightedRegions="ftj",
   mainTitle=NULL, xTitle=NULL, yTitle=NULL, baseSize=8, palette=NULL ) {
   # library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
  
@@ -34,15 +37,24 @@ ActivityEachMonth <- function( dsPlot, responseVariable, colorVariable=NULL, mon
   g <- g + aes(ymin=0)
   # g <- g + geom_boxplot(aes_string(group=monthVariable), outlier.colour=NA, na.rm=TRUE)
   #g <- g + geom_line(stat="identity", alpha=.5, na.rm=TRUE) 
-  g <- g + geom_line(stat="identity", alpha=1)
+  g <- g + geom_line(stat="identity", alpha=.5)
   g <- g + geom_point(stat="identity", shape=21, alpha=.5)
   g <- g + geom_hline(yintercept=c(median(dsPlot[, responseVariable]), mean(dsPlot[, responseVariable])), color="gray50")
   # g <- g + geom_smooth(aes(group=1), method="gam", formula=y ~ s(x, bs = "cs"), color="gray30", na.rm=TRUE)
-  # g <- g + geom_smooth(aes(group=1), method="gam", color="gray30", na.rm=TRUE)
   g <- g + scale_x_date(breaks="1 month", labels=date_format("%Y\n%b"))
-  g <- g + scale_y_continuous(labels=comma_format())  
-  if( !is.null(palette) ) 
-    g <- g + scale_color_manual(values=palette)	
+
+  if( (highlightedRegions != "All") & (length(highlightedRegions)==1) ) {
+    dsHighlight <- dsPlot[dsPlot$CountyTag %in% highlightedRegions, ]
+    dsLabelLeft <- dsHighlight[dsHighlight[, monthVariable]==min(dsHighlight[, monthVariable], na.rm=T), ]
+    dsLabelRight <- dsHighlight[dsHighlight[, monthVariable]==max(dsHighlight[, monthVariable], na.rm=T), ]
+    
+    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelLeft, size=5, hjust=1.2) #Left endpoint
+    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelRight, size=5, hjust=-.2) #Right endpoint   
+    g <- g + geom_line(data=dsHighlight, stat="identity", alpha=1, size=2, na.rm=TRUE)
+  }
+  
+#   if( !is.null(palette) ) 
+#     g <- g + scale_color_manual(values=palette)	
   g <- g + guides(colour="none")
   g <- g + labs(title=mainTitle, x=xTitle, y=yTitle)
   g <- g + reportTheme
@@ -75,6 +87,11 @@ function(input, output) {
    
     d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
     return( d )
+  }  
+  FilterMonth <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
+    d <- dsC1CountyMonth
+    d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
+    return( d )
   }
 
   output$ScheduleTablePast <- renderDataTable({
@@ -95,12 +112,16 @@ function(input, output) {
     escape    = TRUE #Change to 'FALSE' if you embed something like HTML links
   )   
   output$GraphVisitCount <- renderPlot({
-    d <- FilterCountyMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-    ActivityEachMonth(d, responseVariable="VisitCount", mainTitle="Visit Each Month (per county)")
+    d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    highlightedRegions <- input$countyTag
+    ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per county)") + 
+      scale_y_continuous(labels=comma_format())  
   })
   output$GraphVisitPerNeed <- renderPlot({
-    d <- FilterCountyMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-    ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", mainTitle="Visit Each Month per WIC Need (per county)")
+    d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    highlightedRegions <- input$countyTag
+    ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month per WIC Need (per county)") + 
+      scale_y_continuous(labels=percent_format())  
   })
   output$table_file_info <- renderText({
     return( paste0(
