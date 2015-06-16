@@ -13,7 +13,7 @@ requireNamespace("plyr", quietly=TRUE)
 requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("scales", quietly=TRUE)
 requireNamespace("lubridate", quietly=TRUE)
-# requireNamespace("readr", quietly=TRUE)
+requireNamespace("readr", quietly=TRUE)
 # library(ggplot2)
 
 ############################
@@ -21,7 +21,7 @@ requireNamespace("lubridate", quietly=TRUE)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathInputRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
-pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
+# pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
 pathOutputCounty <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 pathOutputRegion <- "./DataPhiFree/Derived/C1/C1RegionMonth.rds"
 
@@ -44,15 +44,15 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
 ############################
 ## @knitr load_data
 dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
-dsCountyTag <- read.csv(pathInputCountyTagged, stringsAsFactors=FALSE)
-dsRegionTag <- read.csv(pathInputRegionTagged, stringsAsFactors=FALSE)
-dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
+dsCountyTag <- readr::read_csv(pathInputCountyTagged)
+dsRegionTag <- readr::read_csv(pathInputRegionTagged)
+# dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
 
 ############################
 ## @knitr tweak_data
 
 dsVisit <- dplyr::rename_(dsVisit,
-  "CountyID"          = "Program.Unique.Identifier"
+  "CountyEtoID"       = "Program.Unique.Identifier"
   , "EntitySiteID"    = "Entity.Site.Identifier"
   , "CaseNumber"      = "Case.Number"
   , "PhocisID"        = "PHOCIS.ID"
@@ -102,44 +102,38 @@ rm(isC1, tooEarly, tooLate)
 
 ############################
 ## @knitr join_tag
-dsCountyTag$ProgramName <- NULL
-dsCountyCharacteristics <- dsCountyCharacteristics %>%
-  dplyr::select(
-    CountyName,
-    RegionID = C1LeadNurseRegion,
-    WicNeedPopInfant
-  )
 
 dsVisit <- dsVisit %>%
-  dplyr::left_join(dsCountyTag, by="CountyID") 
-dsVisit <- dsVisit %>%
-  dplyr::left_join(dsCountyCharacteristics, by="CountyName")
-dsVisit <- dsVisit %>%
-  dplyr::left_join(dsRegionTag, by="RegionID") 
+  dplyr::left_join(
+    dsCountyTag %>% 
+      dplyr::select_("CountyEtoID", "RegionTag"),
+    by="CountyEtoID") 
+# dsVisit <- dsVisit %>%
+#   dplyr::left_join(dsCountyCharacteristics, by="CountyName")
+# dsVisit <- dsVisit %>%
+#   dplyr::left_join(dsRegionTag, by="RegionID") 
 
 
-############################
-## @knitr collapse_county_month
-dsCountyMonth <- dsVisit %>%
-  dplyr::group_by(
-    CountyTag, CountyID, CountyName,
-    ActivityMonth
-  ) %>%
-  dplyr::summarise(
-    VisitCount = length(ActivityMonth),
-    WicNeedPopInfant = mean(WicNeedPopInfant)
-  )
+# ############################
+# ## @knitr collapse_county_month
+# dsCountyMonth <- dsVisit %>%
+#   dplyr::group_by(
+#     CountyEtoID,
+#     ActivityMonth
+#   ) %>%
+#   dplyr::summarise(
+#     VisitCount = length(ActivityMonth)#,
+#     # WicNeedPopInfant = mean(WicNeedPopInfant)
+#   )
+# 
+# # if( any(is.na(dsCountyMonth$WicNeedPopInfant)) )
+# #   stop("At least one county was not correctly joined to its WIC Need.")
+# 
+# dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyEtoID", "ActivityMonth", c("VisitCount"), rangeDate) #, "WicNeedPopInfant"
+# 
+# dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
+# dsCountyMonth$VisitsPerInfantNeed <- ifelse(dsCountyMonth$VisitCount==0, 0, dsCountyMonth$VisitsPerInfantNeed)
 
-if( any(is.na(dsCountyMonth$WicNeedPopInfant)) )
-  stop("At least one county was not correctly joined to its WIC Need.")
-
-dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyTag", "ActivityMonth", c("VisitCount", "WicNeedPopInfant"), rangeDate)
-
-dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
-dsCountyMonth$VisitsPerInfantNeed <- ifelse(dsCountyMonth$VisitCount==0, 0, dsCountyMonth$VisitsPerInfantNeed)
-
-# TODO: sum wic estimates.
-# TODO: link from CountyTag to CountyID to CountyName to RegionTag
 ############################
 ## @knitr collapse_region_month
 dsRegionMonth <- dsVisit %>%
@@ -148,22 +142,26 @@ dsRegionMonth <- dsVisit %>%
     ActivityMonth
   ) %>%
   dplyr::summarise(
-    VisitCount = length(ActivityMonth),
-    WicNeedPopInfant = mean(WicNeedPopInfant)
+    VisitCount = length(ActivityMonth)
   )
+
+dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount"), rangeDate) #, "WicNeedPopInfant"
+
+dsRegionMonth <- dsRegionMonth %>%
+  dplyr::left_join(
+    dsRegionTag %>% 
+      dplyr::select_("RegionTag", "WicNeedPopInfant"),
+    by="RegionTag") 
 
 if( any(is.na(dsRegionMonth$WicNeedPopInfant)) )
   stop("At least one Region was not correctly joined to its WIC Need.")
 
-dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount", "WicNeedPopInfant"), rangeDate)
-
 dsRegionMonth$VisitsPerInfantNeed <- dsRegionMonth$VisitCount / dsRegionMonth$WicNeedPopInfant
-dsRegionMonth$VisitsPerInfantNeed <- ifelse(dsRegionMonth$VisitCount==0, 0, dsRegionMonth$VisitsPerInfantNeed)
 
 ############################
 ## @knitr save_to_disk
-message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
-saveRDS(dsCountyMonth, file=pathOutputCounty, compress="xz")
+# message("The C1 county-month summary contains ", length(unique(dsCountyMonth$CountyTag)), " different counties and ", length(unique(dsCountyMonth$ActivityMonth)), " different months.")
+# saveRDS(dsCountyMonth, file=pathOutputCounty, compress="xz")
 
 message("The C1 region-month summary contains ", length(unique(dsRegionMonth$RegionTag)), " different regions and ", length(unique(dsRegionMonth$ActivityMonth)), " different months.")
 saveRDS(dsRegionMonth, file=pathOutputRegion, compress="xz")

@@ -106,6 +106,14 @@ dsRegion <- dsCounty %>%
   )
 dsRegion$RegionTag <- sapply(rep(2L, nrow(dsRegion)), DrawTag)
 
+############################
+## @knitr backfill_region_id
+dsCounty <- dsCounty %>%
+  dplyr::left_join(
+    dsRegion %>% 
+      dplyr::select_("RegionID", "RegionTag"),
+    by="RegionID") 
+
 # dput(dsRegion$RegionTag) #To hard-code into Shiny dropdown box.
 ############################
 ## @knitr save_to_disk
