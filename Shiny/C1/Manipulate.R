@@ -9,7 +9,6 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ############################
 ## @knitr load_packages
 library(magrittr)
-requireNamespace("plyr", quietly=TRUE)
 requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("scales", quietly=TRUE)
 requireNamespace("lubridate", quietly=TRUE)
@@ -102,37 +101,11 @@ rm(isC1, tooEarly, tooLate)
 
 ############################
 ## @knitr join_tag
-
 dsVisit <- dsVisit %>%
   dplyr::left_join(
     dsCountyTag %>% 
       dplyr::select_("CountyEtoID", "RegionTag"),
     by="CountyEtoID") 
-# dsVisit <- dsVisit %>%
-#   dplyr::left_join(dsCountyCharacteristics, by="CountyName")
-# dsVisit <- dsVisit %>%
-#   dplyr::left_join(dsRegionTag, by="RegionID") 
-
-
-# ############################
-# ## @knitr collapse_county_month
-# dsCountyMonth <- dsVisit %>%
-#   dplyr::group_by(
-#     CountyEtoID,
-#     ActivityMonth
-#   ) %>%
-#   dplyr::summarise(
-#     VisitCount = length(ActivityMonth)#,
-#     # WicNeedPopInfant = mean(WicNeedPopInfant)
-#   )
-# 
-# # if( any(is.na(dsCountyMonth$WicNeedPopInfant)) )
-# #   stop("At least one county was not correctly joined to its WIC Need.")
-# 
-# dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyEtoID", "ActivityMonth", c("VisitCount"), rangeDate) #, "WicNeedPopInfant"
-# 
-# dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
-# dsCountyMonth$VisitsPerInfantNeed <- ifelse(dsCountyMonth$VisitCount==0, 0, dsCountyMonth$VisitsPerInfantNeed)
 
 ############################
 ## @knitr collapse_region_month
@@ -145,8 +118,9 @@ dsRegionMonth <- dsVisit %>%
     VisitCount = length(ActivityMonth)
   )
 
-dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount"), rangeDate) #, "WicNeedPopInfant"
+dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount"), rangeDate)
 
+# Pull in WIC estimate of need.
 dsRegionMonth <- dsRegionMonth %>%
   dplyr::left_join(
     dsRegionTag %>% 
