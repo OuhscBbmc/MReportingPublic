@@ -62,7 +62,7 @@ dashboardPage(
       ), #End the (third) tab with the graph
       tabItem(
         tabName = "generalLinks", 
-        HTML("<font color='green'>{<em>David, Is there some explanatory text you'd like here?</em>}</font><br/>"),
+        HTML("<font color='green'>{<em>Is there some explanatory text you'd like here?</em>}</font><br/>"),
         htmlOutput(outputId='table_file_info')
       )#, #End the (fourth) tab with the links & details
     ) #End the tabsetPanel

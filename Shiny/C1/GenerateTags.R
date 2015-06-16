@@ -20,6 +20,7 @@ requireNamespace("lubridate", quietly=TRUE)
 ## @knitr declare_globals
 set.seed(184)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
+pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
 pathOutputLookup <- "./DataPhiFree/Derived/C1/CountyLookup.csv"
 pathOutputCachedCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathOutputCachedRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
@@ -33,36 +34,36 @@ DrawTag <- function( tagLength=3L, urn=letters ) {
 
 ############################
 ## @knitr load_data
-ds <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
+dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
+dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
 
 ############################
 ## @knitr tweak_data
-
-ds <- dplyr::rename_(ds,
+dsVisit <- dplyr::rename_(dsVisit,
   "CountyID"      = "Program.Unique.Identifier"
   , "ProgramName" = "Program.Name"
 )
 
 ## Drop non-C1 visits.
-isC1 <- grep("^C1-.+$", ds$ProgramName)
-message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(ds)), " MIECHV Visits).  Non-C1 visits will be dropped.")
-ds <- ds[isC1, ]
+isC1 <- grep("^C1-.+$", dsVisit$ProgramName)
+message("There are ", scales::comma(length(isC1)), " C1 Visits (out of ", scales::comma(nrow(dsVisit)), " MIECHV Visits).  Non-C1 visits will be dropped.")
+dsVisit <- dsVisit[isC1, ]
 
-ds$CountyName <- gsub(" County", "", ds$ProgramName)
-# table(ds$CountyName)
+dsVisit$CountyName <- gsub(" County", "", dsVisit$ProgramName)
+# table(dsVisit$CountyName)
 
-ds$CountyName <- gsub("( CHD| CCHD)?", "", ds$CountyName)
-# table(ds$CountyName)
-ds$CountyName <- gsub("^C1-([A-Za-z ]+)", "\\1", ds$CountyName)
-# table(ds$CountyName)
+dsVisit$CountyName <- gsub("( CHD| CCHD)?", "", dsVisit$CountyName)
+# table(dsVisit$CountyName)
+dsVisit$CountyName <- gsub("^C1-([A-Za-z ]+)", "\\1", dsVisit$CountyName)
+# table(dsVisit$CountyName)
 
-ds$CountyName <- ifelse(ds$CountyName=="Mcclain", "McClain", ds$CountyName)
-ds$CountyName <- ifelse(ds$CountyName=="Leflore", "Le Flore", ds$CountyName)
-# table(ds$CountyName)
+dsVisit$CountyName <- ifelse(dsVisit$CountyName=="Mcclain", "McClain", dsVisit$CountyName)
+dsVisit$CountyName <- ifelse(dsVisit$CountyName=="Leflore", "Le Flore", dsVisit$CountyName)
+# table(dsVisit$CountyName)
 rm(isC1)
 ############################
 ## @knitr collapse_county_month
-dsCounty <- ds %>%
+dsCounty <- dsVisit %>%
   dplyr::group_by(
     CountyID,
     CountyName,
@@ -76,14 +77,15 @@ dsCounty <- ds %>%
 ## @knitr assign_tag_county
 dsCountyTagged <- dsCounty
 dsCountyTagged$CountyTag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
-head(dsCountyTagged$CountyTag)
+# head(dsCountyTagged$CountyTag)
 
+# dput(dsCountyTagged$CountyTag) #To hard-code into Shiny dropdown box.
 ############################
 ## @knitr assign_tag_region
 dsRegionTagged <- data.frame(
   RegionID = regions,
   RegionTag = sapply(rep(2L, length(regions)), DrawTag),
-  stringsAsFactors = F
+  stringsAsFactors = FALSE
 )
 
 # dput(dsRegionTagged$RegionTag) #To hard-code into Shiny dropdown box.
