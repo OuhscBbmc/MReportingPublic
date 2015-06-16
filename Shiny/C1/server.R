@@ -40,7 +40,7 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
   #g <- g + geom_line(stat="identity", alpha=.5, na.rm=TRUE) 
   g <- g + geom_line(stat="identity", alpha=.5)
   g <- g + geom_point(stat="identity", shape=21, alpha=.5)
-  g <- g + geom_hline(yintercept=c(median(dsPlot[, responseVariable]), mean(dsPlot[, responseVariable])), color="gray50")
+  g <- g + geom_hline(yintercept=median(dsPlot[, responseVariable]), color="gray50")
   # g <- g + geom_smooth(aes(group=1), method="gam", formula=y ~ s(x, bs = "cs"), color="gray30", na.rm=TRUE)
   g <- g + scale_x_date(breaks="1 month", labels=date_format("%Y\n%b"))
 
@@ -73,15 +73,16 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
 pathC1RegionMonth <- pathC1RegionMonthRepo
 # }
 
-dsC1CountyMonth <- readRDS(pathC1RegionMonth) 
+# dsC1RegionMonth <- readRDS(pathC1CountyMonth) 
+dsC1RegionMonth <- readRDS(pathC1RegionMonth) 
 
 # TweakData -----------------------------------
 
 # Define a server for the Shiny app  -----------------------------------
 function(input, output) {
   
-  FilterCountyMonth <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
-    d <- dsC1CountyMonth
+  FilterRegionMonth <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
+    d <- dsC1RegionMonth
     
     if( nrow(d)>0 & input$regionTag != "All" )
       d <- d[d$RegionTag==input$regionTag, ]
@@ -90,13 +91,13 @@ function(input, output) {
     return( d )
   }  
   FilterMonth <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
-    d <- dsC1CountyMonth
+    d <- dsC1RegionMonth
     d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
     return( d )
   }
 
   output$ScheduleTablePast <- renderDataTable({
-    d <- FilterCountyMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    d <- FilterRegionMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
     return( d )
   }, options = list(
     # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
@@ -115,13 +116,13 @@ function(input, output) {
   output$GraphVisitCount <- renderPlot({
     d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
     highlightedRegions <- input$regionTag
-    ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per county)") + 
+    ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per region)") + 
       scale_y_continuous(labels=comma_format())  
   })
   output$GraphVisitPerNeed <- renderPlot({
     d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
     highlightedRegions <- input$regionTag
-    ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month per WIC Need (per county)") + 
+    ActivityEachMonth(d, responseVariable="VisitsPerInfantNeed", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month per WIC Need (per region)") + 
       scale_y_continuous(labels=percent_format())  
   })
   output$table_file_info <- renderText({

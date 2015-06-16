@@ -51,7 +51,9 @@ dashboardPage(
       tabItem(
         tabName = "table",
         shiny::dataTableOutput(outputId = "ScheduleTablePast"),
-        HTML("<font color='green'>{<em>Is there some explanatory text you'd like here?</em>}</font><br/>")
+        HTML("<font color='green'>This table includes prototypical indicators of all four best practices outcomes.  
+             The column labeled <code>VisitsPerInfantNeed</code> provides the rate of monthly visits per 'infant in need'.
+             {TODO: explain the remaining columns.}</font><br/>")
       ), #End the (second) tab with the 'table' table
       tabItem(
         tabName = "graphVisit", 

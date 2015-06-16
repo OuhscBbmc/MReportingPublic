@@ -122,7 +122,7 @@ dsVisit <- dsVisit %>%
 ## @knitr collapse_county_month
 dsCountyMonth <- dsVisit %>%
   dplyr::group_by(
-    CountyTag, #CountyID,
+    CountyTag, CountyID, CountyName,
     ActivityMonth
   ) %>%
   dplyr::summarise(
@@ -138,6 +138,7 @@ dsCountyMonth <- FillInMonthsForGroups(dsCountyMonth, "CountyTag", "ActivityMont
 dsCountyMonth$VisitsPerInfantNeed <- dsCountyMonth$VisitCount / dsCountyMonth$WicNeedPopInfant
 dsCountyMonth$VisitsPerInfantNeed <- ifelse(dsCountyMonth$VisitCount==0, 0, dsCountyMonth$VisitsPerInfantNeed)
 
+# TODO: sum wic estimates.
 # TODO: link from CountyTag to CountyID to CountyName to RegionTag
 ############################
 ## @knitr collapse_region_month
