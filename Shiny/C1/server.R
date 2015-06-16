@@ -29,18 +29,17 @@ reportTheme <- theme_bw() +
 
 ActivityEachMonth <- function( dsPlot, responseVariable, 
   monthVariable="ActivityMonth", groupVariable="RegionTag", colorVariable=groupVariable, 
-  #highlightedRegions=character(0),
-  highlightedRegions="ftj",
+  highlightedRegions = character(0),
+  # highlightedRegions="ftj",
   mainTitle=NULL, xTitle=NULL, yTitle=NULL, baseSize=8, palette=NULL ) {
   # library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
  
   g <- ggplot(dsPlot, aes_string(x=monthVariable, y=responseVariable, colour=colorVariable, group=groupVariable))
   g <- g + aes(ymin=0)
-  # g <- g + geom_boxplot(aes_string(group=monthVariable), outlier.colour=NA, na.rm=TRUE)
-  #g <- g + geom_line(stat="identity", alpha=.5, na.rm=TRUE) 
+  g <- g + geom_boxplot(aes_string(group=monthVariable), color=NA, fill="gray50", outlier.colour=NA, na.rm=TRUE, width=3, alpha=.3)
   g <- g + geom_line(stat="identity", alpha=.5)
   g <- g + geom_point(stat="identity", shape=21, alpha=.5)
-  g <- g + geom_hline(yintercept=median(dsPlot[, responseVariable]), color="gray50")
+  # g <- g + geom_hline(yintercept=median(dsPlot[, responseVariable]), color="gray50")
   # g <- g + geom_smooth(aes(group=1), method="gam", formula=y ~ s(x, bs = "cs"), color="gray30", na.rm=TRUE)
   g <- g + scale_x_date(breaks="1 month", labels=date_format("%Y\n%b"))
 
@@ -48,9 +47,9 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
     dsHighlight <- dsPlot[dsPlot$RegionTag %in% highlightedRegions, ]
     dsLabelLeft <- dsHighlight[dsHighlight[, monthVariable]==min(dsHighlight[, monthVariable], na.rm=T), ]
     dsLabelRight <- dsHighlight[dsHighlight[, monthVariable]==max(dsHighlight[, monthVariable], na.rm=T), ]
-    
-    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelLeft, size=5, hjust=1.2) #Left endpoint
-    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelRight, size=5, hjust=-.2) #Right endpoint   
+
+    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelLeft, size=5, hjust=1.4) #Left endpoint
+    g <- g + geom_text(mapping=aes_string(label=colorVariable), data=dsLabelRight, size=5, hjust=-.4) #Right endpoint   
     g <- g + geom_line(data=dsHighlight, stat="identity", alpha=1, size=2, na.rm=TRUE)
   }
   
@@ -98,6 +97,20 @@ function(input, output) {
 
   output$ScheduleTablePast <- renderDataTable({
     d <- FilterRegionMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    d <- d %>%
+      dplyr::mutate(
+        ActivityMonth = strftime(ActivityMonth, "%Y-%m"),
+        VisitsPerInfantNeed = round(VisitsPerInfantNeed, 3)
+      ) %>%
+      dplyr::select(
+        -WicNeedPopInfant
+      ) %>%
+      dplyr::rename_(
+        "Region Tag" = "RegionTag",
+        "Month" = "ActivityMonth",
+        "Visit Count" = "VisitCount",
+        "Visits per Need" = "VisitsPerInfantNeed"
+      )
     return( d )
   }, options = list(
     # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
