@@ -21,7 +21,7 @@ requireNamespace("lubridate", quietly=TRUE)
 set.seed(184)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
-pathOutputLookup <- "./DataPhiFree/Derived/C1/CountyLookup.csv"
+# pathOutputLookup <- "./DataPhiFree/Derived/C1/CountyLookup.csv"
 pathOutputCachedCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathOutputCachedRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
 
@@ -40,7 +40,7 @@ dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFac
 ############################
 ## @knitr tweak_data
 dsVisit <- dplyr::rename_(dsVisit,
-  "CountyID"      = "Program.Unique.Identifier"
+  "CountyEtoID"      = "Program.Unique.Identifier"
   , "ProgramName" = "Program.Name"
 )
 
@@ -61,37 +61,54 @@ dsVisit$CountyName <- ifelse(dsVisit$CountyName=="Mcclain", "McClain", dsVisit$C
 dsVisit$CountyName <- ifelse(dsVisit$CountyName=="Leflore", "Le Flore", dsVisit$CountyName)
 # table(dsVisit$CountyName)
 rm(isC1)
+
+dsCountyCharacteristics <- dsCountyCharacteristics %>%
+  dplyr::select(
+    CountyID,
+    CountyName,
+    RegionID = C1LeadNurseRegion,
+    WicNeedPopInfant
+  )
+
 ############################
-## @knitr collapse_county_month
+## @knitr assign_tag_county
 dsCounty <- dsVisit %>%
   dplyr::group_by(
-    CountyID,
+    CountyEtoID,
     CountyName,
     ProgramName
   ) %>%
   dplyr::summarise(
     CountyTag = NA_character_
   )
+dsCounty$CountyTag <- sapply(rep(3L, nrow(dsCounty)), DrawTag)
+# head(dsCounty$CountyTag)
 
-############################
-## @knitr assign_tag_county
-dsCountyTagged <- dsCounty
-dsCountyTagged$CountyTag <- sapply(rep(3L, nrow(dsCountyTagged)), DrawTag)
-# head(dsCountyTagged$CountyTag)
+dsCounty <- dsCounty %>%
+  dplyr::left_join(dsCountyCharacteristics, by="CountyName")
 
-# dput(dsCountyTagged$CountyTag) #To hard-code into Shiny dropdown box.
+if( any(is.na(dsCounty$WicNeedPopInfant)) )
+  stop("At least one county was not correctly joined to its WIC Need.")
+
+# dput(dsCounty$CountyTag) #To hard-code into Shiny dropdown box.
 ############################
 ## @knitr assign_tag_region
-dsRegionTagged <- data.frame(
-  RegionID = regions,
-  RegionTag = sapply(rep(2L, length(regions)), DrawTag),
-  stringsAsFactors = FALSE
-)
+dsRegion <- dsCounty %>%
+  dplyr::group_by(
+    RegionID
+  ) %>%
+  dplyr::summarise(
+    CountyNames = paste(CountyName, collapse=","),
+    CountyIDs = paste(CountyID, collapse=","),
+    CountyEtoIDs = paste(CountyEtoID, collapse=","),
+    RegionTag = NA_character_,
+    WicNeedPopInfant = sum(WicNeedPopInfant)
+  )
+dsRegion$RegionTag <- sapply(rep(2L, nrow(dsRegion)), DrawTag)
 
-# dput(dsRegionTagged$RegionTag) #To hard-code into Shiny dropdown box.
+# dput(dsRegion$RegionTag) #To hard-code into Shiny dropdown box.
 ############################
 ## @knitr save_to_disk
 # message("The C1 county-month summary contains ", length(unique(dsCounty_month$CountyID)), " different counties and ", length(unique(dsCounty_month$VisitMonth)), " different months.")
-write.csv(dsCounty, file=pathOutputLookup, row.names=F)
-write.csv(dsCountyTagged, file=pathOutputCachedCountyTagged, row.names=F)
-write.csv(dsRegionTagged, file=pathOutputCachedRegionTagged, row.names=F)
+write.csv(dsCounty, file=pathOutputCachedCountyTagged, row.names=F)
+write.csv(dsRegion, file=pathOutputCachedRegionTagged, row.names=F)
