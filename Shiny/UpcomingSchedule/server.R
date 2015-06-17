@@ -1,7 +1,9 @@
 # LoadPackages  -----------------------------------
 library(shiny)
+library(htmlwidgets)
 library(ggplot2)
 #library(grid)
+library(DT)
 library(magrittr)
 
 # DeclareGlobals  -----------------------------------
@@ -146,13 +148,13 @@ shinyServer( function(input, output) {
       list(sClass="smallish", aTargets="_all")
     ),
     # columnDefs = list(list(targets = c(3, 4) - 1, searchable = FALSE)),
-    searching = TRUE,
-    paging = TRUE,
-    sort = TRUE,
+#     searching = TRUE,
+#     paging = TRUE,
+#     sort = TRUE#,
     
-    #http://stackoverflow.com/questions/28359626
-    #http://stackoverflow.com/questions/22850562
-    rowCallback = I(
+#     #http://stackoverflow.com/questions/28359626
+#     #http://stackoverflow.com/questions/22850562
+    rowCallback = JS(
       'function(row, data) {
         if (data[3].indexOf("Interview") > -1 ) {
           $("td:eq(0)", row).addClass("interviewEvent");
@@ -160,7 +162,7 @@ shinyServer( function(input, output) {
           $("td", row).addClass("interviewRow"); 
         }
 
-        if (data[2].indexOf("Due Date") > -1 ) $("td:eq(2)", row).css("color", "#bb2288");
+        if (data[2].indexOf("Due Date") > -1 ) $("td:eq(4)", row).css("color", "#bb2288");
         else if (data[2].indexOf("Confirmed") > -1 ) $("td:eq(2)", row).css("color", "#387566");
         else if (data[2].indexOf("Cancelled") > -1 ) $("td:eq(2)", row).css("color", "#b8b49b");
         else if (data[2].indexOf("No Show") > -1 ) $("td:eq(2)", row).css("color", "#fba047");
@@ -169,19 +171,47 @@ shinyServer( function(input, output) {
     )
   )
   
-  output$ScheduleTableUpcoming <- shiny::renderDataTable({
+  output$ScheduleTableUpcoming <- DT::renderDataTable({
     d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
-    return( d )
-  }, options = table_options_schedule,
-    escape = FALSE
-  )
+#     return( d )
+    datatable(
+      d, 
+      rownames = FALSE,
+      escape = FALSE
+    ) %>% 
+    # formatStyle('Participant', fontWeight = styleInterval(5, c('normal', 'bold'))) %>%
+    # formatStyle(
+    #   'Event Date',
+    #   color = styleInterval(c(3.4, 3.8), c('white', 'blue', 'red')),
+    #   backgroundColor = styleInterval(3.4, c('gray', 'yellow'))
+    # ) %>%
+    # formatStyle(
+    #   'DC',
+    #   background = styleColorBar(iris$Petal.Length, 'steelblue'),
+    #   backgroundSize = '100% 90%',
+    #   backgroundRepeat = 'no-repeat',
+    #   backgroundPosition = 'center'
+    # ) %>%
+    formatStyle(
+      columns = 'Status',
+      color = styleEqual(
+        c("Due Date", "Confirmed", "Cancelled", "No Show", "Scheduled"), 
+        c('#bb2288', '#387566', '#b8b49b', '#fba047', '#3875bb')
+      )
+    )
+    
+  })
   
-  output$ScheduleTablePast <- shiny::renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
-    return( d )
-  }, options = table_options_schedule,
-    escape = FALSE
-  )    
+  output$ScheduleTablePast <- DT::renderDataTable({
+    m = as.data.frame(matrix(round(rnorm(100, 1e5, 1e6)), 20))
+    datatable(m, options = list(
+      rowCallback = JS(
+        "function(row, data) {",
+        "var num = '$' + data[3].toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+        "$('td:eq(3)', row).html(num);",
+        "}")
+    ), callback = JS("table.order([3, 'asc']).draw();"))
+  })    
   
   output$GraphEventType <- renderPlot({
     d <- dsUpcomingSchedule
