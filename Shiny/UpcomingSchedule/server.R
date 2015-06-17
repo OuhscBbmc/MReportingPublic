@@ -173,33 +173,29 @@ shinyServer( function(input, output) {
   
   output$ScheduleTableUpcoming <- DT::renderDataTable({
     d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
-#     return( d )
     datatable(
       d, 
       rownames = FALSE,
-      escape = FALSE
-    ) %>% 
-    # formatStyle('Participant', fontWeight = styleInterval(5, c('normal', 'bold'))) %>%
-    # formatStyle(
-    #   'Event Date',
-    #   color = styleInterval(c(3.4, 3.8), c('white', 'blue', 'red')),
-    #   backgroundColor = styleInterval(3.4, c('gray', 'yellow'))
-    # ) %>%
-    # formatStyle(
-    #   'DC',
-    #   background = styleColorBar(iris$Petal.Length, 'steelblue'),
-    #   backgroundSize = '100% 90%',
-    #   backgroundRepeat = 'no-repeat',
-    #   backgroundPosition = 'center'
-    # ) %>%
+      style = 'bootstrap', 
+      options = list(
+        rowCallback = JS(
+          'function(row, data) {
+            if (data[3].indexOf("Interview") > -1 ) {
+              $("td", row).addClass("interviewRow"); 
+              $("td:eq(3)", row).css("color", "green");
+            }
+          }'
+        )
+      ),
+      #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
+      class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
+      escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
+    ) %>%
     formatStyle(
-      columns = 'Status',
-      color = styleEqual(
-        c("Due Date", "Confirmed", "Cancelled", "No Show", "Scheduled"), 
-        c('#bb2288', '#387566', '#b8b49b', '#fba047', '#3875bb')
-      )
+      columns = 'Status', 
+      color = styleEqual(names(palette_status), palette_status)#,
+      # background = styleEqual("Interview", "#D8FFCC")
     )
-    
   })
   
   output$ScheduleTablePast <- DT::renderDataTable({
@@ -207,9 +203,10 @@ shinyServer( function(input, output) {
     datatable(m, options = list(
       rowCallback = JS(
         "function(row, data) {",
-        "var num = '$' + data[3].toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+        "var num = '$' + data[3].toString().replace(/\\B(?=(\\d{1})+(?!\\d))/g, ',');",
         "$('td:eq(3)', row).html(num);",
-        "}")
+        "}"
+      )
     ), callback = JS("table.order([3, 'asc']).draw();"))
   })    
   
