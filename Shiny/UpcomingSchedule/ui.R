@@ -6,7 +6,7 @@ tags_style <- "
   .panelHeader {color:#605CA8; font-size:200%}
   .table .smallish {font-size:80%; padding:2px; }
   .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
-  .table .interviewRow {font-size:90%; font-weight:bold}
+  .table .interviewRow {font-size:97%; font-weight:bold;}
   "
 
 header <- dashboardHeader(

@@ -139,40 +139,7 @@ shinyServer( function(input, output) {
   # Create the DataTables objects  ----------------------------------- (a jQuery library): http://www.datatables.net/ 
   
   #This list is pulled out so it can be used by both function
-  table_options_schedule <- list(
-    # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
-    language = list(emptyTable="--<em>Please loosen the filter to populate this table.</em>--"),
-    aoColumnDefs = list( #http://legacy.datatables.net/usage/columns
-      # list(sClass="semihide", aTargets=-1),
-      # list(sClass="session", aTargets=1:length(unique(dsItemProgress$item))),
-      list(sClass="smallish", aTargets="_all")
-    ),
-    # columnDefs = list(list(targets = c(3, 4) - 1, searchable = FALSE)),
-#     searching = TRUE,
-#     paging = TRUE,
-#     sort = TRUE#,
-    
-#     #http://stackoverflow.com/questions/28359626
-#     #http://stackoverflow.com/questions/22850562
-    rowCallback = JS(
-      'function(row, data) {
-        if (data[3].indexOf("Interview") > -1 ) {
-          $("td:eq(0)", row).addClass("interviewEvent");
-          $("td:eq(3)", row).addClass("interviewEvent");
-          $("td", row).addClass("interviewRow"); 
-        }
-
-        if (data[2].indexOf("Due Date") > -1 ) $("td:eq(4)", row).css("color", "#bb2288");
-        else if (data[2].indexOf("Confirmed") > -1 ) $("td:eq(2)", row).css("color", "#387566");
-        else if (data[2].indexOf("Cancelled") > -1 ) $("td:eq(2)", row).css("color", "#b8b49b");
-        else if (data[2].indexOf("No Show") > -1 ) $("td:eq(2)", row).css("color", "#fba047");
-        else if (data[2].indexOf("Scheduled") > -1 ) $("td:eq(2)", row).css("color", "#3875bb");
-      }'
-    )
-  )
-  
-  output$ScheduleTableUpcoming <- DT::renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
+  format_schedule <- function( d ) {
     datatable(
       d, 
       rownames = FALSE,
@@ -182,7 +149,7 @@ shinyServer( function(input, output) {
           'function(row, data) {
             if (data[3].indexOf("Interview") > -1 ) {
               $("td", row).addClass("interviewRow"); 
-              $("td:eq(3)", row).css("color", "green");
+              $("td:eq(3)", row).addClass("interviewEvent"); 
             }
           }'
         )
@@ -190,24 +157,22 @@ shinyServer( function(input, output) {
       #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
       class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
       escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
-    ) %>%
-    formatStyle(
-      columns = 'Status', 
-      color = styleEqual(names(palette_status), palette_status)#,
-      # background = styleEqual("Interview", "#D8FFCC")
-    )
+        ) %>%
+      formatStyle(
+        columns = 'Status', 
+        color = styleEqual(names(palette_status), palette_status)
+      )
+  }
+
+  
+  output$ScheduleTableUpcoming <- DT::renderDataTable({
+    d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
+    format_schedule(d)
   })
   
   output$ScheduleTablePast <- DT::renderDataTable({
-    m = as.data.frame(matrix(round(rnorm(100, 1e5, 1e6)), 20))
-    datatable(m, options = list(
-      rowCallback = JS(
-        "function(row, data) {",
-        "var num = '$' + data[3].toString().replace(/\\B(?=(\\d{1})+(?!\\d))/g, ',');",
-        "$('td:eq(3)', row).html(num);",
-        "}"
-      )
-    ), callback = JS("table.order([3, 'asc']).draw();"))
+    d <- prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
+    format_schedule(d)
   })    
   
   output$GraphEventType <- renderPlot({
@@ -291,3 +256,35 @@ shinyServer( function(input, output) {
     create_schedule_dropdown(upcoming=FALSE)
   })
 })
+
+# table_options_schedule <- list(
+#   # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
+#   language = list(emptyTable="--<em>Please loosen the filter to populate this table.</em>--"),
+#   aoColumnDefs = list( #http://legacy.datatables.net/usage/columns
+#     # list(sClass="semihide", aTargets=-1),
+#     # list(sClass="session", aTargets=1:length(unique(dsItemProgress$item))),
+#     list(sClass="smallish", aTargets="_all")
+#   ),
+#   # columnDefs = list(list(targets = c(3, 4) - 1, searchable = FALSE)),
+#   #     searching = TRUE,
+#   #     paging = TRUE,
+#   #     sort = TRUE#,
+#   
+#   #     #http://stackoverflow.com/questions/28359626
+#   #     #http://stackoverflow.com/questions/22850562
+#   rowCallback = JS(
+#     'function(row, data) {
+#     if (data[3].indexOf("Interview") > -1 ) {
+#     $("td:eq(0)", row).addClass("interviewEvent");
+#     $("td:eq(3)", row).addClass("interviewEvent");
+#     $("td", row).addClass("interviewRow"); 
+#     }
+#     
+#     if (data[2].indexOf("Due Date") > -1 ) $("td:eq(4)", row).css("color", "#bb2288");
+#     else if (data[2].indexOf("Confirmed") > -1 ) $("td:eq(2)", row).css("color", "#387566");
+#     else if (data[2].indexOf("Cancelled") > -1 ) $("td:eq(2)", row).css("color", "#b8b49b");
+#     else if (data[2].indexOf("No Show") > -1 ) $("td:eq(2)", row).css("color", "#fba047");
+#     else if (data[2].indexOf("Scheduled") > -1 ) $("td:eq(2)", row).css("color", "#3875bb");
+#     }'
+#   )
+# )
