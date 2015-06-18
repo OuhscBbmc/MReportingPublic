@@ -47,6 +47,12 @@ dashboardPage(
       label = 'Past Dates: yyyy-mm-dd',
       start = Sys.Date()-60, end = Sys.Date()-1
     ),
+    checkboxGroupInput(
+      inputId = "status",
+      label = "Display Status",
+      selected = c("Due Date", "Confirmed", "Cancelled", "No Show", "Scheduled"),
+      choices = list("Due Date"="Due Date", "Confirmed"="Confirmed", "Cancelled"="Cancelled", "No Show"="No Show", "Scheduled"="Scheduled")
+    ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Upcoming", tabName="upcoming"),

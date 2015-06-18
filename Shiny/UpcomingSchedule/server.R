@@ -20,7 +20,6 @@ order_status  <- as.integer(names(status_levels)); names(order_status) <- status
 #order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
 palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
 
-
 reportTheme <- theme_bw() +
   theme(axis.text = element_text(colour="gray40")) +
   theme(axis.title = element_text(colour="gray40")) +
@@ -33,13 +32,13 @@ move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339
 }
 
 # Prepare schedule data to be called for two different tables -----------------------------------
-filter_schedule <- function( dsSchedule, selectedCounty, selectedDC, start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
-  d <- dsSchedule
-  
+filter_schedule <- function( d, selectedCounty, selectedDC, selectedStatuses, start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
   if( nrow(d)>0 & selectedCounty != "All" )
     d <- d[d$group_name==selectedCounty, ]
   if( nrow(d)>0 &  selectedDC != "All" )
     d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==selectedDC), ]
+  if( nrow(d)>0 )
+    d <- d[!is.na(d$event_status) & (d$event_status %in% selectedStatuses), ]
   
   d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
   return( d )
@@ -97,26 +96,25 @@ format_schedule <- function( d ) {
     rownames = FALSE,
     style = 'bootstrap', 
     options = list(
+      language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--"),
       rowCallback = JS(
         'function(row, data) {
-        if (data[3].indexOf("Interview") > -1 ) {
-        $("td", row).addClass("interviewRow"); 
-        $("td:eq(3)", row).addClass("interviewEvent"); 
-        }
-      }'
-    )
-  ),
-  #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
-  class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
-  escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
-    ) %>%
+          if (data[3].indexOf("Interview") > -1 ) {
+            $("td", row).addClass("interviewRow"); 
+            $("td:eq(3)", row).addClass("interviewEvent"); 
+          }
+        }'
+      )
+    ),
+    #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
+    class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
+    escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
+  ) %>%
   formatStyle(
     columns = 'Status', 
     color = styleEqual(names(palette_status), palette_status)
   )
 }
-
-
 
 # d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
 #TODO: add column for day of week? (eg, `Thursday`)
@@ -165,13 +163,11 @@ shinyServer( function(input, output) {
   dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
   dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                                 dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
-  
-  
 
-  
   output$ScheduleTableUpcoming <- DT::renderDataTable({
     d <- prettify_schedule(
-      filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]),
+      filter_schedule(dsUpcomingSchedule, input$county, input$dc, input$status,
+                      start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]),
       show_dc = input$show_dc,
       show_county = input$show_county
     )
@@ -180,7 +176,8 @@ shinyServer( function(input, output) {
   
   output$ScheduleTablePast <- DT::renderDataTable({
     d <- prettify_schedule(
-      filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$past_date_range[1], stop_date=input$past_date_range[2]),
+      filter_schedule(dsUpcomingSchedule, input$county, input$dc, input$status,
+                      start_date=input$past_date_range[1], stop_date=input$past_date_range[2]),
       show_dc = input$show_dc,
       show_county = input$show_county
     )
@@ -230,11 +227,13 @@ shinyServer( function(input, output) {
   create_schedule_dropdown <- function( upcoming = TRUE ) {
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
     if( any(upcoming) ) {
-      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2])
+      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, input$status,
+                           start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2])
       label <- "upcoming"
       icon_name <- "calendar"
     } else {
-      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$past_date_range[1], stop_date=input$past_date_range[2])
+      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, input$status,
+                           start_date=input$past_date_range[1], stop_date=input$past_date_range[2])
       label <- "past"
       icon_name <- "calendar-o"
     }
