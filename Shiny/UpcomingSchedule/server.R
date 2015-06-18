@@ -14,6 +14,13 @@ pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
 redcap_version <- "6.0.2"
 project_id <- 35L
 
+status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
+icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
+order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
+#order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
+palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
+
+
 reportTheme <- theme_bw() +
   theme(axis.text = element_text(colour="gray40")) +
   theme(axis.title = element_text(colour="gray40")) +
@@ -25,44 +32,91 @@ move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339
   data[c(setdiff(names(data), move), move)]
 }
 
-status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
-icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
-order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
-#order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
-
-# LoadData -----------------------------------
-if( file.exists(pathUpcomingScheduleServerOutside) ) {
-  pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
-} else if( file.exists(pathUpcomingScheduleServerInside) ) {
-  pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
-} else {
-  pathUpcomingSchedule <- pathUpcomingScheduleRepo
+# Prepare schedule data to be called for two different tables -----------------------------------
+filter_schedule <- function( dsSchedule, selectedCounty, selectedDC, start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
+  d <- dsSchedule
+  
+  if( nrow(d)>0 & selectedCounty != "All" )
+    d <- d[d$group_name==selectedCounty, ]
+  if( nrow(d)>0 &  selectedDC != "All" )
+    d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==selectedDC), ]
+  
+  d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
+  return( d )
 }
 
-dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
+prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
+  d <- plyr::rename(d, replace=c(
+    "record_pretty" = "Participant",
+    "event_date_pretty" = "Event Date",
+    "event_status_pretty" = "Status",
+    "event_description_pretty" = "Arm: Event",
+    "dc_currently_responsible_pretty"= "DC",
+    "group_name" = "County"
+  ))
+  
+  if( show_dc ) 
+    d <- move_to_last(d, c("DC"))
+  else 
+    d$DC <- NULL
+  
+  if( show_county ) 
+    d <- move_to_last(d, c("County"))
+  else 
+    d$County <- NULL
+  
+  if( pretty_only ) {
+    d$record <- NULL
+    d$event_date <- NULL
+    d$event_status <- NULL
+    d$event_description <- NULL
+    d$dc_currently_responsible <- NULL
+    
+    d$baseline_date <- NULL
+    d$event_time <- NULL
+    d$cal_id <- NULL
+    d$group_id <- NULL
+    d$project_id <- NULL
+    d$event_id <- NULL
+    d$arm_id <- NULL
+    d$arm_num <- NULL
+    d$day_offset <- NULL
+    d$event_type <- NULL
+    d$arm_name <- NULL
+    d$redcap_event_name <- NULL
+  }
+  return( d )
+}
 
-# TweakData -----------------------------------
-dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
-dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
-dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=status_levels)
+# Create the DataTables objects  ----------------------------------- (a jQuery library): http://www.datatables.net/ 
 
-dsUpcomingSchedule$group_name <- ifelse(is.na(dsUpcomingSchedule$group_name), "Missing", dsUpcomingSchedule$group_name)
-dsUpcomingSchedule$group_name <- gsub("^(.+?)( County)$", "\\1", dsUpcomingSchedule$group_name)
+#This list is pulled out so it can be used by both function
+format_schedule <- function( d ) {
+  datatable(
+    d, 
+    rownames = FALSE,
+    style = 'bootstrap', 
+    options = list(
+      rowCallback = JS(
+        'function(row, data) {
+        if (data[3].indexOf("Interview") > -1 ) {
+        $("td", row).addClass("interviewRow"); 
+        $("td:eq(3)", row).addClass("interviewEvent"); 
+        }
+      }'
+    )
+  ),
+  #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
+  class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
+  escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
+    ) %>%
+  formatStyle(
+    columns = 'Status', 
+    color = styleEqual(names(palette_status), palette_status)
+  )
+}
 
-dsUpcomingSchedule$event_description <- gsub("^Year (\\d)", "Y\\1", dsUpcomingSchedule$event_description) #Shorten 'Year' to 'Y'
-dsUpcomingSchedule$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", dsUpcomingSchedule$event_description) #Pad one-digit month numbers
-dsUpcomingSchedule$event_description <- gsub("Month (\\d{2})", "M\\1", dsUpcomingSchedule$event_description) #Shorten 'Month' to 'M'
-dsUpcomingSchedule$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", dsUpcomingSchedule$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
-dsUpcomingSchedule$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", dsUpcomingSchedule$event_description) #Prepend "Y1" to the 1st year contacts
 
-dsUpcomingSchedule$record_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
-                                            redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
-dsUpcomingSchedule$event_date_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
-                                                dsUpcomingSchedule$event_date, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
-dsUpcomingSchedule$event_status_pretty <- dsUpcomingSchedule$event_status
-dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
-dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
-                                                              dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
 
 # d$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", d$event_description)
 #TODO: add column for day of week? (eg, `Thursday`)
@@ -73,105 +127,63 @@ shinyServer( function(input, output) {
   
   # Set any sesion-wide options  -----------------------------------
   # options(shiny.trace=TRUE)
-  #palette_status <- c("Due Date"="#bb2288", "Confirmed"="", "Cancelled"="#dd0000", "No Show"="", "Scheduled"="")
-  palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
-  
+
   # Call source files that contain semi-encapsulated functions -----------------------------------
   
   # Prepare inputs -----------------------------------
-
-  # Prepare schedule data to be called for two different tables -----------------------------------
-  filter_schedule <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
-    d <- dsUpcomingSchedule
-    
-    if( nrow(d)>0 & input$county != "All" )
-      d <- d[d$group_name==input$county, ]
-    if( nrow(d)>0 &  input$dc != "All" )
-      d <- d[!is.na(d$dc_currently_responsible) & (d$dc_currently_responsible==input$dc), ]
-    
-    d <- d[(start_date<=d$event_date) & (d$event_date<=stop_date), ]
-    return( d )
-  }
-
-  prettify_schedule <- function( d, pretty_only=TRUE ){
-    d <- plyr::rename(d, replace=c(
-      "record_pretty" = "Participant",
-      "event_date_pretty" = "Event Date",
-      "event_status_pretty" = "Status",
-      "event_description_pretty" = "Arm: Event",
-      "dc_currently_responsible_pretty"= "DC",
-      "group_name" = "County"
-    ))
-    
-    if( input$show_dc ) 
-      d <- move_to_last(d, c("DC"))
-    else 
-      d$DC <- NULL
-    
-    if( input$show_county ) 
-      d <- move_to_last(d, c("County"))
-    else 
-      d$County <- NULL
-    
-    if( pretty_only ) {
-      d$record <- NULL
-      d$event_date <- NULL
-      d$event_status <- NULL
-      d$event_description <- NULL
-      d$dc_currently_responsible <- NULL
-      
-      d$baseline_date <- NULL
-      d$event_time <- NULL
-      d$cal_id <- NULL
-      d$group_id <- NULL
-      d$project_id <- NULL
-      d$event_id <- NULL
-      d$arm_id <- NULL
-      d$arm_num <- NULL
-      d$day_offset <- NULL
-      d$event_type <- NULL
-      d$arm_name <- NULL
-      d$redcap_event_name <- NULL
-    }
-    return( d )
+  
+  # LoadData -----------------------------------
+  if( file.exists(pathUpcomingScheduleServerOutside) ) {
+    pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
+  } else if( file.exists(pathUpcomingScheduleServerInside) ) {
+    pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
+  } else {
+    pathUpcomingSchedule <- pathUpcomingScheduleRepo
   }
   
-  # Create the DataTables objects  ----------------------------------- (a jQuery library): http://www.datatables.net/ 
+  dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
   
-  #This list is pulled out so it can be used by both function
-  format_schedule <- function( d ) {
-    datatable(
-      d, 
-      rownames = FALSE,
-      style = 'bootstrap', 
-      options = list(
-        rowCallback = JS(
-          'function(row, data) {
-            if (data[3].indexOf("Interview") > -1 ) {
-              $("td", row).addClass("interviewRow"); 
-              $("td:eq(3)", row).addClass("interviewEvent"); 
-            }
-          }'
-        )
-      ),
-      #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
-      class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
-      escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
-        ) %>%
-      formatStyle(
-        columns = 'Status', 
-        color = styleEqual(names(palette_status), palette_status)
-      )
-  }
+  # TweakData -----------------------------------
+  dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
+  dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
+  dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=status_levels)
+  
+  dsUpcomingSchedule$group_name <- ifelse(is.na(dsUpcomingSchedule$group_name), "Missing", dsUpcomingSchedule$group_name)
+  dsUpcomingSchedule$group_name <- gsub("^(.+?)( County)$", "\\1", dsUpcomingSchedule$group_name)
+  
+  dsUpcomingSchedule$event_description <- gsub("^Year (\\d)", "Y\\1", dsUpcomingSchedule$event_description) #Shorten 'Year' to 'Y'
+  dsUpcomingSchedule$event_description <- gsub("Month (\\d{1})\\b", "Month 0\\1", dsUpcomingSchedule$event_description) #Pad one-digit month numbers
+  dsUpcomingSchedule$event_description <- gsub("Month (\\d{2})", "M\\1", dsUpcomingSchedule$event_description) #Shorten 'Month' to 'M'
+  dsUpcomingSchedule$event_description <- gsub("^(Y\\d) Interview Reminder Call$", "\\1 Reminder Call", dsUpcomingSchedule$event_description) #Shorten 'Interview Reminder Call' to 'Reminder Call'
+  dsUpcomingSchedule$event_description <- gsub("^(M\\d{2} Contact)$", "Y1 \\1", dsUpcomingSchedule$event_description) #Prepend "Y1" to the 1st year contacts
+  
+  dsUpcomingSchedule$record_pretty <- sprintf('<a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/grid.php?pid=%s&arm=%s&id=%s&page=participant_demographics" target="_blank">%s</a>',
+                                              redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
+  dsUpcomingSchedule$event_date_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
+                                                  dsUpcomingSchedule$event_date, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
+  dsUpcomingSchedule$event_status_pretty <- dsUpcomingSchedule$event_status
+  dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
+  dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
+                                                                dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
+  
+  
 
   
   output$ScheduleTableUpcoming <- DT::renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]))
+    d <- prettify_schedule(
+      filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2]),
+      show_dc = input$show_dc,
+      show_county = input$show_county
+    )
     format_schedule(d)
   })
   
   output$ScheduleTablePast <- DT::renderDataTable({
-    d <- prettify_schedule(filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2]))
+    d <- prettify_schedule(
+      filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$past_date_range[1], stop_date=input$past_date_range[2]),
+      show_dc = input$show_dc,
+      show_county = input$show_county
+    )
     format_schedule(d)
   })    
   
@@ -218,11 +230,11 @@ shinyServer( function(input, output) {
   create_schedule_dropdown <- function( upcoming = TRUE ) {
     # https://github.com/rstudio/shinydashboard/issues/1#issuecomment-71713501
     if( any(upcoming) ) {
-      d <- filter_schedule(start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2])
+      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$upcoming_date_range[1], stop_date=input$upcoming_date_range[2])
       label <- "upcoming"
       icon_name <- "calendar"
     } else {
-      d <- filter_schedule(start_date=input$past_date_range[1], stop_date=input$past_date_range[2])
+      d <- filter_schedule(dsUpcomingSchedule, input$county, input$dc, start_date=input$past_date_range[1], stop_date=input$past_date_range[2])
       label <- "past"
       icon_name <- "calendar-o"
     }
