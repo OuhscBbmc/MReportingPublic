@@ -18,7 +18,8 @@ status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" =
 icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
 order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
 #order_status <- c("Due Date"=1, "Scheduled"=2, "Confirmed"=3, "Cancelled"=4, "No Show"=5)
-palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
+#palette_status <- c("Due Date"="#bf4136", "Confirmed"="#387566", "Cancelled"="#b8b49b", "No Show"="#fba047", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
+palette_status <- c("Due Date"="#bf4136", "Confirmed"="#54FF9F", "Cancelled"="#FF4500", "No Show"="#FF4500", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
 
 reportTheme <- theme_bw() +
   theme(axis.text = element_text(colour="gray40")) +
@@ -97,11 +98,13 @@ format_schedule <- function( d ) {
     style = 'bootstrap', 
     options = list(
       language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--"),
-      rowCallback = JS(
+      rowCallback = JS( 
         'function(row, data) {
           if (data[3].indexOf("Interview") > -1 ) {
             $("td", row).addClass("interviewRow"); 
             $("td:eq(3)", row).addClass("interviewEvent"); 
+          } else if (data[3].indexOf("Reminder") > -1 ) {
+            $("td:eq(3)", row).addClass("reminderEvent"); 
           }
         }'
       )

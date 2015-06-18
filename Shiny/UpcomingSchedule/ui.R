@@ -5,7 +5,8 @@ library(ggplot2)
 tags_style <- "
   .panelHeader {color:#605CA8; font-size:200%}
   .table .smallish {font-size:80%; padding:2px; }
-  .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
+  .table .interviewEvent {background:#B452CD;}
+  .table .reminderEvent {color:#bb2288; background:#54FF9F;}
   .table .interviewRow {font-size:97%; font-weight:bold;}
   "
 
