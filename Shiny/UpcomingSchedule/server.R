@@ -2,9 +2,9 @@
 library(shiny)
 library(htmlwidgets)
 library(ggplot2)
-#library(grid)
-library(DT)
 library(magrittr)
+requireNamespace("grid")
+requireNamespace("DT")
 
 # DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
@@ -92,7 +92,7 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
 
 #This list is pulled out so it can be used by both function
 format_schedule <- function( d ) {
-  datatable(
+  DT::datatable(
     d, 
     rownames = FALSE,
     style = 'bootstrap', 
@@ -113,9 +113,9 @@ format_schedule <- function( d ) {
     class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
     escape = FALSE #c(-1, -2, -5) #Let the 1st, 2nd, & 5th column contain html
   ) %>%
-  formatStyle(
+  DT::formatStyle(
     columns = 'Status', 
-    color = styleEqual(names(palette_status), palette_status)
+    color = DT::styleEqual(names(palette_status), palette_status)
   )
 }
 
