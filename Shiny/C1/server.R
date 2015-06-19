@@ -1,9 +1,11 @@
 # LoadPackages  -----------------------------------
 library(shiny)
+library(htmlwidgets)
 library(magrittr)
 library(scales)
 library(ggplot2)
 requireNamespace("grid")
+requireNamespace("DT")
 
 # DeclareGlobals  -----------------------------------
 # pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
@@ -95,8 +97,9 @@ function(input, output) {
     return( d )
   }
 
-  output$ScheduleTablePast <- renderDataTable({
+  output$ScheduleTablePast <- DT::renderDataTable({
     d <- FilterRegionMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
+    
     d <- d %>%
       dplyr::mutate(
         ActivityMonth = strftime(ActivityMonth, "%Y-%m"),
@@ -111,21 +114,34 @@ function(input, output) {
         "Visit Count" = "VisitCount",
         "Visits per Need" = "VisitsPerInfantNeed"
       )
-    return( d )
-  }, options = list(
-    # lengthMenu = list(c(length(unique(dsItemProgress$item)), -1), c(length(unique(dsItemProgress$item)), 'All')),
-    language = list(emptyTable="--<em>Please loosen the filter to populate this table.</em>--"),
-    aoColumnDefs = list( #http://legacy.datatables.net/usage/columns
-      # list(sClass="semihide", aTargets=-1),
-      # list(sClass="session", aTargets=1:length(unique(dsItemProgress$item))),
-      list(sClass="smallish", aTargets="_all")
-    ),
-    # columnDefs = list(list(targets = c(3, 4) - 1, searchable = FALSE)),
-    searching = FALSE,
-    paging    = TRUE,
-    sort      = FALSE),
-    escape    = TRUE #Change to 'FALSE' if you embed something like HTML links
-  )   
+    
+    DT::datatable(
+      d, 
+      rownames = FALSE,
+      style = 'bootstrap', 
+      options = list(
+        searching = FALSE,
+        sort = FALSE,
+        language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
+        # rowCallback = JS( 
+        #   'function(row, data) {
+        #     if (data[3].indexOf("Interview") > -1 ) {
+        #       $("td", row).addClass("interviewRow"); 
+        #       $("td:eq(3)", row).addClass("interviewEvent"); 
+        #     } else if (data[3].indexOf("Reminder") > -1 ) {
+        #       $("td:eq(3)", row).addClass("reminderEvent"); 
+        #     }
+        #   }'
+        # )
+      ),
+      class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
+      escape = FALSE
+    ) #%>%
+    # formatStyle(
+    #   columns = 'Status', 
+    #   color = styleEqual(names(palette_status), palette_status)
+    # )
+  })  
   output$GraphVisitCount <- renderPlot({
     d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
     highlightedRegions <- input$regionTag

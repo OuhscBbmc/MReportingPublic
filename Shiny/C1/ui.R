@@ -52,7 +52,7 @@ dashboardPage(
     tabItems( #type = "tabs",
       tabItem(
         tabName = "table",
-        shiny::dataTableOutput(outputId = "ScheduleTablePast"),
+        DT::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
              "<ul>",
