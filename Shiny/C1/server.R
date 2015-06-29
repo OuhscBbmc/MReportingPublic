@@ -13,6 +13,7 @@ requireNamespace("DT")
 # pathC1CountyMonthRepo <- "../.././DataPhiFree/Derived/C1/C1CountyMonth.rds"
 pathC1RegionMonthRepo <- "../.././DataPhiFree/Derived/C1/C1RegionMonth.rds"
 
+#Define some common cosmetics for the report.
 reportTheme <- theme_bw() +
   theme(axis.text         = element_text(colour="gray40")) +
   theme(axis.title        = element_text(colour="gray40")) +
