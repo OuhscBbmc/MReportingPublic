@@ -53,20 +53,20 @@ dashboardPage(
       tabItem(
         tabName = "table",
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
-        HTML("<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
+        HTML("<br/><font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
-             "<ul>",
-             "  <li><code>Region Tag</code>: a randomly-generated two-letter code for each region.</li>",
-             "  <li><code>Month</code>: Month for the specific record (YYYY-MM).</li>",
-             "  <li><code>Referral Count</code>: total number of monthly referrals. (<em>Coming soon</em>)</li>",
-             "  <li><code>Referrals per Need</code>: rate of monthly referrals per 'infant in need'. (<em>Coming soon</em>)</li>",
-             "  <li><code>Enrollment Count</code>: total number of monthly enrollments. (<em>Coming soon</em>)</li>",
-             "  <li><code>Enrollments per Referral</code>: rate of monthly enrollments per referral. (<em>Coming soon</em>)</li>",
-             "  <li><code>Visit Count</code>: total number of visits for the month.</li>",
-             "  <li><code>Visits per Enrollment</code>: rate of monthly visits per enrollment. (<em>Coming soon</em>)</li>",
-             "  <li><code>Visits per Need</code>: rate of monthly visits per 'infant in need'.</li>",
-             "</ul>",
-             "</font><br/>")
+             "<table>",
+             "  <tr><td><code>Region Tag</code></td><td> a randomly-generated two-letter code for each region.</td></tr>",
+             "  <tr><td><code>Month</code></td><td> Month for the specific record (YYYY-MM).</td></tr>",
+             "  <tr><td><code>Referral Count</code></td><td> total number of monthly referrals. (<em>Coming soon</em>)</td></tr>",
+             "  <tr><td><code>Referrals per Need</code></td><td> rate of monthly referrals per 'infant in need'. (<em>Coming soon</em>)</td></tr>",
+             "  <tr><td><code>Enrollment Count</code></td><td> total number of monthly enrollments. (<em>Coming soon</em>)</td></tr>",
+             "  <tr><td><code>Enrollments per Referral</code></td><td> rate of monthly enrollments per referral. (<em>Coming soon</em>)</td></tr>",
+             "  <tr><td><code>Visit Count</code></td><td> total number of visits for the month.</td></tr>",
+             "  <tr><td><code>Visits per Enrollment</code></td><td> rate of monthly visits per enrollment. (<em>Coming soon</em>)</td></tr>",
+             "  <tr><td><code>Visits per Need</code></td><td> rate of monthly visits per 'infant in need'.</td></tr>",
+             "</table>",
+             "</font>")
       ), #End the (first) tab with the 'table' table
       tabItem(
         tabName = "referrals",
