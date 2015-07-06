@@ -2,7 +2,7 @@ library(shiny)
 library(shinydashboard)
 # library(DT)
 library(ggplot2)
-
+#Header
 tags_style <- "
 .panelHeader {color:#605CA8; font-size:200%}
 .table .smallish {font-size:80%; padding:2px; }
