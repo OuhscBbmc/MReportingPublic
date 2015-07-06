@@ -1,3 +1,5 @@
+# The ui.R file formats the screen seen by the user in the browser.
+
 library(shiny)
 library(shinydashboard)
 # library(DT)
