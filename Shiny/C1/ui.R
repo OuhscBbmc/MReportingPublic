@@ -58,7 +58,7 @@ dashboardPage(
         HTML("<br/><font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
              "<table>",
-             "  <tr><td><code>Region Tag</code></td><td> a randomly-generated two-letter code for each region.</td></tr>",
+             "  <tr><td><code>Region Tag</code></td><td> a randomly-generated two-letter code for each region.</td></tr>", # <td> is standard cells that contain the data
              "  <tr><td><code>Month</code></td><td> Month for the specific record (YYYY-MM).</td></tr>",
              "  <tr><td><code>Referral Count</code></td><td> total number of monthly referrals. (<em>Coming soon</em>)</td></tr>",
              "  <tr><td><code>Referrals per Need</code></td><td> rate of monthly referrals per 'infant in need'. (<em>Coming soon</em>)</td></tr>",
