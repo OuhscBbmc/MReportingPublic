@@ -9,7 +9,7 @@ requireNamespace("DT")
 # DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
-pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
+pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/Raw/UpcomingSchedule/UpcomingSchedule.csv"
 
 redcap_version <- "6.0.2"
 project_id <- 35L
@@ -22,10 +22,10 @@ order_status  <- as.integer(names(status_levels)); names(order_status) <- status
 palette_status <- c("Due Date"="#bf4136", "Confirmed"="#54FF9F", "Cancelled"="#FF4500", "No Show"="#FF4500", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
 
 reportTheme <- theme_bw() +
-  theme(axis.text = element_text(colour="gray40")) +
-  theme(axis.title = element_text(colour="gray40")) +
-  theme(panel.border = element_rect(colour="gray80")) +
-  theme(axis.ticks = element_line(colour="gray80")) +
+  theme(axis.text         = element_text(colour="gray40")) +
+  theme(axis.title        = element_text(colour="gray40")) +
+  theme(panel.border      = element_rect(colour="gray80")) +
+  theme(axis.ticks        = element_line(colour="gray80")) +
   theme(axis.ticks.length = grid::unit(0, "cm"))
 
 move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339370
@@ -47,44 +47,44 @@ filter_schedule <- function( d, selectedCounty, selectedDC, selectedStatuses, st
 
 prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
   d <- plyr::rename(d, replace=c(
-    "record_pretty" = "Participant",
-    "event_date_pretty" = "Event Date",
-    "event_status_pretty" = "Status",
-    "event_description_pretty" = "Arm: Event",
-    "dc_currently_responsible_pretty"= "DC",
-    "group_name" = "County"
+    "record_pretty"                   = "Participant",
+    "event_date_pretty"               = "Event Date",
+    "event_status_pretty"             = "Status",
+    "event_description_pretty"        = "Arm: Event",
+    "dc_currently_responsible_pretty" = "DC",
+    "group_name"                      = "County"
   ))
   
   if( show_dc ) 
     d <- move_to_last(d, c("DC"))
   else 
-    d$DC <- NULL
+    d$DC                          <- NULL
   
   if( show_county ) 
     d <- move_to_last(d, c("County"))
   else 
-    d$County <- NULL
+    d$County                      <- NULL
   
   if( pretty_only ) {
-    d$record <- NULL
-    d$event_date <- NULL
-    d$event_status <- NULL
-    d$event_description <- NULL
-    d$dc_currently_responsible <- NULL
+    d$record                      <- NULL
+    d$event_date                  <- NULL
+    d$event_status                <- NULL
+    d$event_description           <- NULL
+    d$dc_currently_responsible    <- NULL
     
-    d$baseline_date <- NULL
-    d$event_time <- NULL
-    d$cal_id <- NULL
-    d$group_id <- NULL
-    d$project_id <- NULL
-    d$event_id <- NULL
-    d$arm_id <- NULL
-    d$arm_num <- NULL
-    d$day_offset <- NULL
-    d$event_type <- NULL
-    d$arm_name <- NULL
-    d$redcap_event_name <- NULL
-  }
+    d$baseline_date               <- NULL
+    d$event_time                  <- NULL
+    d$cal_id                      <- NULL
+    d$group_id                    <- NULL
+    d$project_id                  <- NULL
+    d$event_id                    <- NULL
+    d$arm_id                      <- NULL
+    d$arm_num                     <- NULL
+    d$day_offset                  <- NULL
+    d$event_type                  <- NULL
+    d$arm_name                    <- NULL
+    d$redcap_event_name           <- NULL
+  }    
   return( d )
 }
 
@@ -137,9 +137,13 @@ shinyServer( function(input, output) {
   if( file.exists(pathUpcomingScheduleServerOutside) ) {
     pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
   } else if( file.exists(pathUpcomingScheduleServerInside) ) {
-    pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
+    pathUpcomingSchedule <- pathUpcomingScheduleServerInside 
+    # } else if( !file.exists(pathUpcomingScheduleRepo) ) {
+    #   pathUpcomingSchedule <- pathUpcomingScheduleRepo
   } else {
     pathUpcomingSchedule <- pathUpcomingScheduleRepo
+    # pathUpcomingSchedule <- "Aaaa"
+    # message("An appropriate datasource could not be found.")
   }
   
   dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
@@ -255,8 +259,8 @@ shinyServer( function(input, output) {
     } else {
       msgs <- apply(d_status, 1, function(row) {
         messageItem(
-          icon = icon(row[["icon"]]),
-          from = paste0(row[["event_status"]], " (", label, ")"),
+          icon    = icon(row[["icon"]]),
+          from    = paste0(row[["event_status"]], " (", label, ")"),
           message = paste(row[["status_count_pretty"]], "in", ifelse(input$county=="All", "All Counties", paste(input$county, "County")), ifelse(input$dc=="All", "", paste(" with", input$dc)))
         )
       })
