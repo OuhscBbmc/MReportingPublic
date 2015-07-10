@@ -20,6 +20,7 @@ requireNamespace("readr", quietly=TRUE)
 pathInputVisit <- "./DataPhiFreeCache/Raw/C1/c1-visit.csv"
 pathInputCountyTagged <- "./DataPhiFreeCache/Derived/C1/CountyTag.csv"
 pathInputRegionTagged <- "./DataPhiFreeCache/Derived/C1/RegionTag.csv"
+pathInputEncounterReclassification <- "./DataPhiFree/Raw/EncounterTypeReclassification.csv"
 # pathInputCountyCharacteristics <- "./DataPhiFree/Raw/CountyCharacteristics.csv"
 pathOutputCounty <- "./DataPhiFree/Derived/C1/C1CountyMonth.rds"
 pathOutputRegion <- "./DataPhiFree/Derived/C1/C1RegionMonth.rds"
@@ -45,6 +46,7 @@ FillInMonthsForGroups <- function( dsToFillIn, groupVariable, monthVariable, dvN
 dsVisit <- read.csv(pathInputVisit, stringsAsFactors=FALSE)
 dsCountyTag <- readr::read_csv(pathInputCountyTagged)
 dsRegionTag <- readr::read_csv(pathInputRegionTagged)
+dsEncounterReclassification <- readr::read_csv(pathInputEncounterReclassification)
 # dsCountyCharacteristics <- read.csv(pathInputCountyCharacteristics, stringsAsFactors=FALSE)
 
 ############################
@@ -63,11 +65,13 @@ dsVisit <- dplyr::rename_(dsVisit,
   , "OriginalDate"    = "Originally.scheduled.for_9397"
   , "MileageTotal"    = "Total.Miles_9404"
   , "OSIIS.ID"        = "OSIIS.ID"
+  , "EncounterType"   = "Type.of.encounter._9396"
 )
 sapply(dsVisit, class)
 sapply(dsVisit, function(x) sum(is.na(x)))
 sapply(dsVisit, function(x) sum(nchar(iconv(x))==0))
 
+# readr::write_csv(plyr::count(gsub("Â", "", dsVisit$EncounterType)), "./DataPhiFree/Raw/EncounterTypeReclassification.csv")
 
 # Add a unique identifier
 # dsVisit$CarID <- seq_len(nrow(dsVisit))
@@ -95,6 +99,13 @@ tooLate <- (rangeDate[2] < dsVisit$VisitDate)
 message("There are ", scales::comma(sum(tooLate)), " visits after ", rangeDate[2], " that will be dropped.")
 dsVisit <- dsVisit[!tooLate, ]
 
+
+dsVisit$EncounterType <- gsub("Ã‚Â", "", dsVisit$EncounterType)
+dsVisit$EncounterType <- gsub("Â", "", dsVisit$EncounterType)
+dsEncounterReclassification$Raw <- gsub("Ã‚Â", "", dsEncounterReclassification$Raw)
+dsEncounterReclassification$Raw <- gsub("Â", "", dsEncounterReclassification$Raw)
+sort(unique(dsVisit$EncounterType))
+
 length(unique(dsVisit$EntitySiteID))
 # rangeDate <- range(dsVisit$VisitDate)
 rm(isC1, tooEarly, tooLate)
@@ -108,15 +119,26 @@ dsVisit <- dsVisit %>%
     by="CountyEtoID") 
 
 ############################
+## @knitr reclassify_encounter_type
+testit::assert("All encounter types should be anticipated.", sum(!(dsVisit$EncounterType %in% dsEncounterReclassification$Raw))==0L)
+# dsVisit[!(dsVisit$EncounterType %in% dsEncounterReclassification$Raw), "EncounterType"]
+dsVisit$EncounterType <- plyr::mapvalues(dsVisit$EncounterType, from=dsEncounterReclassification$Raw, to=dsEncounterReclassification$Combined, warn_missing=F)
+table(dsVisit$EncounterType)
+
+############################
 ## @knitr collapse_region_month
 dsRegionMonth <- dsVisit %>%
   dplyr::group_by(
     RegionTag, #RegionID,
-    ActivityMonth
+    ActivityMonth#, 
+    #EncounterType
   ) %>%
   dplyr::summarise(
     VisitCount = length(ActivityMonth)
-  )
+  ) #%>%
+  # dplyr::filter(
+  #   RegionTag == "rv"
+  # )
 
 dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount"), rangeDate)
 
@@ -131,6 +153,8 @@ if( any(is.na(dsRegionMonth$WicNeedPopInfant)) )
   stop("At least one Region was not correctly joined to its WIC Need.")
 
 dsRegionMonth$VisitsPerInfantNeed <- dsRegionMonth$VisitCount / dsRegionMonth$WicNeedPopInfant
+# readr::write_csv(dsRegionMonth, "./DataPhiFree/Derived/C1/Tulsa.csv")
+# readr::write_csv(dsRegionMonth, "./DataPhiFree/Derived/C1/TulsaByType.csv")
 
 ############################
 ## @knitr save_to_disk

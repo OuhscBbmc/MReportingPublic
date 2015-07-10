@@ -40,6 +40,7 @@ us.stackdump
 !UtilityScripts/PackageDependencyList.csv
 
 !DataPhiFree/Raw/CountyCharacteristics.csv
+!DataPhiFree/Raw/EncounterTypeReclassification.csv
 !DataPhiFree/Derived/C1/C1CountyMonth.rds
 !DataPhiFree/Derived/C1/C1RegionMonth.rds
 
