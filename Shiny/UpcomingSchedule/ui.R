@@ -59,7 +59,8 @@ dashboardPage(
     sidebarMenu(
       menuItem("Upcoming", tabName="upcoming"),
       menuItem("Past", tabName="past"),
-      menuItem("Graph", tabName="graph"),
+      menuItem("Graph County", tabName="graph_county"),
+      menuItem("Graph DC", tabName="graph_dc"),
       menuItem("General Links", tabName="general_links")
     )
   ),
@@ -80,16 +81,20 @@ dashboardPage(
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (second) tab with the 'past' table
       tabItem(
-        tabName = "graph", 
-        shiny::plotOutput(outputId = "GraphEventType", width='95%', height='800px')
-      ), #End the (third) tab with the graph
+        tabName = "graph_county", 
+        shiny::plotOutput(outputId = "GraphCounty", width='95%', height='800px')
+      ), #End the (third) tab with the county graph
+      tabItem(
+        tabName = "graph_dc", 
+        shiny::plotOutput(outputId = "GraphDC", width='95%', height='800px')
+      ), #End the (fourth) tab with the dc graph
       tabItem(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         htmlOutput(outputId='redcap_outlooks'),
         htmlOutput(outputId='table_file_info')
         # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
-      )#, #End the (fourth) tab with the links & details
+      )#, #End the (fifth) tab with the links & details
     ) #End the tabsetPanel
   ) #End the dashboardBody
 ) #End the dashboardPage

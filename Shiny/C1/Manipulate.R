@@ -127,18 +127,35 @@ table(dsVisit$EncounterType)
 
 ############################
 ## @knitr collapse_region_month
-dsRegionMonth <- dsVisit %>%
+
+
+dsNurseMonth <- dsVisit %>%
   dplyr::group_by(
     RegionTag, #RegionID,
-    ActivityMonth#, 
-    #EncounterType
+    CaseWorkerName,
+    ActivityMonth, 
+    EncounterType
   ) %>%
   dplyr::summarise(
     VisitCount = length(ActivityMonth)
-  ) #%>%
-  # dplyr::filter(
-  #   RegionTag == "rv"
-  # )
+  ) %>%
+  dplyr::filter(
+    RegionTag == "rv" #Tulsa
+  )
+
+
+dsRegionMonth <- dsVisit %>%
+  dplyr::group_by(
+    RegionTag, #RegionID,
+    ActivityMonth, 
+    EncounterType
+  ) %>%
+  dplyr::summarise(
+    VisitCount = length(ActivityMonth)
+  ) %>%
+  dplyr::filter(
+    RegionTag == "rv" #Tulsa
+  )
 
 dsRegionMonth <- FillInMonthsForGroups(dsRegionMonth, "RegionTag", "ActivityMonth", c("VisitCount"), rangeDate)
 

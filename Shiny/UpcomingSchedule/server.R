@@ -191,7 +191,27 @@ shinyServer( function(input, output) {
     format_schedule(d)
   })    
   
-  output$GraphEventType <- renderPlot({
+  output$GraphCounty <- renderPlot({
+    d <- dsUpcomingSchedule
+    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
+    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
+    
+    if( input$county != "All" )
+      d <- d[d$group_name==input$county, ]
+    
+    ggplot(d, aes(x=event_date, color=event_status)) +
+      geom_line(stat="bin", binwidth=7) +
+      geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
+      scale_color_manual(values=palette_status) +
+      guides(colour = guide_legend(override.aes=list(size=3))) +
+      facet_grid(event_type ~ group_name, scales="free_y") +
+      reportTheme +
+      theme(legend.position="top") +
+      theme(axis.text.x = element_text(angle=90, hjust=1)) +
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
+  })
+  
+  output$GraphDC <- renderPlot({
     d <- dsUpcomingSchedule
     d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
