@@ -34,7 +34,7 @@ dashboardPage(
     dateRangeInput(
       inputId = 'dateRange', 
       separator = "-",
-      label = 'Dates: yyyy-mm-dd',
+      label = 'Date Format: yyyy-mm-dd',
       start = as.Date("2015-01-01"), end = lubridate::floor_date(Sys.Date(), "month")
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
