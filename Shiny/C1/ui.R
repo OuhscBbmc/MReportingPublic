@@ -6,6 +6,7 @@ library(shinydashboard)
 library(ggplot2)
 #Header
 tags_style <- "
+h3 {color:red; font-size:150%}
 .panelHeader {color:#605CA8; font-size:200%}
 .table .smallish {font-size:80%; padding:2px; }
 .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
@@ -51,10 +52,12 @@ dashboardPage(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML(tags_style))
     ),#End tags$head 
+    h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
     tabItems( #type = "tabs",
       tabItem(
         tabName = "table",
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
+        h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
         HTML("<br/><font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
              "<table>",
