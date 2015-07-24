@@ -4,6 +4,7 @@ library(htmlwidgets)
 library(ggplot2)
 library(magrittr)
 requireNamespace("grid")
+requireNamespace("dplyr")
 requireNamespace("DT")
 requireNamespace("rpivotTable")
 
@@ -14,6 +15,7 @@ pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
 
 redcap_version <- "6.0.2"
 project_id <- 35L
+default_day_of_month <- 15
 
 status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
 icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
@@ -147,6 +149,9 @@ shinyServer( function(input, output) {
   
   # TweakData -----------------------------------
   dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
+  dsUpcomingSchedule$event_month <- dsUpcomingSchedule$event_date
+  lubridate::day(dsUpcomingSchedule$event_month) <- default_day_of_month
+  
   dsUpcomingSchedule$event_type <- gsub("^.+?(Reminder Call|Interview|Contact)$", "\\1", dsUpcomingSchedule$event_description)
   dsUpcomingSchedule$event_status <- plyr::revalue(as.character(dsUpcomingSchedule$event_status), warn_missing=F, replace=status_levels)
   
@@ -167,7 +172,13 @@ shinyServer( function(input, output) {
   dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
   dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                                 dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
+  
+#   browser()
+#   ds_month_dc <- dsUpcomingSchedule %>%
+#     dplyr::group_by(event_month, dc_currently_responsible)
 
+  
+  
   output$ScheduleTableUpcoming <- DT::renderDataTable({
     d <- prettify_schedule(
       filter_schedule(dsUpcomingSchedule, input$county, input$dc, input$status,
@@ -209,8 +220,8 @@ shinyServer( function(input, output) {
   })
   output$redcap_outlooks <- renderText({
     return( paste0(
-      "<h3>REDCap Outlooks</h3>",
-      "<table border='0' cellspacing='1' cellpadding='2' >",
+      '<h3>REDCap Outlooks</h3>',
+      '<table border="0" cellspacing="1" cellpadding="2" >',
       '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=month" target="_blank">Monthly</a></td></tr>',
       '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=week" target="_blank">Weekly</a></td></tr>',
       '<tr><td><a href="https://bbmc.ouhsc.edu/redcap/redcap_v6.0.2/Calendar/index.php?pid=35&view=day" target="_blank">Daily</a></td></tr>',
@@ -219,7 +230,7 @@ shinyServer( function(input, output) {
   })
   output$table_file_info <- renderText({
     return( paste0(
-      '<h3>Details</h3>',
+      "<h3>Details</h3>",
       "<table border='0' cellspacing='1' cellpadding='2' >",
       "<tr><td>Data Path:<td/><td>&nbsp;", pathUpcomingSchedule, "<td/><tr/>",
       "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(pathUpcomingSchedule)$mtime, "<td/><tr/>",
