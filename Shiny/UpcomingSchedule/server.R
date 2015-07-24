@@ -11,7 +11,7 @@ requireNamespace("rpivotTable")
 # DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
-pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/UpcomingSchedule.csv"
+pathUpcomingScheduleRepo <- "../.././DataPhiFreeCache/Raw/UpcomingSchedule/UpcomingSchedule.csv"
 
 redcap_version <- "6.0.2"
 project_id <- 35L
@@ -25,10 +25,10 @@ order_status  <- as.integer(names(status_levels)); names(order_status) <- status
 palette_status <- c("Due Date"="#bf4136", "Confirmed"="#54FF9F", "Cancelled"="#FF4500", "No Show"="#FF4500", "Scheduled"="#3875bb") #Mostly from http://colrd.com/image-dna/42290/
 
 reportTheme <- theme_bw() +
-  theme(axis.text = element_text(colour="gray40")) +
-  theme(axis.title = element_text(colour="gray40")) +
-  theme(panel.border = element_rect(colour="gray80")) +
-  theme(axis.ticks = element_line(colour="gray80")) +
+  theme(axis.text         = element_text(colour="gray40")) +
+  theme(axis.title        = element_text(colour="gray40")) +
+  theme(panel.border      = element_rect(colour="gray80")) +
+  theme(axis.ticks        = element_line(colour="gray80")) +
   theme(axis.ticks.length = grid::unit(0, "cm"))
 
 move_to_last <- function(data, move) { #http://stackoverflow.com/questions/18339370
@@ -50,25 +50,26 @@ filter_schedule <- function( d, selectedCounty, selectedDC, selectedStatuses, st
 
 prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
   d <- plyr::rename(d, replace=c(
-    "record_pretty" = "Participant",
-    "event_date_pretty" = "Event Date",
-    "event_status_pretty" = "Status",
-    "event_description_pretty" = "Arm: Event",
-    "dc_currently_responsible_pretty"= "DC",
-    "group_name" = "County"
+    "record_pretty"                   = "Participant",
+    "event_date_pretty"               = "Event Date",
+    "event_status_pretty"             = "Status",
+    "event_description_pretty"        = "Arm: Event",
+    "dc_currently_responsible_pretty" = "DC",
+    "group_name"                      = "County"
   ))
   
   if( show_dc ) 
     d <- move_to_last(d, c("DC"))
   else 
-    d$DC <- NULL
+    d$DC                          <- NULL
   
   if( show_county ) 
     d <- move_to_last(d, c("County"))
   else 
-    d$County <- NULL
+    d$County                      <- NULL
   
   if( pretty_only ) {
+<<<<<<< HEAD
     d$record                   <- NULL
     d$event_date               <- NULL
     d$event_status             <- NULL
@@ -88,6 +89,27 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
     d$arm_name                 <- NULL
     d$redcap_event_name        <- NULL
   }
+=======
+    d$record                      <- NULL
+    d$event_date                  <- NULL
+    d$event_status                <- NULL
+    d$event_description           <- NULL
+    d$dc_currently_responsible    <- NULL
+    
+    d$baseline_date               <- NULL
+    d$event_time                  <- NULL
+    d$cal_id                      <- NULL
+    d$group_id                    <- NULL
+    d$project_id                  <- NULL
+    d$event_id                    <- NULL
+    d$arm_id                      <- NULL
+    d$arm_num                     <- NULL
+    d$day_offset                  <- NULL
+    d$event_type                  <- NULL
+    d$arm_name                    <- NULL
+    d$redcap_event_name           <- NULL
+  }    
+>>>>>>> e1d3e07ca87b49b3de956c4ebf421d3da6c47e06
   return( d )
 }
 
@@ -140,9 +162,13 @@ shinyServer( function(input, output) {
   if( file.exists(pathUpcomingScheduleServerOutside) ) {
     pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
   } else if( file.exists(pathUpcomingScheduleServerInside) ) {
-    pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
+    pathUpcomingSchedule <- pathUpcomingScheduleServerInside 
+    # } else if( !file.exists(pathUpcomingScheduleRepo) ) {
+    #   pathUpcomingSchedule <- pathUpcomingScheduleRepo
   } else {
     pathUpcomingSchedule <- pathUpcomingScheduleRepo
+    # pathUpcomingSchedule <- "Aaaa"
+    # message("An appropriate datasource could not be found.")
   }
   
   dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
@@ -218,6 +244,26 @@ shinyServer( function(input, output) {
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
       labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
   })
+  
+  output$GraphDC <- renderPlot({
+    d <- dsUpcomingSchedule
+    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
+    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
+    
+    if( input$county != "All" )
+      d <- d[d$group_name==input$county, ]
+    
+    ggplot(d, aes(x=event_date, color=event_status)) +
+      geom_line(stat="bin", binwidth=7) +
+      geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
+      scale_color_manual(values=palette_status) +
+      guides(colour = guide_legend(override.aes=list(size=3))) +
+      facet_grid(event_type ~ group_name, scales="free_y") +
+      reportTheme +
+      theme(legend.position="top") +
+      theme(axis.text.x = element_text(angle=90, hjust=1)) +
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
+  })
   output$redcap_outlooks <- renderText({
     return( paste0(
       '<h3>REDCap Outlooks</h3>',
@@ -267,8 +313,8 @@ shinyServer( function(input, output) {
     } else {
       msgs <- apply(d_status, 1, function(row) {
         messageItem(
-          icon = icon(row[["icon"]]),
-          from = paste0(row[["event_status"]], " (", label, ")"),
+          icon    = icon(row[["icon"]]),
+          from    = paste0(row[["event_status"]], " (", label, ")"),
           message = paste(row[["status_count_pretty"]], "in", ifelse(input$county=="All", "All Counties", paste(input$county, "County")), ifelse(input$dc=="All", "", paste(" with", input$dc)))
         )
       })

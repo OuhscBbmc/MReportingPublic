@@ -60,6 +60,7 @@ dashboardPage(
       menuItem("Upcoming Events", tabName="upcoming_events"),
       menuItem("Past Events", tabName="past_events"),
       menuItem("Graph -County", tabName="graph_county"),
+      menuItem("Graph DC", tabName="graph_dc"),
       menuItem("General Links", tabName="general_links")
     )
   ),
@@ -82,14 +83,18 @@ dashboardPage(
       tabItem(
         tabName = "graph_county", 
         shiny::plotOutput(outputId = "GraphEventCounty", width='95%', height='800px')
-      ), #End the (third) tab with the graph
+      ), #End the (third) tab with the county graph
+      tabItem(
+        tabName = "graph_dc", 
+        shiny::plotOutput(outputId = "GraphDC", width='95%', height='800px')
+      ), #End the (fourth) tab with the dc graph
       tabItem(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         htmlOutput(outputId='redcap_outlooks'),
         htmlOutput(outputId='table_file_info')
         # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
-      )#, #End the (fourth) tab with the links & details
+      )#, #End the (fifth) tab with the links & details
     ) #End the tabsetPanel
   ) #End the dashboardBody
 ) #End the dashboardPage
