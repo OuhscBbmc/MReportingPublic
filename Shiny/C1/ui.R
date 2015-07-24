@@ -1,9 +1,12 @@
+# The ui.R file formats the screen seen by the user in the browser.
+
 library(shiny)
 library(shinydashboard)
 # library(DT)
 library(ggplot2)
-
+#Header
 tags_style <- "
+h3 {color:red; font-size:150%}
 .panelHeader {color:#605CA8; font-size:200%}
 .table .smallish {font-size:80%; padding:2px; }
 .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
@@ -32,7 +35,7 @@ dashboardPage(
     dateRangeInput(
       inputId = 'dateRange', 
       separator = "-",
-      label = 'Dates: yyyy-mm-dd',
+      label = 'Date Format: yyyy-mm-dd',
       start = as.Date("2015-01-01"), end = lubridate::floor_date(Sys.Date(), "month")
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
@@ -49,14 +52,16 @@ dashboardPage(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML(tags_style))
     ),#End tags$head 
+    h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
     tabItems( #type = "tabs",
       tabItem(
         tabName = "table",
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
+        h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
         HTML("<br/><font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
              "<table>",
-             "  <tr><td><code>Region Tag</code></td><td> a randomly-generated two-letter code for each region.</td></tr>",
+             "  <tr><td><code>Region Tag</code></td><td> a randomly-generated two-letter code for each region.</td></tr>", # <td> is standard cells that contain the data
              "  <tr><td><code>Month</code></td><td> Month for the specific record (YYYY-MM).</td></tr>",
              "  <tr><td><code>Referral Count</code></td><td> total number of monthly referrals. (<em>Coming soon</em>)</td></tr>",
              "  <tr><td><code>Referrals per Need</code></td><td> rate of monthly referrals per 'infant in need'. (<em>Coming soon</em>)</td></tr>",

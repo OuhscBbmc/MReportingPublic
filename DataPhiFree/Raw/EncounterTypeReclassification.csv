@@ -1,0 +1,17 @@
+"Raw","Combined","Completed","CountApproximate"
+"","unknown",FALSE,3893
+"Alternative Encounter","alternative_encounter",FALSE,2535
+"Attempted Check-In","attempted_check_in",FALSE,91
+"Attempted home visit","attempted_visit",FALSE,8885
+"Attempted Supervisory home visit","attempted_visit_supervisory",FALSE,2
+"Attempted Supervisory homeÂ visit","attempted_visit_supervisory",FALSE,41
+"Completed Check-In","completed_check_in",TRUE,182
+"Completed home visit","completed_visit",TRUE,1661
+"Completed supervisory home visit","completed_home_visit_supervisory",TRUE,30
+"Completed Supervisory home visit","completed_home_visit_supervisory",TRUE,183
+"CompletedÂ home visit","completed_visit",TRUE,44824
+"Home Visit Canceled by Client/family","canceled_visit_by_client",FALSE,4712
+"Home Visit Canceled by Client/Family","canceled_visit_by_client",FALSE,11930
+"Home Visit Canceled by Home visitor","canceled_visit_by_vistor",FALSE,1575
+"Home Visit Canceled by Home Visitor","canceled_visit_by_vistor",FALSE,3710
+"Home Visit Canceled by Interpreter","canceled_visit_by_interpreter",FALSE,129
