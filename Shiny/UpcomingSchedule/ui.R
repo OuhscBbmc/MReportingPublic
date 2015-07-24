@@ -57,9 +57,9 @@ dashboardPage(
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
-      menuItem("Upcoming", tabName="upcoming"),
-      menuItem("Past", tabName="past"),
-      menuItem("Graph", tabName="graph"),
+      menuItem("Upcoming Events", tabName="upcoming_events"),
+      menuItem("Past Events", tabName="past_events"),
+      menuItem("Graph -County", tabName="graph_county"),
       menuItem("General Links", tabName="general_links")
     )
   ),
@@ -70,18 +70,18 @@ dashboardPage(
     ),#End tags$head 
     tabItems( #type = "tabs",
       tabItem(
-        tabName = "upcoming", 
+        tabName = "upcoming_events", 
         DT::dataTableOutput(outputId = "ScheduleTableUpcoming"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (first) tab with the 'upcoming' table
       tabItem(
-        tabName = "past",
+        tabName = "past_events",
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
       ), #End the (second) tab with the 'past' table
       tabItem(
-        tabName = "graph", 
-        shiny::plotOutput(outputId = "GraphEventType", width='95%', height='800px')
+        tabName = "graph_county", 
+        shiny::plotOutput(outputId = "GraphEventCounty", width='95%', height='800px')
       ), #End the (third) tab with the graph
       tabItem(
         tabName = "general_links", 

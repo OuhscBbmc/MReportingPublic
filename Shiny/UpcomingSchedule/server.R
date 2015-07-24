@@ -5,6 +5,7 @@ library(ggplot2)
 library(magrittr)
 requireNamespace("grid")
 requireNamespace("DT")
+requireNamespace("rpivotTable")
 
 # DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
@@ -66,24 +67,24 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
     d$County <- NULL
   
   if( pretty_only ) {
-    d$record <- NULL
-    d$event_date <- NULL
-    d$event_status <- NULL
-    d$event_description <- NULL
+    d$record                   <- NULL
+    d$event_date               <- NULL
+    d$event_status             <- NULL
+    d$event_description        <- NULL
     d$dc_currently_responsible <- NULL
     
-    d$baseline_date <- NULL
-    d$event_time <- NULL
-    d$cal_id <- NULL
-    d$group_id <- NULL
-    d$project_id <- NULL
-    d$event_id <- NULL
-    d$arm_id <- NULL
-    d$arm_num <- NULL
-    d$day_offset <- NULL
-    d$event_type <- NULL
-    d$arm_name <- NULL
-    d$redcap_event_name <- NULL
+    d$baseline_date            <- NULL
+    d$event_time               <- NULL
+    d$cal_id                   <- NULL
+    d$group_id                 <- NULL
+    d$project_id               <- NULL
+    d$event_id                 <- NULL
+    d$arm_id                   <- NULL
+    d$arm_num                  <- NULL
+    d$day_offset               <- NULL
+    d$event_type               <- NULL
+    d$arm_name                 <- NULL
+    d$redcap_event_name        <- NULL
   }
   return( d )
 }
@@ -187,7 +188,7 @@ shinyServer( function(input, output) {
     format_schedule(d)
   })    
   
-  output$GraphEventType <- renderPlot({
+  output$GraphEventCounty <- renderPlot({
     d <- dsUpcomingSchedule
     d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
     d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
