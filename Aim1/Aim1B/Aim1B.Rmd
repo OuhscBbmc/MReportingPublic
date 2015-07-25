@@ -1,0 +1,76 @@
+Aim 1b
+=================================================
+This report covers Aim 1b: 
+**Develop timeline and analytic covariates that chronicle major program events**
+
+ i.	Record successful establishment of a centralized referral/triage system
+ ii. Assess frequency of home visitation coalition meetings
+ iii.	Record the successful establishment of Connectors in each county
+ iv. Record frequency of Connector initiated network meetings 
+ v.	Record number of Memorandums of Agreement and/or Understanding between local services
+ 
+For a complete list of the project's reports, see http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html.
+
+
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
+```{r, echo=F, message=F} 
+# cat("Working directory: ", getwd())
+  library(knitr)
+  opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+```
+
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# cat("Working directory: ", getwd())
+opts_chunk$set(
+  results='show', 
+  comment = NA, 
+  tidy = FALSE,
+  dpi = 100,
+  fig.width = 13, 
+  fig.height = 25, 
+  fig.path = 'FigureRaw/'
+)
+# 
+# out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
+
+echoChunks <- FALSE
+options(width=120) #So the output is 50% wider than the default.
+read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+```
+<!-- Load the packages.  Suppress the output when loading packages. --> 
+```{r LoadPackages, echo=echoChunks, message=FALSE}
+```
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r DeclareGlobals, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks, message=FALSE}
+```
+
+<!-- Load the datasets.   -->
+```{r LoadData, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Tweak the datasets.   -->
+```{r TweakData, echo=echoChunks, results='show', message=FALSE}
+```
+
+## Timeline of Oklahoma's [MIECHV](http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/MIECHV_Program_-_Federal_Home_Visiting_Grant/MIECHV_Program_Resources/index.html) Progress
+
+```{r Timeline, echo=echoChunks, message=TRUE}
+```
+
+The ascending-date table has the same information as the graphic above it, but its text is searchable and selectable.
+```{r Table, echo=echoChunks, message=TRUE, results='markup'}
+```
+
+# Session Information
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
+
+```{r session_info, echo=FALSE}
+cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
+sessionInfo()
+```

@@ -18,7 +18,7 @@ DataPhiFreeCache/.*
 .Rproj.user
 
 #I'm afraid this might contain PHI if someone knew how to decode it.
-us.stackdump 
+us.stackdump
 
 *.rdata
 *.Rdata
@@ -36,17 +36,18 @@ us.stackdump
 
 ############
 ## Explicit exceptions for PHI-free data
-############ 
+############
 !UtilityScripts/PackageDependencyList.csv
 
 !DataPhiFree/Raw/CountyCharacteristics.csv
 !DataPhiFree/Raw/EncounterTypeReclassification.csv
+!DataPhiFree/Raw/MiechvProgressTimeline.csv
 !DataPhiFree/Derived/C1/C1CountyMonth.rds
 !DataPhiFree/Derived/C1/C1RegionMonth.rds
 
 ############
 ## Documentation and Presentation material (that is PHI-free)
-############ 
+############
 !PresentationMaterials/rollingRecruitmentCounts.xlsx
 
 !DataPhiFreeCache/README.md
