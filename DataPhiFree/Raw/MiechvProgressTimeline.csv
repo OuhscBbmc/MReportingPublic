@@ -1,4 +1,4 @@
-Date,Event,stop_date,event_description,hide
+date,event,stop_date,event_description,hide
 3/23/2010,ACA signed into law,,,
 7/9/2010,First Funding Opportunity Announced,,http://www.ncsl.org/research/health/maternal-infant-and-early-childhood-home-visiting.aspx,
 7/21/2010,USDHHS Allocated $88 million,,http://www.ncsl.org/research/health/maternal-infant-and-early-childhood-home-visiting.aspx,
@@ -119,4 +119,4 @@ Date,Event,stop_date,event_description,hide
 4/22/2014,CQI Training with Dr. Mold,,,
 5/22/2014,Approval to do referrals without OSDH Consent,,,
 6/26/2014,External Evaluation Site Visit (OSDH),,,
-9/15/2014,parentPRO tv commercial aired,,,
+9/15/2014,parentPRO tv commercial aired,,https://vimeo.com/user10001181/review/91752183/706eba609e,

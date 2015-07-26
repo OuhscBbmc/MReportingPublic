@@ -10,43 +10,43 @@ library(lubridate, quietly=TRUE)
 
 #####################################
 ## @knitr DeclareGlobals
-pathInput <- "./PhiFreeDatasets/MiechvProgressTimeline.csv"
-dateAxisPadding <- lubridate::days(15)
-grayLight <- "gray70"
-grayDark <- "gray40"
+path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
+date_axis_padding <- lubridate::days(15)
+gray_light <- "gray70"
+gray_dark <- "gray40"
 
 #####################################
 ## @knitr LoadData
-ds <- read.csv(pathInput, stringsAsFactors=FALSE)
+ds <- read.csv(path_input, stringsAsFactors=FALSE)
 
 #####################################
 ## @knitr TweakData
 
-ds$Date <- as.Date(ds$Date, format="%m/%d/%Y")
-ds <- ds[order(ds$Date), ] #Make sure it's sorted
-dateRange <- range(ds$Date)
-yAxisRange <- dateRange + c(-1, 1) * dateAxisPadding
+ds$date <- as.Date(ds$date, format="%m/%d/%Y")
+ds <- ds[order(ds$date), ] #Make sure it's sorted
+date_range <- range(ds$date)
+yAxisRange <- date_range + c(-1, 1) * date_axis_padding
 
-# ds$YmPretty <- strptime(ds$Date, format="%y")
-ds$EventPretty <- paste(ds$Date, ds$Event)
-ds$RankPosition <- seq.Date(from=dateRange[1], to=dateRange[2], length.out=nrow(ds))
-#ds$Rank <- order(ds$Date)
+# ds$YmPretty <- strptime(ds$date, format="%y")
+ds$event_pretty <- paste(ds$date, ds$event)
+ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nrow(ds))
+#ds$Rank <- order(ds$date)
 
 #####################################
 ## @knitr Timeline
-xPoint <- 0
-xDate <- .3
-xLabel <- .6
-ggplot(ds, aes(x=xPoint, y=Date, label=EventPretty)) + 
-  geom_segment(aes(xend=xDate, yend=RankPosition), color=grayLight) +
-  geom_point(shape=21, size=4, color=grayDark, fill=grayLight, alpha=.5) +
+x_point <- 0
+x_date <- .3
+x_label <- .6
+ggplot(ds, aes(x=x_point, y=date, label=event_pretty)) + 
+  geom_segment(aes(xend=x_date, yend=rank_position), color=gray_light) +
+  geom_point(shape=21, size=4, color=gray_dark, fill=gray_light, alpha=.5) +
   
-  # geom_text(aes(x=xLabel, y=RankPosition), hjust=0) +
-  geom_text(aes(x=xDate, y=RankPosition, label=Date), hjust=0, color=grayDark) +
-  geom_text(aes(x=xLabel, y=RankPosition, label=Event), hjust=0) +
+  # geom_text(aes(x=x_label, y=rank_position), hjust=0) +
+  geom_text(aes(x=x_date, y=rank_position, label=date), hjust=0, color=gray_dark) +
+  geom_text(aes(x=x_label, y=rank_position, label=event), hjust=0) +
   
   scale_x_continuous(breaks=NULL) +
-  coord_cartesian(xlim=c(xPoint-.05, 3), ylim=yAxisRange) +
+  coord_cartesian(xlim=c(x_point-.05, 3), ylim=yAxisRange) +
   theme_bw() +
   theme(axis.text = element_text(colour="gray40")) +
   theme(axis.title = element_text(colour="gray40")) +
@@ -57,4 +57,12 @@ ggplot(ds, aes(x=xPoint, y=Date, label=EventPretty)) +
 
 #####################################
 ## @knitr Table
-kable(ds[, c("Date", "Event")])
+kable(ds[, c("date", "event")])
+
+#####################################
+## @knitr ConvertToJson
+library(jsonlite)
+ds_json <- ds
+ds_json$date <- strftime(ds_json$date, "%Y,%d,%m") 
+jsonlite::toJSON(ds_json, pretty = TRUE)
+

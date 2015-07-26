@@ -1,6 +1,13 @@
-Aim 1b
-=================================================
-This report covers Aim 1b: 
+---
+title: "Aim 1B -Oklaoma MIECHV"
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+---
+
+## Goals
+This report covers Aim 1B: 
 **Develop timeline and analytic covariates that chronicle major program events**
 
  i.	Record successful establishment of a centralized referral/triage system
