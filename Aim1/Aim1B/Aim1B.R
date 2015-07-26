@@ -11,6 +11,7 @@ library(lubridate, quietly=TRUE)
 #####################################
 ## @knitr DeclareGlobals
 path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
+path_output <- "./DataPhiFree/Derived/MiechvProgressTimeline.json"
 date_axis_padding <- lubridate::days(15)
 gray_light <- "gray70"
 gray_dark <- "gray40"
@@ -64,5 +65,6 @@ kable(ds[, c("date_start", "headline")])
 library(jsonlite)
 ds_json <- ds
 ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
-jsonlite::toJSON(ds_json, pretty = TRUE)
+json <- jsonlite::toJSON(ds_json, pretty = TRUE)
+jsonlite::stream_out(ds_json, file(tmp <- path_output), pretty = F)
 
