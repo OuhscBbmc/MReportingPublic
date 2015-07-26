@@ -1,5 +1,9 @@
 rm(list=ls(all=TRUE))
 
+########## Recreate List of Reports ###
+source("./reports/create_index/create_report_index.R")
+
+
 ########## Production of reports from .Rmd files ###
 path_index <- base::file.path("./index.Rmd")
 

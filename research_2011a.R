@@ -52,12 +52,12 @@ for( aimID in dsAimProject$AimID ) {
     dsGoalSlice <- dsGoalAim[dsGoalAim$GoalID==goalID, ]
     cat("**", dsGoalSlice$SubaimNameShort, ": ", dsGoalSlice$Description, "**\n\n", sep="")
     
-    
     dsReportGoal <- dsReportJunction[dsReportJunction$GoalID==goalID, ]
-      for( reportID in dsReportGoal$ReportID ) {
-        dsReportSlice <- dsReportGoal[dsReportGoal$ReportID==reportID, ]
-        cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, " [", dsReportSlice$FileFormat, "]\n\n", sep="")
-      }    
+    dsReportGoal <- dsReportGoal[order(dsReportGoal$ReportByGoalID), ]
+    for( reportID in dsReportGoal$ReportID ) {
+      dsReportSlice <- dsReportGoal[dsReportGoal$ReportID==reportID, ]
+      cat("   * ", dsReportSlice$ReportName, ": ", dsReportSlice$DescriptionLong, " [", dsReportSlice$FileFormat, "]\n\n", sep="")
+    }    
   }
 }
 

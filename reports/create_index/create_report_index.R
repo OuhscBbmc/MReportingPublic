@@ -1,4 +1,7 @@
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.  
+# rm(list=ls(all=TRUE))  #Clear the variables from previous runs.  
+
+##################
+## @knitr load_sources
 library(DBI)
 
 ##################
