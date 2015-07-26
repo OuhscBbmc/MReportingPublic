@@ -18,49 +18,54 @@ window.onload = function () {
 
 events = [
   {
-    "Date": "2014,21,04",
-    "Event": "First Call received after parentPRo commercial aired",
-    "stop_date": "",
-    "event_description": "",
-    "hide": "",
-    "EventPretty": "2014-04-21 First Call received after parentPRo commercial aired",
-    "RankPosition": "2014-07-22"
+    "date_start": "2014,04,21",
+    "date_stop": "",
+    "headline": "First Call received after parentPRo commercial aired",
+    "category": "Marketing",
+    "text": "",
+    "media_url": "",
+    "headline_pretty": "2014-04-21 First Call received after parentPRo commercial aired",
+    "rank_position": "2014-07-22"
   },
   {
-    "Date": "2014,22,04",
-    "Event": "CQI Training with Dr. Mold",
-    "stop_date": "",
-    "event_description": "",
-    "hide": "",
-    "EventPretty": "2014-04-22 CQI Training with Dr. Mold",
-    "RankPosition": "2014-08-05"
+    "date_start": "2014,04,22",
+    "date_stop": "",
+    "headline": "CQI Training with Dr. Mold",
+    "category": "TBD",
+    "text": "",
+    "media_url": "",
+    "headline_pretty": "2014-04-22 CQI Training with Dr. Mold",
+    "rank_position": "2014-08-05"
   },
   {
-    "Date": "2014,22,05",
-    "Event": "Approval to do referrals without OSDH Consent",
-    "stop_date": "",
-    "event_description": "",
-    "hide": "",
-    "EventPretty": "2014-05-22 Approval to do referrals without OSDH Consent",
-    "RankPosition": "2014-08-18"
+    "date_start": "2014,05,22",
+    "date_stop": "",
+    "headline": "Approval to do referrals without OSDH Consent",
+    "category": "TBD",
+    "text": "",
+    "media_url": "",
+    "headline_pretty": "2014-05-22 Approval to do referrals without OSDH Consent",
+    "rank_position": "2014-08-18"
   },
   {
-    "Date": "2014,26,06",
-    "Event": "External Evaluation Site Visit (OSDH)",
-    "stop_date": "",
-    "event_description": "",
-    "hide": "",
-    "EventPretty": "2014-06-26 External Evaluation Site Visit (OSDH)",
-    "RankPosition": "2014-09-01"
+    "date_start": "2014,06,26",
+    "date_stop": "",
+    "headline": "External Evaluation Site Visit (OSDH)",
+    "category": "TBD",
+    "text": "",
+    "media_url": "",
+    "headline_pretty": "2014-06-26 External Evaluation Site Visit (OSDH)",
+    "rank_position": "2014-09-01"
   },
   {
-    "Date": "2014,15,09",
-    "Event": "parentPRO tv commercial aired",
-    "stop_date": "",
-    "event_description": "",
-    "hide": "",
-    "EventPretty": "2014-09-15 parentPRO tv commercial aired",
-    "RankPosition": "2014-09-15"
+    "date_start": "2014,09,15",
+    "date_stop": "",
+    "headline": "parentPRO tv commercial aired",
+    "category": "Marketing",
+    "text": "",
+    "media_url": "https://vimeo.com/user10001181/review/91752183/706eba609e",
+    "headline_pretty": "2014-09-15 parentPRO tv commercial aired",
+    "rank_position": "2014-09-15"
   }
 ];
 timelineData = {
@@ -69,7 +74,7 @@ timelineData = {
     date: []
 };
 events.forEach(function(event) {
-    var start = event.Date;
+    var start = event.date_start;
     var end = "";
     //if (play.date.indexOf("-") !== -1) {
     //    var dates = play.date.split("-");
@@ -79,11 +84,11 @@ events.forEach(function(event) {
     timelineData.date.push({
         startDate: start,
         endDate: end,
-        headline: "play.play",
-        text: event.Event,
-        tag: "Comedy", //play.genre,
+        headline: event.headline,
+        text: event.text,
+        tag: event.category,
         asset: {
-            media: "play.media",
+            media: event.media_url,
             credit: "play.credit",
             caption: "play.caption"
         }

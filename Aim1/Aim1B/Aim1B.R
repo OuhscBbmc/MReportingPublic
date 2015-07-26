@@ -22,28 +22,28 @@ ds <- read.csv(path_input, stringsAsFactors=FALSE)
 #####################################
 ## @knitr TweakData
 
-ds$date <- as.Date(ds$date, format="%m/%d/%Y")
-ds <- ds[order(ds$date), ] #Make sure it's sorted
-date_range <- range(ds$date)
+ds$date_start <- as.Date(ds$date_start, format="%m/%d/%Y")
+ds <- ds[order(ds$date_start), ] #Make sure it's sorted
+date_range <- range(ds$date_start)
 yAxisRange <- date_range + c(-1, 1) * date_axis_padding
 
-# ds$YmPretty <- strptime(ds$date, format="%y")
-ds$event_pretty <- paste(ds$date, ds$event)
+# ds$YmPretty <- strptime(ds$date_start, format="%y")
+ds$headline_pretty <- paste(ds$date_start, ds$headline)
 ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nrow(ds))
-#ds$Rank <- order(ds$date)
+#ds$Rank <- order(ds$date_start)
 
 #####################################
 ## @knitr Timeline
 x_point <- 0
 x_date <- .3
 x_label <- .6
-ggplot(ds, aes(x=x_point, y=date, label=event_pretty)) + 
+ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) + 
   geom_segment(aes(xend=x_date, yend=rank_position), color=gray_light) +
   geom_point(shape=21, size=4, color=gray_dark, fill=gray_light, alpha=.5) +
   
   # geom_text(aes(x=x_label, y=rank_position), hjust=0) +
-  geom_text(aes(x=x_date, y=rank_position, label=date), hjust=0, color=gray_dark) +
-  geom_text(aes(x=x_label, y=rank_position, label=event), hjust=0) +
+  geom_text(aes(x=x_date, y=rank_position, label=date_start), hjust=0, color=gray_dark) +
+  geom_text(aes(x=x_label, y=rank_position, label=headline), hjust=0) +
   
   scale_x_continuous(breaks=NULL) +
   coord_cartesian(xlim=c(x_point-.05, 3), ylim=yAxisRange) +
@@ -57,12 +57,12 @@ ggplot(ds, aes(x=x_point, y=date, label=event_pretty)) +
 
 #####################################
 ## @knitr Table
-kable(ds[, c("date", "event")])
+kable(ds[, c("date_start", "headline")])
 
 #####################################
 ## @knitr ConvertToJson
 library(jsonlite)
 ds_json <- ds
-ds_json$date <- strftime(ds_json$date, "%Y,%d,%m") 
+ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
 jsonlite::toJSON(ds_json, pretty = TRUE)
 
