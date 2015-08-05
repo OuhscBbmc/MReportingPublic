@@ -69,27 +69,6 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
     d$County                      <- NULL
   
   if( pretty_only ) {
-<<<<<<< HEAD
-    d$record                   <- NULL
-    d$event_date               <- NULL
-    d$event_status             <- NULL
-    d$event_description        <- NULL
-    d$dc_currently_responsible <- NULL
-    
-    d$baseline_date            <- NULL
-    d$event_time               <- NULL
-    d$cal_id                   <- NULL
-    d$group_id                 <- NULL
-    d$project_id               <- NULL
-    d$event_id                 <- NULL
-    d$arm_id                   <- NULL
-    d$arm_num                  <- NULL
-    d$day_offset               <- NULL
-    d$event_type               <- NULL
-    d$arm_name                 <- NULL
-    d$redcap_event_name        <- NULL
-  }
-=======
     d$record                      <- NULL
     d$event_date                  <- NULL
     d$event_status                <- NULL
@@ -108,8 +87,7 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
     d$event_type                  <- NULL
     d$arm_name                    <- NULL
     d$redcap_event_name           <- NULL
-  }    
->>>>>>> e1d3e07ca87b49b3de956c4ebf421d3da6c47e06
+  }
   return( d )
 }
 
