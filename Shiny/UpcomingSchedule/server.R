@@ -76,6 +76,7 @@ prettify_schedule <- function( d, show_dc, show_county, pretty_only=TRUE ){
     d$dc_currently_responsible    <- NULL
     
     d$baseline_date               <- NULL
+    d$event_month                 <- NULL
     d$event_time                  <- NULL
     d$cal_id                      <- NULL
     d$group_id                    <- NULL
@@ -150,7 +151,7 @@ shinyServer( function(input, output) {
   }
   
   dsUpcomingSchedule <- read.csv(pathUpcomingSchedule, stringsAsFactors=FALSE) 
-  
+
   # TweakData -----------------------------------
   dsUpcomingSchedule$event_date <- as.Date(dsUpcomingSchedule$event_date)
   dsUpcomingSchedule$event_month <- dsUpcomingSchedule$event_date
@@ -176,8 +177,7 @@ shinyServer( function(input, output) {
   dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
   dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                                 dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
-  
-#   browser()
+
 #   ds_month_dc <- dsUpcomingSchedule %>%
 #     dplyr::group_by(event_month, dc_currently_responsible)
 

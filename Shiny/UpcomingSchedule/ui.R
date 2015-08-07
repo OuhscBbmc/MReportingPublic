@@ -73,12 +73,38 @@ dashboardPage(
       tabItem(
         tabName = "upcoming_events", 
         DT::dataTableOutput(outputId = "ScheduleTableUpcoming"),
-        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
+        HTML(
+          "<br/>",
+          "<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
+          "    The current columns are: ",
+          "  <table>",
+          "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
+          "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
+          "    <tr><td><code>Status</code></td><td>Status of the event; links to zzz.</td></tr>",
+          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to zzz.</td></tr>",
+          "    <tr><td><code>DC</code></td><td>(if checked) The data collector currently responsible for the participant.</td></tr>",
+          "    <tr><td><code>County</code></td><td>(if checked) The county of the participant.</td></tr>",
+          "  </table>",
+          "</font>"
+        )
       ), #End the (first) tab with the 'upcoming' table
       tabItem(
         tabName = "past_events",
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
-        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>")
+        HTML(
+          "<br/>",
+          "<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
+          "    The current columns are: ",
+          "  <table>",
+          "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
+          "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
+          "    <tr><td><code>Status</code></td><td>Status of the event; links to zzz.</td></tr>",
+          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to zzz.</td></tr>",
+          "    <tr><td><code>DC</code></td><td>(if checked) The data collector currently responsible for the participant.</td></tr>",
+          "    <tr><td><code>County</code></td><td>(if checked) The county of the participant.</td></tr>",
+          "  </table>",
+          "</font>"
+        )
       ), #End the (second) tab with the 'past' table
       tabItem(
         tabName = "graph_county", 
