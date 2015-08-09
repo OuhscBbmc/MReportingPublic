@@ -38,7 +38,7 @@ ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nr
 library(jsonlite)
 ds_json <- ds
 ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
-json <- jsonlite::toJSON(ds_json, pretty = F)
+json <- jsonlite::toJSON(ds_json, pretty = T)
 # jsonlite::stream_out(ds_json, file(tmp <- path_output), pretty = F)
 
 #####################################

@@ -69,9 +69,9 @@ read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in t
 ```
 
 ```{r print_json, echo=echoChunks, results='asis'}
-# cat("<!-- ")
-# cat(json)
-# cat(" -->")
+cat("<!-- ")
+cat(json)
+cat(" -->")
 ```
 
 ## Timeline of Oklahoma's [MIECHV](http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/MIECHV_Program_-_Federal_Home_Visiting_Grant/MIECHV_Program_Resources/index.html) Progress
