@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 #####################################
-## @knitr LoadPackages
+## @knitr load_packages
 library(knitr, quietly=TRUE)
 library(plyr, quietly=TRUE)
 library(scales, quietly=TRUE) #For formating values in graphs
@@ -9,7 +9,7 @@ library(ggplot2, quietly=TRUE) #For graphing
 library(lubridate, quietly=TRUE)
 
 #####################################
-## @knitr DeclareGlobals
+## @knitr declare_globals
 path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
 path_output <- "./DataPhiFree/Derived/MiechvProgressTimeline.json"
 date_axis_padding <- lubridate::days(15)
@@ -17,11 +17,11 @@ gray_light <- "gray70"
 gray_dark <- "gray40"
 
 #####################################
-## @knitr LoadData
+## @knitr load_data
 ds <- read.csv(path_input, stringsAsFactors=FALSE)
 
 #####################################
-## @knitr TweakData
+## @knitr tweak_data
 
 ds$date_start <- as.Date(ds$date_start, format="%m/%d/%Y")
 ds <- ds[order(ds$date_start), ] #Make sure it's sorted
@@ -34,7 +34,15 @@ ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nr
 #ds$Rank <- order(ds$date_start)
 
 #####################################
-## @knitr Timeline
+## @knitr convert_to_json
+library(jsonlite)
+ds_json <- ds
+ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
+json <- jsonlite::toJSON(ds_json, pretty = F)
+# jsonlite::stream_out(ds_json, file(tmp <- path_output), pretty = F)
+
+#####################################
+## @knitr timeline_ggplot
 x_point <- 0
 x_date <- .3
 x_label <- .6
@@ -57,14 +65,5 @@ ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) +
   labs(x=NULL, y=NULL)
 
 #####################################
-## @knitr Table
+## @knitr table
 kable(ds[, c("date_start", "headline")])
-
-#####################################
-## @knitr ConvertToJson
-library(jsonlite)
-ds_json <- ds
-ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
-json <- jsonlite::toJSON(ds_json, pretty = TRUE)
-jsonlite::stream_out(ds_json, file(tmp <- path_output), pretty = F)
-

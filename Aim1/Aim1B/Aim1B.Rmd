@@ -46,11 +46,11 @@ options(width=120) #So the output is 50% wider than the default.
 read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 <!-- Load the packages.  Suppress the output when loading packages. --> 
-```{r LoadPackages, echo=echoChunks, message=FALSE}
+```{r load_packages, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
-```{r DeclareGlobals, echo=echoChunks, results='show', message=FALSE}
+```{r declare_globals, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
@@ -58,20 +58,29 @@ read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in t
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadData, echo=echoChunks, results='show', message=FALSE}
+```{r load_data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r TweakData, echo=echoChunks, results='show', message=FALSE}
+```{r tweak_data, echo=echoChunks, results='show', message=FALSE}
+```
+
+```{r convert_to_json, echo=echoChunks, results='show', message=FALSE}
+```
+
+```{r print_json, echo=echoChunks, results='asis'}
+# cat("<!-- ")
+# cat(json)
+# cat(" -->")
 ```
 
 ## Timeline of Oklahoma's [MIECHV](http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/MIECHV_Program_-_Federal_Home_Visiting_Grant/MIECHV_Program_Resources/index.html) Progress
 
-```{r Timeline, echo=echoChunks, message=TRUE}
+```{r timeline_ggplot, echo=echoChunks, message=TRUE}
 ```
 
 The ascending-date table has the same information as the graphic above it, but its text is searchable and selectable.
-```{r Table, echo=echoChunks, message=TRUE, results='markup'}
+```{r table, echo=echoChunks, message=TRUE, results='markup'}
 ```
 
 # Session Information
