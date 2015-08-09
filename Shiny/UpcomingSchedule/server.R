@@ -211,7 +211,7 @@ shinyServer( function(input, output) {
     if( input$county != "All" )
       d <- d[d$group_name==input$county, ]
     
-    d <- d[(input$past_date_range[1] <= d$event_date) &( d$event_date <= input$upcoming_date_range[2]), ]
+    d <- d[(input$past_date_range[1] <= d$event_date) & (d$event_date <= input$upcoming_date_range[2]), ]
     
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
@@ -231,7 +231,7 @@ shinyServer( function(input, output) {
     if( input$dc != "All" )
       d <- d[d$dc_currently_responsible==input$dc, ]
     
-    d <- d[(input$past_date_range[1] <= d$event_date) &( d$event_date <= input$upcoming_date_range[2]), ]
+    d <- d[(input$past_date_range[1] <= d$event_date) & (d$event_date <= input$upcoming_date_range[2]), ]
     
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +

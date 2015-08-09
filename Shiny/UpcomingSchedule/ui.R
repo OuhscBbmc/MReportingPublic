@@ -80,10 +80,10 @@ dashboardPage(
           "  <table>",
           "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
           "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
-          "    <tr><td><code>Status</code></td><td>Status of the event; links to zzz.</td></tr>",
-          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to zzz.</td></tr>",
-          "    <tr><td><code>DC</code></td><td>(if checked) The data collector currently responsible for the participant.</td></tr>",
-          "    <tr><td><code>County</code></td><td>(if checked) The county of the participant.</td></tr>",
+          "    <tr><td><code>Status</code></td><td>Status of the event; links to specific <em> scheduled event</em>.</td></tr>",
+          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to participant's <em>overall schedule</em>.</td></tr>",
+          "    <tr><td><code>DC</code></td><td>(if checked/displayed) The data collector currently responsible for the participant; links to assignment field.</td></tr>",
+          "    <tr><td><code>County</code></td><td>(if checked/displayed) The county of the participant.</td></tr>",
           "  </table>",
           "</font>"
         )
@@ -98,10 +98,10 @@ dashboardPage(
           "  <table>",
           "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
           "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
-          "    <tr><td><code>Status</code></td><td>Status of the event; links to zzz.</td></tr>",
-          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to zzz.</td></tr>",
-          "    <tr><td><code>DC</code></td><td>(if checked) The data collector currently responsible for the participant.</td></tr>",
-          "    <tr><td><code>County</code></td><td>(if checked) The county of the participant.</td></tr>",
+          "    <tr><td><code>Status</code></td><td>Status of the event; links to specific <em> scheduled event</em>.</td></tr>",
+          "    <tr><td><code>Arm: Event</code></td><td>The participant's arm &amp event; links to participant's <em>overall schedule</em>.</td></tr>",
+          "    <tr><td><code>DC</code></td><td>(if checked/displayed) The data collector currently responsible for the participant; links to assignment field.</td></tr>",
+          "    <tr><td><code>County</code></td><td>(if checked/displayed) The county of the participant.</td></tr>",
           "  </table>",
           "</font>"
         )
@@ -116,7 +116,7 @@ dashboardPage(
       ), #End the (fourth) tab with the dc graph
       tabItem(
         tabName = "general_links", 
-        HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
+        # HTML("<font color='green'>{<em>La'Chanda, Is there some explanatory text you'd like here?</em>}</font><br/>"),
         htmlOutput(outputId='redcap_outlooks'),
         htmlOutput(outputId='table_file_info')
         # plotOutput(outputId='trauma_symptoms', width='95%', height='400px')
