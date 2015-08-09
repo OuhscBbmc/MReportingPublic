@@ -211,6 +211,8 @@ shinyServer( function(input, output) {
     if( input$county != "All" )
       d <- d[d$group_name==input$county, ]
     
+    d <- d[(input$past_date_range[1] <= d$event_date) &( d$event_date <= input$upcoming_date_range[2]), ]
+    
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
@@ -229,6 +231,8 @@ shinyServer( function(input, output) {
     if( input$dc != "All" )
       d <- d[d$dc_currently_responsible==input$dc, ]
     
+    d <- d[(input$past_date_range[1] <= d$event_date) &( d$event_date <= input$upcoming_date_range[2]), ]
+    
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
@@ -238,7 +242,7 @@ shinyServer( function(input, output) {
       reportTheme +
       theme(legend.position="top") +
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
-      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for DC\n(change dc in the side panel)")
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for DC\n(change DC in the side panel)")
   })
   output$redcap_outlooks <- renderText({
     return( paste0(
