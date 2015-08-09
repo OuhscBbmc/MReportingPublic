@@ -60,7 +60,7 @@ dashboardPage(
       menuItem("Upcoming Events", tabName="upcoming_events"),
       menuItem("Past Events", tabName="past_events"),
       menuItem("Graph -County", tabName="graph_county"),
-      menuItem("Graph DC", tabName="graph_dc"),
+      menuItem("Graph -DC", tabName="graph_dc"),
       menuItem("General Links", tabName="general_links")
     )
   ),

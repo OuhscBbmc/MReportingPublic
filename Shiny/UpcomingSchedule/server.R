@@ -225,22 +225,20 @@ shinyServer( function(input, output) {
   
   output$GraphDC <- renderPlot({
     d <- dsUpcomingSchedule
-    d$group_name <- ifelse(is.na(d$group_name), "Missing", d$group_name)
-    d$group_name <- gsub("^(.+?)( County)$", "\\1", d$group_name)
     
-    if( input$county != "All" )
-      d <- d[d$group_name==input$county, ]
+    if( input$dc != "All" )
+      d <- d[d$dc_currently_responsible==input$dc, ]
     
     ggplot(d, aes(x=event_date, color=event_status)) +
       geom_line(stat="bin", binwidth=7) +
       geom_vline(xintercept=as.numeric(Sys.Date()), size=3, color="gray50", alpha=.3) +
       scale_color_manual(values=palette_status) +
       guides(colour = guide_legend(override.aes=list(size=3))) +
-      facet_grid(event_type ~ group_name, scales="free_y") +
+      facet_grid(event_type ~ dc_currently_responsible, scales="free_y") +
       reportTheme +
       theme(legend.position="top") +
       theme(axis.text.x = element_text(angle=90, hjust=1)) +
-      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for County\n(change county in the side panel)")
+      labs(x=NULL, y="Events per Week", color="Status", title="Weekly Events for DC\n(change dc in the side panel)")
   })
   output$redcap_outlooks <- renderText({
     return( paste0(
