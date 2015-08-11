@@ -67,6 +67,8 @@ read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in t
 
 ## Timeline of Oklahoma's [MIECHV](http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/MIECHV_Program_-_Federal_Home_Visiting_Grant/MIECHV_Program_Resources/index.html) Progress
 
+<iframe src='https://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=1W378rcBIvRdFRIf5owQE0n_54phb7jZWD8P9V3i5TWI&font=Bevan-PotanoSans&maptype=toner&lang=en&height=650' width='100%' height='650' frameborder='0'></iframe>
+
 ```{r timeline_ggplot, echo=echoChunks, message=TRUE}
 ```
 
