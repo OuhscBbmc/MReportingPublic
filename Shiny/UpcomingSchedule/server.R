@@ -101,17 +101,17 @@ format_schedule <- function( d ) {
     rownames = FALSE,
     style = 'bootstrap', 
     options = list(
-      language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--"),
-      rowCallback = JS( 
-        'function(row, data) {
-          if (data[3].indexOf("Interview") > -1 ) {
-            $("td", row).addClass("interviewRow"); 
-            $("td:eq(3)", row).addClass("interviewEvent"); 
-          } else if (data[3].indexOf("Reminder") > -1 ) {
-            $("td:eq(3)", row).addClass("reminderEvent"); 
-          }
-        }'
-      )
+      language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
+        # rowCallback = JS( 
+        #   'function(row, data) {
+        #     if (data[3].indexOf("Interview") > -1 ) {
+        #       $("td", row).addClass("interviewRow"); 
+        #       $("td:eq(3)", row).addClass("interviewEvent"); 
+        #     } else if (data[3].indexOf("Reminder") > -1 ) {
+        #       $("td:eq(3)", row).addClass("reminderEvent"); 
+        #     }
+        #   }'
+        # )
     ),
     #class = 'compact hover stripe', #Applying DataTable built-in styles, see http://datatables.net/manual/styling/classes
     class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
@@ -173,19 +173,21 @@ shinyServer( function(input, output) {
                                               redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
   dsUpcomingSchedule$event_date_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
                                                   dsUpcomingSchedule$event_date, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
+
+  description_class <- gsub("^.+\\sReminder\\sCall$", "reminderEvent", dsUpcomingSchedule$event_description)
+  description_class <- gsub("^.+\\sInterview$", "interviewEvent", description_class)
+  description_class <- gsub("^.+\\sContact$", "", description_class)
   
-#   status_class <- plyr::revalue(dsUpcomingSchedule$event_status, c(
-#     
-#   ))
   dsUpcomingSchedule$event_status_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/Calendar/calendar_popup.php?pid=%s&width=800&cal_id=%s" target="_blank">%s</a>',
                                                     dsUpcomingSchedule$event_status, redcap_version, project_id, dsUpcomingSchedule$cal_id, dsUpcomingSchedule$event_status)
   
   dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
-  dsUpcomingSchedule$event_description_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/Calendar/scheduling.php?pid=%s&record=%s&arm=%s" target="_blank">%s</a>',
-                                                         dsUpcomingSchedule$event_description_pretty, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$event_description_pretty)
+  dsUpcomingSchedule$event_description_pretty <- sprintf('<!--%s for sorting--><a class="%s" href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/Calendar/scheduling.php?pid=%s&record=%s&arm=%s" target="_blank">%s</a>',
+                                                         dsUpcomingSchedule$event_description_pretty, description_class, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$event_description_pretty)
   dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                                 dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
-
+  rm(description_class)
+  
 #   ds_month_dc <- dsUpcomingSchedule %>%
 #     dplyr::group_by(event_month, dc_currently_responsible)
 

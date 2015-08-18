@@ -2,11 +2,11 @@ library(shiny)
 library(shinydashboard)
 library(ggplot2)
 
-#  .table a {color:#000000;}
 tags_style <- "
   .panelHeader {color:#605CA8; font-size:200%}
   .table .smallish {font-size:80%; padding:2px;}
-  .table a.interviewEvent {background:#B452CD;}
+  .table a {color:#000000;}
+  .table a.interviewEvent {color:#ffffff; background:#B452CD;}
   .table a.reminderEvent {color:#bb2288; background:#54FF9F;}
   .table a.interviewRow {font-size:97%; font-weight:bold;}
   "
@@ -75,8 +75,7 @@ dashboardPage(
         DT::dataTableOutput(outputId = "ScheduleTableUpcoming"),
         HTML(
           "<br/>",
-          "<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
-          "    The current columns are: ",
+          "<font color='#605CA8'>Each table record represents one event with the following columns:",
           "  <table>",
           "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
           "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
@@ -93,8 +92,7 @@ dashboardPage(
         DT::dataTableOutput(outputId = "ScheduleTablePast"),
         HTML(
           "<br/>",
-          "<font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
-          "    The current columns are: ",
+          "<font color='#605CA8'>Each table record represents one event with the following columns:",
           "  <table>",
           "    <tr><td><code>Participant</code></td><td>ID of participant; links to <em>participant</em> REDCap record.</td></tr>",
           "    <tr><td><code>Event Date</code></td><td>When the call or interview is scheduled; links to <em>event</em> REDCap record.</td></tr>",
