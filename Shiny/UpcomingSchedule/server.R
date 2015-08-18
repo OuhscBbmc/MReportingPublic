@@ -173,8 +173,16 @@ shinyServer( function(input, output) {
                                               redcap_version, project_id, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$record, dsUpcomingSchedule$record)
   dsUpcomingSchedule$event_date_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&event_id=%s&page=participant_demographics" target="_blank">%s</a>',
                                                   dsUpcomingSchedule$event_date, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$event_id, dsUpcomingSchedule$event_date)
-  dsUpcomingSchedule$event_status_pretty <- dsUpcomingSchedule$event_status
+  
+#   status_class <- plyr::revalue(dsUpcomingSchedule$event_status, c(
+#     
+#   ))
+  dsUpcomingSchedule$event_status_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/Calendar/calendar_popup.php?pid=%s&width=800&cal_id=%s" target="_blank">%s</a>',
+                                                    dsUpcomingSchedule$event_status, redcap_version, project_id, dsUpcomingSchedule$cal_id, dsUpcomingSchedule$event_status)
+  
   dsUpcomingSchedule$event_description_pretty <- paste0("A", dsUpcomingSchedule$arm_num, ": ", dsUpcomingSchedule$event_description)
+  dsUpcomingSchedule$event_description_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/Calendar/scheduling.php?pid=%s&record=%s&arm=%s" target="_blank">%s</a>',
+                                                         dsUpcomingSchedule$event_description_pretty, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$arm_num, dsUpcomingSchedule$event_description_pretty)
   dsUpcomingSchedule$dc_currently_responsible_pretty <- sprintf('<!--%s for sorting--><a href="https://bbmc.ouhsc.edu/redcap/redcap_v%s/DataEntry/index.php?pid=%s&id=%s&page=internal_book_keeping" target="_blank">%s</a>',
                                                                 dsUpcomingSchedule$dc_currently_responsible, redcap_version, project_id, dsUpcomingSchedule$record, dsUpcomingSchedule$dc_currently_responsible)
 
