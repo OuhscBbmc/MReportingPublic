@@ -4,6 +4,7 @@ output:
   html_document:
     theme: cerulean
     toc: true
+    keep_md: true
 ---
 
 ## Goals
