@@ -33,6 +33,10 @@ ds$headline_pretty <- paste(ds$date_start, ds$headline)
 ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nrow(ds))
 #ds$Rank <- order(ds$date_start)
 
+ds <- ds[ds$type!="era", ]
+
+ds$description <- paste0("<b>", ds$headline, "</b><br/>", ds$text)
+
 #####################################
 ## @knitr convert_to_json
 library(jsonlite)
@@ -66,4 +70,7 @@ ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) +
 
 #####################################
 ## @knitr table
-kable(ds[, c("date_start", "headline")])
+kable(ds[, c("date_start", "description")], 
+      row.names = FALSE, 
+      col.names = c("Date<br/>(YYYY-MM-DD)", "Description")
+)
