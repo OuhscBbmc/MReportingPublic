@@ -37,7 +37,18 @@ ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nr
 
 ds <- ds[!(ds$type %in% c("title", "era")), ]
 
+ds$media_url <- ifelse(is.na(ds$media_url), "", ds$media_url)
+ds$media_caption <- ifelse(is.na(ds$media_caption), "", ds$media_caption)
+
+ds$link_label <- ifelse(nchar(ds$media_caption)==0L, "Link", ds$media_caption)
+
 ds$description <- paste0("<b>", ds$headline, "</b><br/>", ds$text)
+ds$description <- ifelse(
+  nchar(ds$media_url) == 0,
+  ds$description,
+  paste0(ds$description, " <a href='", ds$media_url, "'  target='_blank'>[", ds$link_label, "]</a>")
+)
+
 
 #####################################
 ## @knitr convert_to_json

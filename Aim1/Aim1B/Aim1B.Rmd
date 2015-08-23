@@ -68,19 +68,20 @@ read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in t
 
 ## Interactive Timeline
 
-<iframe src='https://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=1W378rcBIvRdFRIf5owQE0n_54phb7jZWD8P9V3i5TWI&font=Bevan-PotanoSans&maptype=toner&lang=en&height=700' width='100%' height='700' frameborder='0'></iframe>
+<iframe src='https://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=1W378rcBIvRdFRIf5owQE0n_54phb7jZWD8P9V3i5TWI&font=Bevan-PotanoSans&maptype=toner&lang=en&start_zoom_adjust=-2&height=700' width='100%' height='700' frameborder='0'></iframe>
 
-## Static Table
+
+## Searchable Table
 The ascending-date table has the same information as the graphic above it, but its text is more easily searchable and selectable.
 ```{r table, echo=echoChunks, message=TRUE, results='markup'}
 ```
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.  The dataset is available in either a [raw](https://raw.githubusercontent.com/OuhscBbmc/MReportingPublic/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) or [tabled](https://github.com/OuhscBbmc/MReportingPublic/blob/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) format on the project's [public repository](https://github.com/OuhscBbmc/MReportingPublic).
+
+Interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails captured and served by [PagePeeker](http://pagepeeker.com/about/).
 
 ```{r session_info, echo=FALSE}
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
 sessionInfo()
 ```
-
-Interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails captured and served by [PagePeeker](http://pagepeeker.com/about/).
