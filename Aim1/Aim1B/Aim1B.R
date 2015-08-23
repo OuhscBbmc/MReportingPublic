@@ -24,6 +24,8 @@ ds <- read.csv(path_input, stringsAsFactors=FALSE)
 ## @knitr tweak_data
 
 ds$date_start <- as.Date(ds$date_start, format="%m/%d/%Y")
+ds$date_start_pretty <- strftime(ds$date_start, format="%b %d<br/>%Y")
+
 ds <- ds[order(ds$date_start), ] #Make sure it's sorted
 date_range <- range(ds$date_start)
 yAxisRange <- date_range + c(-1, 1) * date_axis_padding
@@ -70,7 +72,7 @@ ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) +
 
 #####################################
 ## @knitr table
-kable(ds[, c("date_start", "description")], 
+kable(ds[, c("date_start_pretty", "description")], 
       row.names = FALSE, 
-      col.names = c("Date<br/>(YYYY-MM-DD)", "Description")
+      col.names = c("Date", "Description")
 )
