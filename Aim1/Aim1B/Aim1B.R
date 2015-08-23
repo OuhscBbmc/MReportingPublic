@@ -24,7 +24,7 @@ ds <- read.csv(path_input, stringsAsFactors=FALSE)
 ## @knitr tweak_data
 
 ds$date_start <- as.Date(ds$date_start, format="%m/%d/%Y")
-ds$date_start_pretty <- strftime(ds$date_start, format="%b %d<br/>%Y")
+ds$date_start_pretty <- strftime(ds$date_start, format="%Y<br/>%b %d")
 
 ds <- ds[order(ds$date_start), ] #Make sure it's sorted
 date_range <- range(ds$date_start)
@@ -35,7 +35,7 @@ ds$headline_pretty <- paste(ds$date_start, ds$headline)
 ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nrow(ds))
 #ds$Rank <- order(ds$date_start)
 
-ds <- ds[ds$type!="era", ]
+ds <- ds[!(ds$type %in% c("title", "era")), ]
 
 ds$description <- paste0("<b>", ds$headline, "</b><br/>", ds$text)
 
