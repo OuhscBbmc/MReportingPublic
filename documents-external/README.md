@@ -6,3 +6,7 @@ Reports in this repository reference public documents in external websites.  The
 * **[home-visiting-supplemental.pdf](home-visiting-supplemental.pdf)** was downloaded on 2015-08-23 from <br/>http://www.hrsa.gov/grants/apply/assistance/homevisiting/homevisitingsupplemental.pdf.
 
 * **[miechv-competitive-narrative.pdf](miechv-competitive-narrative.pdf)** was downloaded on 2015-08-23 from <br/>http://www.ok.gov/health2/documents/MIECHV-Competitive%20Narrative.pdf.
+
+* **[sir-2011-02-08.pdf](sir-2011-02-08.pdf)** was downloaded on 2015-08-24 from <br/>http://www.hrsa.gov/grants/manage/homevisiting/sir02082011.pdf.
+
+* **[tribal-home-visiting-initial-funding-opportunity-announcement.pdf](tribal-home-visiting-initial-funding-opportunity-announcement.pdf)** was downloaded on 2015-08-23 from <br/>http://www.clasp.org/federal-policy/regulations-and-guidance/body/Tribal-Home-Visiting-Initial-Funding-Opportunity-Announcement.pdf.
