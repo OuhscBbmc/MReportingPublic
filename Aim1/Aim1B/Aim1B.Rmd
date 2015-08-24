@@ -8,6 +8,8 @@ output:
 ---
 
 ## Goals
+This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic).  The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn.  It is funded by [HRSA](http://mchb.hrsa.gov/programs/homevisiting/) of the [US Dept of Health and Human Services](http://www.hhs.gov/).  For a complete list of the project's reports, see http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html.
+
 This report covers Aim 1B: 
 **Develop timeline and analytic covariates that chronicle major program events**
 
@@ -17,7 +19,6 @@ This report covers Aim 1B:
  iv. Record frequency of Connector initiated network meetings 
  v.	Record number of Memorandums of Agreement and/or Understanding between local services
  
-For a complete list of the project's reports, see http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html.
 
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
