@@ -2,16 +2,13 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 #####################################
 ## @knitr load_packages
 library(knitr, quietly=TRUE)
-library(plyr, quietly=TRUE)
-library(scales, quietly=TRUE) #For formating values in graphs
-library(RColorBrewer, quietly=TRUE)
 library(ggplot2, quietly=TRUE) #For graphing
-library(lubridate, quietly=TRUE)
+requireNamespace("lubridate", quietly=TRUE)
 
 #####################################
 ## @knitr declare_globals
 path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
-path_output <- "./DataPhiFree/Derived/MiechvProgressTimeline.json"
+# path_output <- "./DataPhiFree/Derived/MiechvProgressTimeline.json"
 date_axis_padding <- lubridate::days(15)
 gray_light <- "gray70"
 gray_dark <- "gray40"
@@ -33,7 +30,6 @@ yAxisRange <- date_range + c(-1, 1) * date_axis_padding
 # ds$YmPretty <- strptime(ds$date_start, format="%y")
 ds$headline_pretty <- paste(ds$date_start, ds$headline)
 ds$rank_position <- seq.Date(from=date_range[1], to=date_range[2], length.out=nrow(ds))
-#ds$Rank <- order(ds$date_start)
 
 ds <- ds[!(ds$type %in% c("title", "era")), ]
 
@@ -48,7 +44,6 @@ ds$description <- ifelse(
   ds$description,
   paste0(ds$description, " <a href='", ds$media_url, "'  target='_blank'>[", ds$link_label, "]</a>")
 )
-
 
 #####################################
 ## @knitr convert_to_json
@@ -83,7 +78,8 @@ ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) +
 
 #####################################
 ## @knitr table
-kable(ds[, c("date_start_pretty", "description")], 
-      row.names = FALSE, 
-      col.names = c("Date", "Description")
+kable(
+  x         = ds[, c("date_start_pretty", "description")], 
+  row.names = FALSE, 
+  col.names = c("Date", "Description")
 )
