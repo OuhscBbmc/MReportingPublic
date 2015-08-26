@@ -5,13 +5,14 @@ output:
     theme: cerulean
     toc: true
     keep_md: true
+    css: css/mreporting_style.css
 ---
 
-## Goals
-This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic).  The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn.  It is funded by [HRSA](http://mchb.hrsa.gov/programs/homevisiting/) of the [US Dept of Health and Human Services](http://www.hhs.gov/).  For a complete list of the project's reports, see http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html.
+*Background*: This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic). "The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn" ([HRSA, 2015](http://mchb.hrsa.gov/programs/homevisiting/)). Oklahoma's current focus is to expand services and explore the effectiveness of different approaches.  For more details about the project, please see our [website](http://ouhscbbmc.github.io/MReportingPublic/) and [list of reports](http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html).
 
-This report covers Aim 1B: 
-**Develop timeline and analytic covariates that chronicle major program events**
+## Goals
+
+**Develop timeline and analytic covariates that chronicle major program events.**
 
  i.	Record successful establishment of a centralized referral/triage system
  ii. Assess frequency of home visitation coalition meetings
@@ -19,8 +20,6 @@ This report covers Aim 1B:
  iv. Record frequency of Connector initiated network meetings 
  v.	Record number of Memorandums of Agreement and/or Understanding between local services
  
-
-
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 ```{r, echo=F, message=F} 
 # cat("Working directory: ", getwd())
@@ -78,9 +77,7 @@ The ascending-date table has the same information as the graphic above it, but i
 ```
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.  The dataset is available in either a [raw](https://raw.githubusercontent.com/OuhscBbmc/MReportingPublic/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) or [tabled](https://github.com/OuhscBbmc/MReportingPublic/blob/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) format on the project's [public repository](https://github.com/OuhscBbmc/MReportingPublic).
-
-Interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails captured and served by [PagePeeker](http://pagepeeker.com/about/).
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.  The dataset is available in either a [raw](https://raw.githubusercontent.com/OuhscBbmc/MReportingPublic/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) or [tabled](https://github.com/OuhscBbmc/MReportingPublic/blob/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) format on the project's [public repository](https://github.com/OuhscBbmc/MReportingPublic).  The interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails are captured and served by [PagePeeker](http://pagepeeker.com/about/).
 
 ```{r session_info, echo=FALSE}
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))

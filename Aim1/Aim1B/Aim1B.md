@@ -1,10 +1,10 @@
 # History of [MIECHV](http://www.ok.gov/health/Child_and_Family_Health/Family_Support_and_Prevention_Service/MIECHV_Program_-_Federal_Home_Visiting_Grant/MIECHV_Program_Resources/index.html) in Oklahoma
 
-## Goals
-This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic).  The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn.  It is funded by [HRSA](http://mchb.hrsa.gov/programs/homevisiting/) of the [US Dept of Health and Human Services](http://www.hhs.gov/).  For a complete list of the project's reports, see http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html.
+*Background*: This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic). "The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn" ([HRSA, 2015](http://mchb.hrsa.gov/programs/homevisiting/)). Oklahoma's current focus is to expand services and explore the effectiveness of different approaches.  For more details about the project, please see our [website](http://ouhscbbmc.github.io/MReportingPublic/) and [list of reports](http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html).
 
-This report covers Aim 1B: 
-**Develop timeline and analytic covariates that chronicle major program events**
+## Goals
+
+**Develop timeline and analytic covariates that chronicle major program events.**
 
  i.	Record successful establishment of a centralized referral/triage system
  ii. Assess frequency of home visitation coalition meetings
@@ -12,8 +12,6 @@ This report covers Aim 1B:
  iv. Record frequency of Connector initiated network meetings 
  v.	Record number of Memorandums of Agreement and/or Understanding between local services
  
-
-
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 
 
@@ -156,23 +154,22 @@ Date              Description
 2015<br/>May 07   <b>PEW Home-Visitation Summit 2015</b><br/>More than 700 policymakers, home visiting practitioners, and researchers came together in May for the Fifth National Summit on Quality in Home Visiting Programs. Summit attendees learned, among many other topics, about state innovations such as agency and community collaboration and home visiting with two parents. <a href='http://www.pewtrusts.org/en/about/news-room/news/2015/07/22/fifth-national-summit-on-quality-in-home-visiting-programs'  target='_blank'>[Pew press release]</a>                                                                                                                                                                                                                                                                                                                                                                                   
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.  The dataset is available in either a [raw](https://raw.githubusercontent.com/OuhscBbmc/MReportingPublic/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) or [tabled](https://github.com/OuhscBbmc/MReportingPublic/blob/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) format on the project's [public repository](https://github.com/OuhscBbmc/MReportingPublic).
-
-Interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails captured and served by [PagePeeker](http://pagepeeker.com/about/).
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.  The dataset is available in either a [raw](https://raw.githubusercontent.com/OuhscBbmc/MReportingPublic/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) or [tabled](https://github.com/OuhscBbmc/MReportingPublic/blob/master/DataPhiFree/Raw/MiechvProgressTimeline.csv) format on the project's [public repository](https://github.com/OuhscBbmc/MReportingPublic).  The interactive timeline uses [Timeline JS](http://timeline.knightlab.com/).  Thumbnails are captured and served by [PagePeeker](http://pagepeeker.com/about/).
 
 
 ```
-Report rendered by wbeasley at 2015-08-24, 16:03 -0500
+Report rendered by wibeasley at 2015-08-26, 00:50 -0500
 ```
 
 ```
-R version 3.2.2 Patched (2015-08-15 r69084)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 7 x64 (build 7601) Service Pack 1
+R version 3.2.2 (2015-08-14)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 14.04.3 LTS
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -181,8 +178,8 @@ other attached packages:
 [1] lubridate_1.3.3    ggplot2_1.0.1      RColorBrewer_1.1-2 scales_0.2.5       plyr_1.8.3         knitr_1.11        
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.0      digest_0.6.8     MASS_7.3-43      grid_3.2.2       gtable_0.1.2     formatR_1.2     
- [7] magrittr_1.5     evaluate_0.7.2   highr_0.5        stringi_0.5-5    reshape2_1.4.1   rmarkdown_0.7   
-[13] proto_0.3-10     tools_3.2.2      stringr_1.0.0    munsell_0.4.2    yaml_2.1.13      colorspace_1.2-6
-[19] memoise_0.2.1    htmltools_0.2.6 
+ [1] Rcpp_0.12.0        digest_0.6.8       MASS_7.3-43        grid_3.2.2         gtable_0.1.2       formatR_1.2       
+ [7] magrittr_1.5       evaluate_0.7.2     highr_0.5          stringi_0.5-5      reshape2_1.4.1     rmarkdown_0.7     
+[13] proto_0.3-10       tools_3.2.2        stringr_1.0.0.9000 munsell_0.4.2      yaml_2.1.13        colorspace_1.2-6  
+[19] memoise_0.2.1      htmltools_0.2.6   
 ```
