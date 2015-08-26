@@ -5,6 +5,7 @@ output:
     theme: cerulean
     toc: true
     keep_md: true
+    css: css/mreporting_style.css
 ---
 
 *Background*: This report is part of [Oklahoma's External Evaluation of MIECHV](http://ouhscbbmc.github.io/MReportingPublic). "The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn" ([HRSA, 2015](http://mchb.hrsa.gov/programs/homevisiting/)). Oklahoma's current focus is to expand services and explore the effectiveness of different approaches.  For more details about the project, please see our [website](http://ouhscbbmc.github.io/MReportingPublic/) and [list of reports](http://ouhscbbmc.github.io/MReportingPublic/research_2011a.html).

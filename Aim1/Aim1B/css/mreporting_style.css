@@ -1,0 +1,13 @@
+/* some properties taken from https://github.com/sachsmc/tufterhandout/blob/master/inst/tufterhandout.css */
+
+html {
+  min-width: 1040px;
+}
+
+body {
+  background: #f7fcfa;
+  color: #333;
+  margin: 1em auto 4em auto;
+  position: relative;
+  width: 960px;
+}
