@@ -6,7 +6,7 @@ library(magrittr)
 requireNamespace("grid")
 requireNamespace("dplyr")
 requireNamespace("DT")
-requireNamespace("rpivotTable")
+# requireNamespace("rpivotTable")
 
 # DeclareGlobals  -----------------------------------
 pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
