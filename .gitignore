@@ -4,6 +4,7 @@
 .RData
 
 ### Ignore stuff from the non-GH branches
+DataPhiFreeCache
 DataPhiFreeCache/.*
 
 ### Jekyll stuff to ignore
