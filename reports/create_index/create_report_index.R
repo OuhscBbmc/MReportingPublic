@@ -6,21 +6,22 @@ library(DBI)
 
 ##################
 ## @knitr declare_globals
-path_db <- "./reports/report_index.sqlite3"
-path_person <- "./reports/create_index/tblPerson.csv"
-path_project <- "./reports/create_index/tblProject.csv"
-path_aim <- "./reports/create_index/tblAim.csv"
-path_goal <- "./reports/create_index/tblGoal.csv"
-path_report <- "./reports/create_index/tblReport.csv"
+path_db                      <- "./reports/report_index.sqlite3"
+
+path_person                  <- "./reports/create_index/tblPerson.csv"
+path_project                 <- "./reports/create_index/tblProject.csv"
+path_aim                     <- "./reports/create_index/tblAim.csv"
+path_goal                    <- "./reports/create_index/tblGoal.csv"
+path_report                  <- "./reports/create_index/tblReport.csv"
 path_junction_report_by_goal <- "./reports/create_index/tblJunctionReportByGoal.csv"
 
 ##################
 ## @knitr load_data
-ds_person <- read.csv(path_person, stringsAsFactors=FALSE)
-ds_project <- read.csv(path_project, stringsAsFactors=FALSE)
-ds_aim <- read.csv(path_aim, stringsAsFactors=FALSE)
-ds_goal <- read.csv(path_goal, stringsAsFactors=FALSE)
-ds_report <- read.csv(path_report, stringsAsFactors=FALSE)
+ds_person         <- read.csv(path_person,                  stringsAsFactors=FALSE)
+ds_project        <- read.csv(path_project,                 stringsAsFactors=FALSE)
+ds_aim            <- read.csv(path_aim,                     stringsAsFactors=FALSE)
+ds_goal           <- read.csv(path_goal,                    stringsAsFactors=FALSE)
+ds_report         <- read.csv(path_report,                  stringsAsFactors=FALSE)
 ds_report_by_goal <- read.csv(path_junction_report_by_goal, stringsAsFactors=FALSE)
 
 ##################
@@ -121,11 +122,11 @@ ds_report_by_goal$Visible <- as.integer(ds_report_by_goal$Visible)
 # d1 <- dbReadTable(cnn, name='tblSubaim')
 # str(d1)
 
-dbWriteTable(cnn, name='tblProject', value=ds_project, append=TRUE, row.names=FALSE)
-dbWriteTable(cnn, name='tblPerson', value=ds_person, append=TRUE, row.names=FALSE)
-dbWriteTable(cnn, name='tblAim', value=ds_aim, append=TRUE, row.names=FALSE)
-dbWriteTable(cnn, name='tblGoal', value=ds_goal, append=TRUE, row.names=FALSE)
-dbWriteTable(cnn, name='tblReport', value=ds_report, append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblProject',              value=ds_project,        append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblPerson',               value=ds_person,         append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblAim',                  value=ds_aim,            append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblGoal',                 value=ds_goal,           append=TRUE, row.names=FALSE)
+dbWriteTable(cnn, name='tblReport',               value=ds_report,         append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblJunctionReportByGoal', value=ds_report_by_goal, append=TRUE, row.names=FALSE)
 
 ##################
