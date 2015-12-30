@@ -3,7 +3,7 @@ title: "Report Index for All Reports in Oklahoma's MIECHV External Evaluation"
 toc: false
 ---
 
-This page lists all reports available on this website, across all projects (which currently is just  Project [2011a](./research_2011.html)).
+This page lists all reports available on this website, across all projects (which currently is just  Project [2011a](./research-2011.html)).
 
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of just one directory.-->
@@ -22,14 +22,14 @@ opts_chunk$set(
   tidy = FALSE,
   fig.width = 6.5, 
   fig.height = 4, 
-  fig.path = 'FigureRaw/'
+  fig.path = 'figure-png/'
 )
 # dpi = 400,
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
 
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./research_2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 ```{r LoadPackages, echo=echoChunks, message=FALSE}

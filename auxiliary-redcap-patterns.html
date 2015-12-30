@@ -10,7 +10,7 @@
 
 
 
-<title>About this Website</title>
+<title>REDCap Examples and Patterns</title>
 
 <script src="libs/jquery-1.11.0/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -111,7 +111,7 @@ img {
 </style>
 <div class="container-fluid main-container">
 
-<!-- start of before_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
+<!-- start of before-body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,27 +128,27 @@ img {
       <ul class="nav navbar-nav">
       
         <li class="dropdown">
-          <a href="research_products" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Research Products<span class="caret"></span></a>
+          <a href="research-products" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Research Products<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li class="dropdown-header">Beginning 2011</li>
-            <li><a href="research_2011a.html">HRSA/ACF D89MC23154</a></li>
+            <li><a href="research-2011a.html">HRSA/ACF D89MC23154</a></li>
             <li class="divider"/>
             <li class="dropdown-header">Site-Wide Reports</li>
-            <li><a href="report_index.html">Index</a></li>
+            <li><a href="report-index.html">Index</a></li>
           </ul>
         </li>
         
         <li class="dropdown">
-          <a href="other_products" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other Products<span class="caret"></span></a>
+          <a href="other-products" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other Products<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li class="dropdown-header">Software</li>
-            <li><a href="auxiliary_redcapr.html">REDCapR</a></li>
+            <li><a href="auxiliary-redcapr.html">REDCapR</a></li>
             <li class="divider"/>
             <li class="dropdown-header">Practices</li>
-            <li><a href="auxiliary_redcap_patterns.html">REDCap Patterns & Examples</a></li>
+            <li><a href="auxiliary-redcap-patterns.html">REDCap Patterns & Examples</a></li>
             <li class="divider"/>
             <li class="dropdown-header">PHI-Free Data</li>
-            <li><a href="auxiliary_data_county.html">County-Level</a></li>
+            <li><a href="auxiliary-data-county.html">County-Level</a></li>
           </ul>
         </li>
         
@@ -156,18 +156,18 @@ img {
         <a href="funding" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Funding<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li class="dropdown-header">Beginning 2014</li>
-            <li><a href="funding_2014a.html">HRSA/ACF (2014a)</a></li>
+            <li><a href="funding-2014a.html">HRSA/ACF (2014a)</a></li>
             <li class="divider"/>
             <li class="dropdown-header">Beginning 2011</li>
-            <li><a href="funding_2011a.html">HRSA/ACF D89MC23154</a></li>
+            <li><a href="funding-2011a.html">HRSA/ACF D89MC23154</a></li>
           </ul>
         </li>
         
         <li class="dropdown">
           <a href="about" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="about_collaborators.html">Collaborators</a></li>
-            <li><a href="about_site.html">This Site</a></li>
+            <li><a href="about-collaborators.html">Collaborators</a></li>
+            <li><a href="about-site.html">This Site</a></li>
           </ul>
         </li>        
       </ul>    
@@ -176,7 +176,7 @@ img {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<!-- end of before_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
+<!-- end of before-body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
 
 <!--
       <ul class="nav pull-right">
@@ -189,32 +189,31 @@ img {
 -->
 
 <div id="header">
-<h1 class="title">About this Website</h1>
+<h1 class="title">REDCap Examples and Patterns</h1>
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#components">Components</a></li>
-<li><a href="#historical-archives">Historical Archives</a></li>
-<li><a href="#code-collaboration">Code Collaboration</a></li>
+<li><a href="#establishing-patterns-and-practices-for-dynamic-reporting-with-redcap">Establishing Patterns and Practices for Dynamic Reporting with REDCap</a></li>
 </ul>
 </div>
 
-<div id="components" class="section level2">
-<h2>Components</h2>
-<p>This website is maintained by the <a href="http://ouhsc.edu/BBMC/">BBMC</a> (in <a href="./about_collaborators.html#ouhsc-pediatrics">OUHSC Pediatrics</a>), with the input of the investigation <a href="./about_collaborators.html">collaborators</a>. None of the reports contain <a href="http://en.wikipedia.org/wiki/Protected_health_information">PHI</a>, or fined-grained area information that could identify a participant or client.</p>
-<p>The website is hosted on <a href="https://pages.github.com/">GitHub Pages</a>. It is built with <a href="http://jekyllrb.com/">Jekyll</a> and <a href="http://rmarkdown.rstudio.com/">R Markdown</a> (and heavily relied on the latter when forming the site’s structure). The majority of the static reports are created with <a href="http://yihui.name/knitr/">knitr</a>, while the interactive reports are created with <a href="http://shiny.rstudio.com/">Shiny</a>; both use <a href="http://www.r-project.org/">R</a> as a foundation.</p>
-</div>
-<div id="historical-archives" class="section level2">
-<h2>Historical Archives</h2>
-<p>To increase transparency and promote reproducibility, this website is assigned a unique <a href="http://www.doi.org/">DOI</a> (digital object identifier) after each substantial modification. Each major version is archived (and <a href="https://zenodo.org/search?ln=en&amp;p=MReportingPublic">available for download indefinitely</a>) on a third-party site –where we cannot modify it. The DOI of the current version is <a href="http://dx.doi.org/10.5281/zenodo.12234">10.5281/zenodo.12234</a>.<br /><a href="http://dx.doi.org/10.5281/zenodo.12234"><img src="https://zenodo.org/badge/doi/10.5281/zenodo.12234.png" alt="DOI" /></a></p>
-</div>
-<div id="code-collaboration" class="section level2">
-<h2>Code Collaboration</h2>
-<p>Interested collaborators are welcome to propose changes or <a href="https://github.com/OuhscBbmc/MReportingPublic/issues">submit an issue</a> on our public <a href="https://github.com/OuhscBbmc/MReportingPublic/tree/gh-pages">GitHub repository</a>. If you’re new to GitHub, see the “Collaborating” section half-way down their <a href="https://help.github.com/">help site</a>, or post a comment to us below.</p>
+<hr />
+<p>(<em>This part will actually go on the same page as REDCapR, but I’m making it separate now to help visualize the structure of the website.</em>)</p>
+<div id="establishing-patterns-and-practices-for-dynamic-reporting-with-redcap" class="section level1">
+<h1>Establishing Patterns and Practices for Dynamic Reporting with REDCap</h1>
+<p>From the REDCapR section:</p>
+<blockquote>
+<p>The <a href="http://www.project-redcap.org/">REDCap</a> database system is a critical piece in Oklahoma’s MIECHV evaluation. It serves the two databases used in the community survey, and its recruitment. Our statisticians use primarily <a href="http://www.r-project.org/">R</a> and its software libraries for analysis. Consequently we developed some routines that assisted the import and export operations with REDCap and R.</p>
+</blockquote>
+<blockquote>
+<p>In the summer of 2013, we noticed an overall gap faced by other statisticians using REDCap and R, and released <strong>REDCapR</strong> package to help address this unmet need. In its first year, this open-source project was a featured presentation in the national <a href="https://redcap.vanderbilt.edu/consortium/redcapcon/">REDCap Conference</a> (slides are available <a href="https://starbrite.vanderbilt.edu/rocket/index.php?doc_id=8580">here</a>), and attracted independent <a href="https://github.com/OuhscBbmc/REDCapR/graphs/contributors">contributors</a> and users (many who also receive DHHS funding). The stable version is released on <a href="http://cran.r-project.org/web/packages/REDCapR/index.html">CRAN</a>, while the development version is hosted on the collaborative site, <a href="https://github.com/OuhscBbmc/REDCapR">GitHub</a>.</p>
+</blockquote>
+<p>We felt there was a need for guidance how to best use REDCap as the source of dynamic statistical reports, as typically used in CQI (similar to how <a href="https://github.com/OuhscBbmc/REDCapR">REDCapR</a> addressed an unmet need for transferred large datasets with REDCap and R). This topic was a second presentation at the 2014 <a href="https://redcap.vanderbilt.edu/consortium/redcapcon/">REDCap Conference</a> (slides are available <a href="https://starbrite.vanderbilt.edu/rocket/index.php?doc_id=8580">here</a>). The patterns and practices are currently developed and disseminated on a dedicated <a href="https://github.com/OuhscBbmc/RedcapExamplesAndPatterns">repository</a>.</p>
+<p><a class="btn" href="https://github.com/OuhscBbmc/RedcapExamplesAndPatterns"> <i class="fa fa-github fa-lg"></i> REDCap Examples and Patterns on GitHub </a></p>
 </div>
 
-<!-- start of after_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
+<!-- start of after-body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
 
 <!-- some extra javascript for older browsers -->
 <script type="text/javascript" src="libs/polyfill.js"></script>
@@ -255,7 +254,7 @@ $(document).ready(function () {
     })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<!-- end of after_body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
+<!-- end of after-body material from RMarkdown example http://rmarkdown.rstudio.com/ -->
 
 </div>
 

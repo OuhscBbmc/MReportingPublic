@@ -6,13 +6,13 @@ library(DBI)
 
 ##################
 ## @knitr declare_globals
-path_db <- "./reports/report_index.sqlite3"
-path_person <- "./reports/create_index/tblPerson.csv"
-path_project <- "./reports/create_index/tblProject.csv"
-path_aim <- "./reports/create_index/tblAim.csv"
-path_goal <- "./reports/create_index/tblGoal.csv"
-path_report <- "./reports/create_index/tblReport.csv"
-path_junction_report_by_goal <- "./reports/create_index/tblJunctionReportByGoal.csv"
+path_db <- "./reports/report-index.sqlite3"
+path_person <- "./reports/create-index/tblPerson.csv"
+path_project <- "./reports/create-index/tblProject.csv"
+path_aim <- "./reports/create-index/tblAim.csv"
+path_goal <- "./reports/create-index/tblGoal.csv"
+path_report <- "./reports/create-index/tblReport.csv"
+path_junction_report_by_goal <- "./reports/create-index/tblJunctionReportByGoal.csv"
 
 ##################
 ## @knitr load_data

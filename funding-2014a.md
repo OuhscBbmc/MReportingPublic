@@ -24,10 +24,10 @@ evaluate work proposed under this grant.
 # Resources and Files
 Understanding of this proposal may benefit from the following resources: 
 
- * [Appendix A: Benchmark Summary](./funding/2014a/funding_2014a_benchmark_summary.pdf)
- * [Appendix B: Survey Measures](./funding/2014a/funding_2014a_survey_measures.pdf)
- * [Appendix C: External Evaluation Crosswalk Measures](./funding/2011a/benchmark_measures_redcap_and_osdh_2014-10-06.html)  This document compares the (a) measures in the community survey to the (b) MIECHV benchmarks.
- * [Logic Model](./funding/2014a/funding_2014a_logic_model.pdf)
+ * [Appendix A: Benchmark Summary](./funding/2014a/funding-2014a-benchmark-summary.pdf)
+ * [Appendix B: Survey Measures](./funding/2014a/funding-2014a-survey-measures.pdf)
+ * [Appendix C: External Evaluation Crosswalk Measures](./funding/2011a/benchmark-measures-redcap-and-osdh-2014-10-06.html)  This document compares the (a) measures in the community survey to the (b) MIECHV benchmarks.
+ * [Logic Model](./funding/2014a/funding-2014a-logic-model.pdf)
  * [Timeline of All MIECHV-related Activities](./reports/Aim1B.html)
  
 ***
@@ -42,7 +42,7 @@ Understanding of this proposal may benefit from the following resources:
 ***
 ***
 # Logic Model
-![Alt text](./funding/2014a/funding_2014a_logic_model.png "Logic Model")
+![Alt text](./funding/2014a/funding-2014a-logic-model.png "Logic Model")
 
 # Additional Information
  * For more information about the RFP, please see the official [HRSA page](http://www.grants.gov/view-opportunity.html?oppId=263754).
@@ -52,7 +52,7 @@ Understanding of this proposal may benefit from the following resources:
 ***
 # Collaborators and Stakeholders
 
- * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
- * [OSDH](./about_collaborators.html#osdh)
- * [OHCA](./about_collaborators.html#ohca)
- * [Smart Start Oklahoma](./about_collaborators.html#smart-start-oklahoma)
+ * [OUHSC Pediatrics](./about-collaborators.html#ouhsc-pediatrics)
+ * [OSDH](./about-collaborators.html#osdh)
+ * [OHCA](./about-collaborators.html#ohca)
+ * [Smart Start Oklahoma](./about-collaborators.html#smart-start-oklahoma)

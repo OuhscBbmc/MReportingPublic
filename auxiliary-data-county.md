@@ -16,7 +16,7 @@ The following datasets have one row for each Oklahoma County.
 
 ***
 ## County Characteristics
-[Download compressed dataset](./data_phi_free/CountyCharacteristics.zip).
+[Download compressed dataset](./data-phi-free/CountyCharacteristics.zip).
 
 The dataset indicates a county's characteristics, with the following fields:
 
@@ -39,7 +39,7 @@ The dataset indicates a county's characteristics, with the following fields:
 
 ***
 ## WIC Estimates of Need
-[Download compressed dataset](./data_phi_free/WicNeed.zip).
+[Download compressed dataset](./data-phi-free/WicNeed.zip).
 
 The dataset countains the WIC Estimates of Need for counties for different years.  WIC Estimates of Need are available periodically (*i.e.*, 1998, 2000, 2004, 2005, 2006, 2010, and 2014).  [Loess regression](https://en.wikipedia.org/wiki/Local_regression) (with a [span of 2](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/loess.html)) was used to provide smooth and continuous county estimates for the years through 2016 for many of our longitudinal models.  Furthermore, loess provides stable extrapolations, which is necessary for the years following the last official estimate (*i.e.*, 2014).  Some spatial and longitudinal graphs are available in the [Map Appendix](http://ouhscbbmc.github.io/MReportingPublic/reports/OsdhMaps.html).
 

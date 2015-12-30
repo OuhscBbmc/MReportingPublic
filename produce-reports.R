@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 
 ########## Recreate List of Reports ###
-source("./reports/create_index/create_report_index.R")
+source("./reports/create-index/create-report-index.R")
 
 
 ########## Production of reports from .Rmd files ###

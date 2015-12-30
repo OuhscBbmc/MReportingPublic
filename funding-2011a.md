@@ -18,10 +18,10 @@ This page contains the material for 2011's funded proposal, [HRSA/ACF D89MC23154
 Understanding of this proposal may benefit from the following resources: 
 
  * [Protocol Description](./funding/2011a/HrsaProtocolV4.pdf)
- * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
+ * [Expansion Program Logic Model](./funding/2011a/funding-2011a-logic-model.pdf)
  * [HHS MIECHV FOA Announcement](http://www.hrsa.gov/about/news/pressreleases/110601homevisiting.html)
  * [HHS News Release Sept 2011](http://wayback.archive-it.org/3926/20140108162032/http://www.hhs.gov/news/press/2011pres/09/20110922b.html)
- * [External Evaluation Crosswalk Measures](./funding/2011a/benchmark_measures_redcap_and_osdh_2014-10-06.html).  This document compares the (a) measures in the community survey to the (b) MIECHV benchmarks.
+ * [External Evaluation Crosswalk Measures](./funding/2011a/benchmark-measures-redcap-and-osdh-2014-10-06.html).  This document compares the (a) measures in the community survey to the (b) MIECHV benchmarks.
 
 ***
 ***
@@ -74,33 +74,33 @@ Develop or enhance implementation of existing statewide and county level collabo
 # Aims of OUHSC's External Evaluation
 We were guided by [HRSA's](http://mchb.hrsa.gov/programs/homevisiting/) suggestion that a MIECHV external evaluation "should add something new and relevant to the scientific knowledge of home visiting".  The OSDH will conduct the *internal* evaluation.  The OUHSC (University of Oklahoma Health Sciences Center) will conduct the *external* evaluation, which has five aims.
 
- * **Aim 1** [Systems Coordination](./research_2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
+ * **Aim 1** [Systems Coordination](./research-2011a.html#systems-coordination): Evaluate the impact of existing and developing coordination between EBHV programs and other support services.
  
- * **Aim 2** [Program Marketing](./research_2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
+ * **Aim 2** [Program Marketing](./research-2011a.html#program-marketing): Inform, develop, and evaluate the outreach efforts of MIECHV-funded marketing.
  
- * **Aim 3** [Client Enrollment and Retention](./research_2011a.html#client-enrollment-and-retention): Inform, develop, and evaluate new methods for engagement and retention of clients in EBHV services.
+ * **Aim 3** [Client Enrollment and Retention](./research-2011a.html#client-enrollment-and-retention): Inform, develop, and evaluate new methods for engagement and retention of clients in EBHV services.
  
- * **Aim 4** [Service Need](./research_2011a.html#service-need): Evaluate the overall need for child and family services within each community.
+ * **Aim 4** [Service Need](./research-2011a.html#service-need): Evaluate the overall need for child and family services within each community.
  
- * **Aim 5** [HV Effectiveness and Improvement](./research_2011a.html#hv-effectiveness-and-improvement): Establish a quality improvement and control system and evaluate effectiveness of the home visitation and early childhood services continuum.
+ * **Aim 5** [HV Effectiveness and Improvement](./research-2011a.html#hv-effectiveness-and-improvement): Establish a quality improvement and control system and evaluate effectiveness of the home visitation and early childhood services continuum.
 
-This [project's research page](./research_2011a.html) contains more details and reports.
+This [project's research page](./research-2011a.html) contains more details and reports.
   
 ***
 ***
 # Logic Model
-![Alt text](./funding/2011a/funding_2011a_logic_model.png "Logic Model")
+![Alt text](./funding/2011a/funding-2011a-logic-model.png "Logic Model")
 
 # Additional Information
  * For more information about the proposal, please see the
 [official HRSA page](https://perf-data.hrsa.gov/mchb/DGISReports/Abstract/AbstractDetails.aspx?Source=TVIS&GrantNo=D89MC23154&FY=2012).
- * For more information about the outcomes, please see the project's [Research Products](./research_2011a.html) page.
+ * For more information about the outcomes, please see the project's [Research Products](./research-2011a.html) page.
 
 ***
 ***
 # Collaborators and Stakeholders
 
- * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
- * [OSDH](./about_collaborators.html#osdh)
- * [OHCA](./about_collaborators.html#ohca)
- * [Smart Start Oklahoma](./about_collaborators.html#smart-start-oklahoma)
+ * [OUHSC Pediatrics](./about-collaborators.html#ouhsc-pediatrics)
+ * [OSDH](./about-collaborators.html#osdh)
+ * [OHCA](./about-collaborators.html#ohca)
+ * [Smart Start Oklahoma](./about-collaborators.html#smart-start-oklahoma)

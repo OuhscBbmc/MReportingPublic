@@ -7,7 +7,7 @@ library(knitr)
 #####################################
 ## @knitr DeclareGlobals
 options(show.signif.stars=F) #Turn off the annotations on p-values
-path <- "./reports/report_index.sqlite3"
+path <- "./reports/report-index.sqlite3"
 
 #####################################
 ## @knitr LoadData

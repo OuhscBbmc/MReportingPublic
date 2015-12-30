@@ -21,8 +21,8 @@ This page contains the products from the 2011 funded proposal, [HRSA/ACF D89MC23
 Understanding of this proposal may benefit from the following resources: 
 
  * [Protocol Description](./funding/2011a/HrsaProtocolV4.pdf)
- * [Expansion Program Logic Model](./funding/2011a/funding_2011a_logic_model.pdf)
- * [Home Visiting SWOT](./research/2011a/SWOT_Home_Visitation_ar_formatting_dbv2.pdf): White Paper Report on Home Visitation in Oklahoma, July 2013
+ * [Expansion Program Logic Model](./funding/2011a/funding-2011a-logic-model.pdf)
+ * [Home Visiting SWOT](./research/2011a/swot-home-visitation-ar-formatting-dbv2.pdf): White Paper Report on Home Visitation in Oklahoma, July 2013
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of just one directory.-->
 ```{r, echo=F, message=F} 
@@ -47,7 +47,7 @@ opts_chunk$set(
 
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./research_2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 ```{r LoadPackages, echo=echoChunks, message=FALSE}
@@ -90,16 +90,16 @@ We use a literate programming framework and code repository that facilitates agi
 ***
 # Collaborators and Stakeholders
 
- * [OUHSC Pediatrics](./about_collaborators.html#ouhsc-pediatrics)
- * [OSDH](./about_collaborators.html#osdh)
- * [OHCA](./about_collaborators.html#ohca)
- * [Smart Start Oklahoma](./about_collaborators.html#smart-start-oklahoma)
+ * [OUHSC Pediatrics](./about-collaborators.html#ouhsc-pediatrics)
+ * [OSDH](./about-collaborators.html#osdh)
+ * [OHCA](./about-collaborators.html#ohca)
+ * [Smart Start Oklahoma](./about-collaborators.html#smart-start-oklahoma)
 
 ***
 ***
 # Additional Information
  * For more information about the grant proposal, please see the project's 
-[funding page](./funding_2011a.html).
+[funding page](./funding-2011a.html).
 
 <!--
 # Session Information
