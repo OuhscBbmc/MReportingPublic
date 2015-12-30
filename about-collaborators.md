@@ -17,7 +17,7 @@ The Pediatrics Dept has been involved with Home Visiting research for over a dec
   <img src="./images/BbmcDistributionsBackgroundClear.png" alt="BBMC" style="width: 300px;"/> 
 </a>
 <a href="http://www.oumedicine.com/pediatrics"> 
- <img src="./images/pediatrics_logo.png" alt="OUHSC Pediatrics" style="width: 250px;"/>
+ <img src="./images/pediatrics-logo.png" alt="OUHSC Pediatrics" style="width: 250px;"/>
 </a>
 <a href="http://www.oumedicine.com/pediatrics/department-sections/developmental-behavioral-pediatrics/center-on-child-abuse-and-neglect"> 
   <img src="./images/ccanlogo.jpg" alt="CCAN" style="width: 170px;"/>
@@ -41,7 +41,7 @@ The Pediatrics Dept has been involved with Home Visiting research for over a dec
 When you call parentPRO, you will be matched to the program that best fits your needs, strengths, and qualifications. Since the programs take place in the individual's home, the services are convenient for families. They don't have to worry about transportation or childcare.
 
 <a href="http://parentpro.funnelstaging.com/">
-  <img src="./images/10802_OSDH_PPLogo_F.jpg" alt="parentPRO" style="width: 300px;"/>
+  <img src="./images/10802-OSDH-PPLogo-F.jpg" alt="parentPRO" style="width: 300px;"/>
 </a>
 
 ***

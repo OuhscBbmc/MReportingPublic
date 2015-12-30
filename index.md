@@ -17,7 +17,7 @@ This site is structured into primary categories, each with nested subcategories.
 
 If you have any questions or comments, feel free to post them below. --*Oklahoma's MIECHV team*
 
-![Alt text](./images/report_collage.png "Example Reports")
+![Alt text](./images/report-collage.png "Example Reports")
 
 <div class="well">
   [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.12234.png)](http://dx.doi.org/10.5281/zenodo.12234) 
