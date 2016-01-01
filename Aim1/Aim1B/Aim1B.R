@@ -1,25 +1,21 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-#####################################
-## @knitr load_packages
+
+# ---- load_packages --------------------------------------------------------------
 library(knitr, quietly=TRUE)
 library(ggplot2, quietly=TRUE) #For graphing
 requireNamespace("lubridate", quietly=TRUE)
 
-#####################################
-## @knitr declare_globals
+# ---- declare_globals --------------------------------------------------------------
 path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
 # path_output <- "./DataPhiFree/Derived/MiechvProgressTimeline.json"
 date_axis_padding <- lubridate::days(15)
 gray_light <- "gray70"
 gray_dark <- "gray40"
 
-#####################################
-## @knitr load_data
+# ---- load_data --------------------------------------------------------------
 ds <- read.csv(path_input, stringsAsFactors=FALSE)
 
-#####################################
-## @knitr tweak_data
-
+# ---- tweak_data --------------------------------------------------------------
 ds$date_start <- as.Date(ds$date_start, format="%m/%d/%Y")
 ds$date_start_pretty <- strftime(ds$date_start, format="%Y<br/>%b %d")
 
@@ -45,16 +41,14 @@ ds$description <- ifelse(
   paste0(ds$description, " <a href='", ds$media_url, "'  target='_blank'>[", ds$link_label, "]</a>")
 )
 
-#####################################
-## @knitr convert_to_json
+# ---- convert_to_json --------------------------------------------------------------
 library(jsonlite)
 ds_json <- ds
 ds_json$date_start <- strftime(ds_json$date_start, "%Y,%m,%d") 
 json <- jsonlite::toJSON(ds_json, pretty = T)
 # jsonlite::stream_out(ds_json, file(tmp <- path_output), pretty = F)
 
-#####################################
-## @knitr timeline_ggplot
+# ---- timeline_ggplot --------------------------------------------------------------
 x_point <- 0
 x_date <- .3
 x_label <- .6
@@ -76,9 +70,8 @@ ggplot(ds, aes(x=x_point, y=date_start, label=headline_pretty)) +
   theme(axis.ticks.length = grid::unit(0, "cm")) +
   labs(x=NULL, y=NULL)
 
-#####################################
-## @knitr table
-kable(
+# ---- table --------------------------------------------------------------
+knitr::kable(
   x         = ds[, c("date_start_pretty", "description")], 
   row.names = FALSE, 
   col.names = c("Date", "Description")
