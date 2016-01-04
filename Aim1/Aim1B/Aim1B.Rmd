@@ -37,7 +37,7 @@ opts_chunk$set(
   dpi = 100,
   fig.width = 13, 
   fig.height = 25, 
-  fig.path = 'FigureRaw/'
+  fig.path = 'figure-png/'
 )
 # 
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
