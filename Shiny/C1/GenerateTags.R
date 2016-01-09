@@ -9,10 +9,10 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ############################
 ## @knitr load_packages
 library(magrittr)
-requireNamespace("dplyr", quietly=TRUE)
-requireNamespace("scales", quietly=TRUE)
-requireNamespace("lubridate", quietly=TRUE)
-requireNamespace("readr", quietly=TRUE)
+requireNamespace("dplyr")
+requireNamespace("scales")
+requireNamespace("lubridate")
+requireNamespace("readr")
 
 ############################
 ## @knitr declare_globals

@@ -3,7 +3,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # ---- load_packages --------------------------------------------------------------
 library(knitr, quietly=TRUE)
 library(ggplot2, quietly=TRUE) #For graphing
-requireNamespace("lubridate", quietly=TRUE)
+requireNamespace("lubridate")
 
 # ---- declare_globals --------------------------------------------------------------
 path_input <- "./DataPhiFree/Raw/MiechvProgressTimeline.csv"
