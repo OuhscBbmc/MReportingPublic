@@ -4,7 +4,6 @@ title: "REDCap Examples and Patterns"
 ---
 
 ***
-(*This part will actually go on the same page as REDCapR, but I'm making it separate now to help visualize the structure of the website.*)
 
 # Establishing Patterns and Practices for Dynamic Reporting with REDCap
 
