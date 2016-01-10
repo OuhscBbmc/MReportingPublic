@@ -1,10 +1,10 @@
 ---
-title: "REDCapR"
+title: "R Packages"
 
 ---
 
 ***
-# R utilities for interacting with a REDCap data system
+# REDCapR: R utilities for interacting with a REDCap data system
 
 The [REDCap](http://www.project-redcap.org/) database system is a critical piece in Oklahoma's MIECHV evaluation.  It serves the two databases used in the community survey, and its recruitment.  Our statisticians use primarily [R](http://www.r-project.org/) and its software libraries for analysis.  Consequently we developed some routines that assisted the import and export operations with REDCap and R.  
 
@@ -12,5 +12,23 @@ In the summer of 2013, we noticed an overall gap faced by other statisticians us
 
 <a class="btn" href="https://github.com/OuhscBbmc/REDCapR">
   <i class="fa fa-github fa-lg"></i>
-  REDCapR on GitHub
+  Source Code on GitHub
+</a>
+<a class="btn" href="https://github.com/OuhscBbmc/REDCapR/blob/master/documentation-peek.pdf">
+  <i class="fa fa-book fa-lg"></i>
+  Documentation of Development Version
+</a>
+
+***
+# OuhscMunge: Data manipulation 
+
+The package contains data manipulation operations frequently used in OUHSC BBMC projects.  Deploying a package allows us to reuse our tested code in multiple investigations and code bases.
+
+<a class="btn" href="https://github.com/OuhscBbmc/OuhscMunge">
+  <i class="fa fa-github fa-lg"></i>
+  Source Code on GitHub
+</a>
+<a class="btn" href="https://github.com/OuhscBbmc/OuhscMunge/blob/master/documentation-peek.pdf">
+  <i class="fa fa-book fa-lg"></i>
+  Documentation of Development Version
 </a>
