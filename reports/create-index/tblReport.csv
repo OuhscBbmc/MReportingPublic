@@ -1,6 +1,6 @@
 ReportID,DescriptionShort,FileFormat,IsLocal,LocalDirectory,LocalName,RemoteUri,DescriptionLong
-1,OSDH Maps,pdf,1,./reports,OsdhMaps.pdf,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for paper.)
-2,OSDH Maps,html,1,./reports,OsdhMaps.html,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for monitors.)
+1,OSDH Maps,pdf,1,./reports,osdh-maps.pdf,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for paper.)
+2,OSDH Maps,html,1,./reports,osdh-maps.html,,Show the geographical relationships and patterns in administrative and demographic variables. (Optimized for monitors.)
 3,Aim 3A,pdf,1,./reports/2011,Aim3A.pdf,,Continually evaluate the flow of clients served per county.
 4,Aim 3A Univariate,html,1,./reports/2011,Aim3AUnivariate.html,,Continually evaluate the flow of clients served per county.  (Further univariate details.)
 5,Aim 1B,html,1,./reports/2011,Aim1B.html,,Develop timeline and analytic covariates that chronicle major program events.
