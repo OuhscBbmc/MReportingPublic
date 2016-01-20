@@ -1,11 +1,11 @@
 # rm(list=ls(all=TRUE))  #Clear the variables from previous runs.  
 
-##################
-## @knitr load_sources
+# ---- load-sources -----------------------------------------------------------------
+
+# ---- load-packages ----------------------------------------------------------------
 library(DBI)
 
-##################
-## @knitr declare_globals
+# ---- declare-globals ----------------------------------------------------------------
 path_db                      <- "./reports/report-index.sqlite3"
 
 path_person                  <- "./reports/create-index/tblPerson.csv"
@@ -15,8 +15,7 @@ path_goal                    <- "./reports/create-index/tblGoal.csv"
 path_report                  <- "./reports/create-index/tblReport.csv"
 path_junction_report_by_goal <- "./reports/create-index/tblJunctionReportByGoal.csv"
 
-##################
-## @knitr load_data
+# ---- load-data ----------------------------------------------------------------
 ds_person         <- read.csv(path_person,                  stringsAsFactors=FALSE)
 ds_project        <- read.csv(path_project,                 stringsAsFactors=FALSE)
 ds_aim            <- read.csv(path_aim,                     stringsAsFactors=FALSE)
@@ -24,19 +23,18 @@ ds_goal           <- read.csv(path_goal,                    stringsAsFactors=FAL
 ds_report         <- read.csv(path_report,                  stringsAsFactors=FALSE)
 ds_report_by_goal <- read.csv(path_junction_report_by_goal, stringsAsFactors=FALSE)
 
-##################
-## @knitr remove_old_db
+# ---- tweak-data ----------------------------------------------------------------
+
+# ---- remove-old-db -----------------------------------------------------------
 if( file.exists(path_db) ) 
   file.remove(path_db)
 
-##################
-## @knitr open_connection
+# ---- open-connection ---------------------------------------------------------
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
 RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
 dbListTables(cnn)
 
-##################
-## @knitr define_tables
+# ---- definte-tables ----------------------------------------------------------
 sql_create_tbl_person <- "CREATE TABLE `tblPerson` (
   `PersonID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`Name`	TEXT NOT NULL UNIQUE
@@ -91,7 +89,8 @@ sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
   `Visible` INTEGER NOT NULL
 );"
 
-sql_create_view_report <- "CREATE VIEW vewReport AS
+sql_create_view_report <- 
+"CREATE VIEW vewReport AS
 SELECT tblJunctionReportByGoal.ReportByGoalID, 
   tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID, tblJunctionReportByGoal.Visible,
   tblReport.DescriptionShort, tblReport.DescriptionLong, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
@@ -102,8 +101,7 @@ ON tblJunctionReportByGoal.ReportID=tblReport.ReportID
 WHERE tblJunctionReportByGoal.Visible=1
 ORDER BY tblReport.DescriptionShort;"
 
-##################
-## @knitr create_objects
+# ---- create-tables -----------------------------------------------------------
 dbSendQuery(cnn, sql_create_tbl_person)
 dbSendQuery(cnn, sql_create_tbl_project)
 dbSendQuery(cnn, sql_create_tbl_aim)
@@ -113,12 +111,10 @@ dbSendQuery(cnn, sql_create_tbl_report_by_goal)
 dbSendQuery(cnn, sql_create_view_report)
 dbListTables(cnn)
 
-##################
-## @knitr tweak_tables
+# ---- tweak-tables ------------------------------------------------------------
 ds_report_by_goal$Visible <- as.integer(ds_report_by_goal$Visible)
 
-##################
-## @knitr populate_tables
+# ---- populate-tables ---------------------------------------------------------
 # d1 <- dbReadTable(cnn, name='tblSubaim')
 # str(d1)
 
@@ -129,8 +125,7 @@ dbWriteTable(cnn, name='tblGoal',                 value=ds_goal,           appen
 dbWriteTable(cnn, name='tblReport',               value=ds_report,         append=TRUE, row.names=FALSE)
 dbWriteTable(cnn, name='tblJunctionReportByGoal', value=ds_report_by_goal, append=TRUE, row.names=FALSE)
 
-##################
-## @knitr close_connection
+# ---- close-connection --------------------------------------------------------
 dbDisconnect(cnn)
 
 # file.remove(path_db)
