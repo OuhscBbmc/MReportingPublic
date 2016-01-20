@@ -31,12 +31,17 @@ echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
+
+<!-- Load sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
 <!-- Load the packages.  Suppress the output when loading packages. --> 
-```{r LoadPackages, echo=echoChunks, message=FALSE}
+```{r load-packages, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
-```{r DeclareGlobals, echo=echoChunks, results='show', message=FALSE}
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
@@ -44,14 +49,14 @@ read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadData, echo=echoChunks, results='show', message=FALSE}
+```{r load-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r TweakData, echo=echoChunks, results='show', message=FALSE}
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
-```{r Index, echo=echoChunks, message=TRUE, results='asis'}
+```{r index, echo=echoChunks, message=TRUE, results='asis'}
 ```
 
 <!--

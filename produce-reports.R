@@ -1,25 +1,23 @@
 rm(list=ls(all=TRUE))
 
-########## Recreate List of Reports ###
+# recreate-report-list ----------------------------------------------------
 source("./reports/create-index/create-report-index.R")
 
-
-########## Production of reports from .Rmd files ###
+# determine-reports-to-build ----------------------------------------------
 path_index <- base::file.path("./index.Rmd")
 
 patternToBuild <- "(?<!README)\\.(R){0,1}md$" #Gets all 'Rmd' and 'md' files, that aren't named `README`.
 pathFilesToBuild <- list.files(full.names=TRUE, recursive=TRUE)
 pathFilesToBuild <- grep(patternToBuild, pathFilesToBuild, perl=TRUE, value=TRUE)
 
-####################################
-
+# render-reports ----------------------------------------------------------
 testit::assert("The knitr Rmd and md files should exist.", base::file.exists(pathFilesToBuild))
 for( pathFile in pathFilesToBuild ) {
   #   pathMd <- base::gsub(pattern=".Rmd$", replacement=".md", x=pathRmd)
   rmarkdown::render(input = pathFile, 
                     output_format=c(
                       # "pdf_document"
-                      #,"md_document"
+                      #, "md_document"
                       "html_document"
                     ),
                     clean=TRUE)

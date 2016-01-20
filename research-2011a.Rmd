@@ -40,7 +40,7 @@ opts_chunk$set(
   tidy = FALSE,
   fig.width = 6.5, 
   fig.height = 4, 
-  fig.path = 'FigureRaw/'
+  fig.path = 'figure-png/'
 )
 # dpi = 400,
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
@@ -49,12 +49,17 @@ echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
+
+<!-- Load sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
 <!-- Load the packages.  Suppress the output when loading packages. --> 
-```{r LoadPackages, echo=echoChunks, message=FALSE}
+```{r load-packages, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
-```{r DeclareGlobals, echo=echoChunks, results='show', message=FALSE}
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
@@ -62,11 +67,11 @@ read_chunk("./research-2011a.R") #This allows knitr to call chunks tagged in the
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadData, echo=echoChunks, results='show', message=FALSE}
+```{r load-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r TweakData, echo=echoChunks, results='show', message=FALSE}
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 ***
@@ -83,7 +88,7 @@ The overall analysis is progressing from a set of general inquiries to a set of 
 
 We use a literate programming framework and code repository that facilitates agile and reproducible research.  We invite readers to view the analysis code and resulting documents housed in this [GitHub repository](https://github.com/OuhscCcanMiechvEvaluation/MReporting).  However, we ask that you not pass the GitHub  username and password to anyone who did not received it from us.  If you know someone who would like to review the repository, please have them contact [us](william-beasley@ouhsc.edu) and we likely will grant them permission. (Even with the username, no PHI is accessible from the repository; an authorized OUHSC user account is required.)
 
-```{r Report, echo=echoChunks, message=TRUE, results='asis'}
+```{r report, echo=echoChunks, message=TRUE, results='asis'}
 ```
 
 ***

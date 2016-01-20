@@ -1,16 +1,16 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-#####################################
-## @knitr LoadPackages
+# ---- load-sources -----------------------------------------------------------------
+source("./reports/create-index/create-report-index.R") #Work with the freshes report list.
+
+# ---- load-packages ----------------------------------------------------------------
 library(DBI)
 library(knitr)
 
-#####################################
-## @knitr DeclareGlobals
+# ---- declare-globals ----------------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
 path <- "./reports/report-index.sqlite3"
 
-#####################################
-## @knitr LoadData
+# ---- load-data ----------------------------------------------------------------
 cnn <- dbConnect(RSQLite::SQLite(), path)
 
 dsAim <- dbReadTable(cnn, "tblAim")
@@ -21,9 +21,7 @@ dsReportJunction <- dbReadTable(cnn, "vewReport")
 # dbListTables(cnn)
 isClosed <- dbDisconnect(cnn)
 
-#####################################
-## @knitr TweakData
-# Tweak dsReport
+# ---- tweak-data ----------------------------------------------------------------
 dsReport <- dsReport[order(dsReport$DescriptionShort), ]
 dsReport$Path <- ifelse(dsReport$IsLocal,
                         file.path(dsReport$LocalDirectory, dsReport$LocalName),
@@ -37,8 +35,7 @@ dsReportJunction$Path <- ifelse(dsReportJunction$IsLocal,
 dsReportJunction$ReportName <- paste0("[", dsReportJunction$DescriptionShort, "](",  dsReportJunction$Path, ")")
 dsReportJunction$Visible <- as.logical(dsReportJunction$Visible)
 
-#####################################
-## @knitr Report
+# ---- report ------------------------------------------------------------------
 projectID <- 1L
 dsAimProject <- dsAim[dsAim$ProjectID==projectID, ]
 
@@ -61,9 +58,7 @@ for( aimID in dsAimProject$AimID ) {
   }
 }
 
-#####################################
-## @knitr Index
-
+# ---- index -------------------------------------------------------------------
 kable(dsReport[, c("ReportName", "FileFormat", "DescriptionLong")],
       col.names = c("Report Name", "Format", "Description"),
       row.names = FALSE)
