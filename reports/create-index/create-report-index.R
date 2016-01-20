@@ -35,71 +35,77 @@ RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated
 dbListTables(cnn)
 
 # ---- definte-tables ----------------------------------------------------------
-sql_create_tbl_person <- "CREATE TABLE `tblPerson` (
-  `PersonID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`Name`	TEXT NOT NULL UNIQUE
-);"
+sql_create_tbl_person <- "
+  CREATE TABLE `tblPerson` (
+    `PersonID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  	`Name`	TEXT NOT NULL UNIQUE
+  );"
 
-sql_create_tbl_project <- "CREATE TABLE `tblProject` (
-  `ProjectID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`Name`	TEXT NOT NULL UNIQUE,
-	`SubmissionYear`	INTEGER NOT NULL
-);"
+sql_create_tbl_project <- "
+  CREATE TABLE `tblProject` (
+    `ProjectID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  	`Name`	TEXT NOT NULL UNIQUE,
+  	`SubmissionYear`	INTEGER NOT NULL
+  );"
 
-sql_create_tbl_aim <- "CREATE TABLE `tblAim` (
-  `AimID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-  `ProjectID`	INTEGER NOT NULL,
-  `NameShort`  TEXT NOT NULL,
-  `NamePretty`  TEXT NOT NULL,
-	`Description`	TEXT NOT NULL,
-  FOREIGN KEY(ProjectID) REFERENCES tblProject(ProjectID)
-);"
+sql_create_tbl_aim <- "
+  CREATE TABLE `tblAim` (
+    `AimID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    `ProjectID`	INTEGER NOT NULL,
+    `NameShort`  TEXT NOT NULL,
+    `NamePretty`  TEXT NOT NULL,
+  	`Description`	TEXT NOT NULL,
+    FOREIGN KEY(ProjectID) REFERENCES tblProject(ProjectID)
+  );"
 
-sql_create_tbl_goal <- "CREATE TABLE `tblGoal` (
-  `GoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`AimID`	INTEGER NOT NULL,
-  `SubaimName`	TEXT NOT NULL,
-  `SubaimNameShort`	TEXT NOT NULL,
-	`Description`	TEXT NOT NULL,
-	`AssignedTo`	INTEGER NOT NULL,
-	`IsStarted`	INTEGER NOT NULL,
-	`StartDate`	TEXT,
-	`IsFinished`	INTEGER NOT NULL,
-  `FinishDate`	TEXT,
-  `SubsubaimDescriptions`	TEXT,
-  FOREIGN KEY(AssignedTo) REFERENCES tblPerson(PersonID),
-  FOREIGN KEY(AimID) REFERENCES tblAim(AimID)
-);"
+sql_create_tbl_goal <- "
+  CREATE TABLE `tblGoal` (
+    `GoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  	`AimID`	INTEGER NOT NULL,
+    `SubaimName`	TEXT NOT NULL,
+    `SubaimNameShort`	TEXT NOT NULL,
+  	`Description`	TEXT NOT NULL,
+  	`AssignedTo`	INTEGER NOT NULL,
+  	`IsStarted`	INTEGER NOT NULL,
+  	`StartDate`	TEXT,
+  	`IsFinished`	INTEGER NOT NULL,
+    `FinishDate`	TEXT,
+    `SubsubaimDescriptions`	TEXT,
+    FOREIGN KEY(AssignedTo) REFERENCES tblPerson(PersonID),
+    FOREIGN KEY(AimID) REFERENCES tblAim(AimID)
+  );"
 
-sql_create_tbl_report <- "CREATE TABLE `tblReport` (
-  `ReportID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-  `DescriptionShort`  TEXT NOT NULL,
-  `FileFormat`  TEXT NOT NULL,
-  `IsLocal`  INTEGER NOT NULL,
-  `LocalDirectory`  TEXT,
-  `LocalName`  TEXT,
-  `RemoteUri`  TEXT,
-  `DescriptionLong`  TEXT NOT NULL
-);"
+sql_create_tbl_report <- "
+  CREATE TABLE `tblReport` (
+    `ReportID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    `DescriptionShort`  TEXT NOT NULL,
+    `FileFormat`  TEXT NOT NULL,
+    `IsLocal`  INTEGER NOT NULL,
+    `LocalDirectory`  TEXT,
+    `LocalName`  TEXT,
+    `RemoteUri`  TEXT,
+    `DescriptionLong`  TEXT NOT NULL
+  );"
 
-sql_create_tbl_report_by_goal <- "CREATE TABLE `tblJunctionReportByGoal` (
-  `ReportByGoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-  `ReportID`  INTEGER NOT NULL,
-  `GoalID`  INTEGER NOT NULL,
-  `Visible` INTEGER NOT NULL
-);"
+sql_create_tbl_report_by_goal <- "
+  CREATE TABLE `tblJunctionReportByGoal` (
+    `ReportByGoalID`  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    `ReportID`  INTEGER NOT NULL,
+    `GoalID`  INTEGER NOT NULL,
+    `Visible` INTEGER NOT NULL
+  );"
 
-sql_create_view_report <- 
-"CREATE VIEW vewReport AS
-SELECT tblJunctionReportByGoal.ReportByGoalID, 
-  tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID, tblJunctionReportByGoal.Visible,
-  tblReport.DescriptionShort, tblReport.DescriptionLong, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
-  tblReport.RemoteUri, tblReport.FileFormat
-FROM tblJunctionReportByGoal
-INNER JOIN tblReport
-ON tblJunctionReportByGoal.ReportID=tblReport.ReportID
-WHERE tblJunctionReportByGoal.Visible=1
-ORDER BY tblReport.DescriptionShort;"
+sql_create_view_report <- "
+  CREATE VIEW vewReport AS
+  SELECT tblJunctionReportByGoal.ReportByGoalID, 
+    tblJunctionReportByGoal.GoalID, tblJunctionReportByGoal.ReportID, tblJunctionReportByGoal.Visible,
+    tblReport.DescriptionShort, tblReport.DescriptionLong, tblReport.IsLocal, tblReport.LocalDirectory, tblReport.LocalName,
+    tblReport.RemoteUri, tblReport.FileFormat
+  FROM tblJunctionReportByGoal
+    INNER JOIN tblReport
+      ON tblJunctionReportByGoal.ReportID=tblReport.ReportID
+  WHERE tblJunctionReportByGoal.Visible=1
+  ORDER BY tblReport.DescriptionShort;"
 
 # ---- create-tables -----------------------------------------------------------
 dbSendQuery(cnn, sql_create_tbl_person)
@@ -127,5 +133,4 @@ dbWriteTable(cnn, name='tblJunctionReportByGoal', value=ds_report_by_goal, appen
 
 # ---- close-connection --------------------------------------------------------
 dbDisconnect(cnn)
-
 # file.remove(path_db)
