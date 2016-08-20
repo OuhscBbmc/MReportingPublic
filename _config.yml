@@ -15,3 +15,6 @@ exclude:
   - Gemfile.lock
 
 logo: ./images/favicon.png
+
+#Don't explode on gems; https://jekyllrb.com/docs/continuous-integration/#configuring-your-travis-builds.
+exclude: [vendor]
