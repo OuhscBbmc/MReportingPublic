@@ -19,8 +19,9 @@ If you have any questions or comments, feel free to post them below. --*Oklahoma
 
 ![Alt text](./images/report-collage.png "Example Reports")
 
+
 <div class="well">
-  [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.12234.png)](http://dx.doi.org/10.5281/zenodo.12234) 
+  [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.12234.png)](http://dx.doi.org/10.5281/zenodo.12234)
   <a class="btn btn-info btn-xs" href="https://github.com/OuhscBbmc/MReportingPublic/tree/gh-pages">
     <i class="fa fa-github"></i> Source Code
   </a>
