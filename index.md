@@ -1,28 +1,18 @@
 ---
-title: "Oklahoma's MIECHV Evaluation"
+layout: "page"
+title: "Welcome to REDCap-Tools"
 ---
 
-### Welcome
+[REDCap-Tools](https://github.com/redcap-tools) is an organization that fosters interesting projects built against [REDCap](http://project-redcap.org). Developers and projects in this organization have no official ties to REDCap other than looking to push the data management capabilities provided by REDCap's more advanced tools (namely the API and Data Entry Triggers) to their fullest potential. We hope to foster projects across a wide-range of programming languages.  Our other goal is to connect users to the best existing [libraries and resources](/projects) for their needs.
 
-Welcome to Oklahoma's MIECHV Evaluation. This public-facing site provides aggregate reports and de-identified datasets to communicate the results of Oklahoma's MIECHV evaluation and distribute material to assist similar efforts.
+If you have written a tool or application that helps improve reproducibility or accuracy in your a REDCap-based project, please consider housing it in this organization. This growing community of advanced REDCap end-users may find interest in your project and may want to help make it better. Also, if you move on in your career, placing your project under this organization will help to keep it growing and improving after you have moved on.
 
-"The Maternal, Infant, and Early Childhood Home Visiting project supports pregnant women and families and helps at-risk parents of children from birth to kindergarten entry tap the resources and hone the skills they need to raise children who are physically, socially and emotionally healthy and ready to learn" ([HRSA, 2015](http://mchb.hrsa.gov/programs/homevisiting/)). Oklahoma's current focus is to expand services and explore the effectiveness of different approaches.  For more details about the project, please see our [timeline](http://ouhscbbmc.github.io/MReportingPublic/reports/Aim1B.html) and [list of reports](http://ouhscbbmc.github.io/MReportingPublic/research-2011a.html).
+Notably REDCap-Tools takes no ownership over the projects hosted in this organization. That is left to the discretion of the author(s).
 
-This site is structured into primary categories, each with nested subcategories.  Please navigate this site with the dropdown boxes at the top of the page.
+If you have a suggestion, please consider [creating an issue](https://github.com/redcap-tools/redcap-tools.github.io/issues?q=is%3Aissue) for it in this repository (click the green 'New Issue' button in the top right).
 
- * **Research Products** are a gateway to the reports used in our CQI and evaluation.
- * **Other Products** contains software and datasets that mgiht be helpful to researchers pursuing similar questions.
- * **Funding** pages describe current and previous funding proposals.  A proposal is categorized under the year it was submitted.
- * **About** covers the collaborators and stakeholders involved in Oklahoma's overall MIECHV services and evaluations.
+### Website Contributors
 
-If you have any questions or comments, feel free to post them below. --*Oklahoma's MIECHV team*
-
-![Alt text](./images/report-collage.png "Example Reports")
-
-
-<div class="well">
-  [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.12234.png)](http://dx.doi.org/10.5281/zenodo.12234)
-  <a class="btn btn-info btn-xs" href="https://github.com/OuhscBbmc/MReportingPublic/tree/gh-pages">
-    <i class="fa fa-github"></i> Source Code
-  </a>
-</div>
+* [@sburns](https://github.com/sburns)
+* [Will Beasley](https://github.com/wibeasley), University of Oklahoma Health Sciences Center, [BBMC](http://www.ouhsc.edu/bbmc/#about)
+* [Hao Zhu](https://github.com/haozhu233), [Institute for Aging Research](http://www.instituteforagingresearch.org/)

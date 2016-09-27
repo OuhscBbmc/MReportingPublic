@@ -1,9 +1,0 @@
-/* Beasley thought the link text was a little too faint, so switched its color with the hover & focus color */
-a {
-  color: #157ab5;
-  text-decoration: none;
-}
-a:hover,
-a:focus {
-  color: #2fa4e7;
-}

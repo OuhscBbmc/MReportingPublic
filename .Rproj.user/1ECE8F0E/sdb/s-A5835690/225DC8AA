@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Site settings\ntitle: MReportingPublic\nemail: wibeasley@hotmail.com\ndescription: \"Home Visiting Research in Oklahoma\"\nbaseurl: /\nurl: \"http://OuhscBbmc.github.io\"\ngithub_username: OuhscBbmc\n\n# Build settings\nmarkdown: kramdown\npermalink: pretty\n\n#Don't explode on gems; https://jekyllrb.com/docs/continuous-integration/#configuring-your-travis-builds.\nexclude: [vendor]\n",
+    "created" : 1474944142540.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "73075915",
+    "id" : "225DC8AA",
+    "lastKnownWriteTime" : 1474945676,
+    "last_content_update" : 1474945676,
+    "path" : "~/Bbmc/MReportingPublic/_config.yml",
+    "project_path" : "_config.yml",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "yaml"
+}
