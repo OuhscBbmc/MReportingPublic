@@ -1,20 +1,14 @@
-encoding: UTF-8
+# Site settings
+title: MReportingPublic
+email: wibeasley@hotmail.com
+description: "Home Visiting Research in Oklahoma"
+baseurl: /
+url: "http://OuhscBbmc.github.io"
+github_username: OuhscBbmc
 
+# Build settings
+markdown: kramdown
 permalink: pretty
-highlighter: pygments
-safe: false
-
-# Site details
-lang: en-US
-
-# Jekyll config
-exclude:
-  - Makefile
-  - README.md
-  - Gemfile
-  - Gemfile.lock
-
-logo: ./images/favicon.png
 
 #Don't explode on gems; https://jekyllrb.com/docs/continuous-integration/#configuring-your-travis-builds.
 exclude: [vendor]

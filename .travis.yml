@@ -2,9 +2,6 @@ language: ruby
 rvm:
 - 2.1
 
-env:
-  global:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # speeds up installation of html-proofer
 
 # Follows advice of https://github.com/jekyll/jekyll/issues/3480
 install:
