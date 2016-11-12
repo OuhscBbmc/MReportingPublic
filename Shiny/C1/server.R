@@ -1,4 +1,4 @@
-# LoadPackages  -----------------------------------
+# ---- load-packages  -----------------------------------
 library(shiny)
 library(htmlwidgets)
 library(magrittr)
@@ -7,7 +7,7 @@ library(ggplot2)
 requireNamespace("grid")
 requireNamespace("DT")
 
-# DeclareGlobals  -----------------------------------
+# ---- declare-globals  -----------------------------------
 # pathUpcomingScheduleServerOutside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
 # pathUpcomingScheduleServerInside <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
 # pathC1CountyMonthRepo <- "../.././DataPhiFree/Derived/C1/C1CountyMonth.rds"
@@ -66,7 +66,7 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
 # ActivityEachMonth(readRDS("./DataPhiFree/Derived/C1/C1CountyMonth.rds"), "VisitCount")
 
 
-# LoadData -----------------------------------
+# ---- load-data -----------------------------------
 # if( file.exists(pathUpcomingScheduleServerOutside) ) {
 #   pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
 # } else if( file.exists(pathUpcomingScheduleServerInside) ) {
@@ -75,10 +75,9 @@ ActivityEachMonth <- function( dsPlot, responseVariable,
 pathC1RegionMonth <- pathC1RegionMonthRepo
 # }
 
-# dsC1RegionMonth <- readRDS(pathC1CountyMonth) 
 dsC1RegionMonth <- readRDS(pathC1RegionMonth) 
 
-# TweakData -----------------------------------
+# ---- tweak-data -----------------------------------
 
 # Define a server for the Shiny app  -----------------------------------
 function(input, output) {
@@ -119,11 +118,11 @@ function(input, output) {
     DT::datatable(
       d, 
       rownames = FALSE,
-      style = 'bootstrap', 
-      options = list(
-        searching = FALSE,
-        sort = FALSE,
-        language = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
+      style    = 'bootstrap', 
+      options  = list(
+        searching  = FALSE,
+        sort       = FALSE,
+        language   = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
         # rowCallback = JS( 
         #   'function(row, data) {
         #     if (data[3].indexOf("Interview") > -1 ) {
@@ -135,8 +134,8 @@ function(input, output) {
         #   }'
         # )
       ),
-      class = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
-      escape = FALSE
+      class        = 'table-striped table-condensed table-hover', #Applies Bootstrap styles, see http://getbootstrap.com/css/#tables
+      escape       = FALSE
     ) #%>%
     # formatStyle(
     #   columns = 'Status', 

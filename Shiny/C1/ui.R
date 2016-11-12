@@ -1,16 +1,19 @@
 # The ui.R file formats the screen seen by the user in the browser.
 
+# ---- load-packages  -----------------------------------
 library(shiny)
 library(shinydashboard)
 # library(DT)
 library(ggplot2)
+
+# ---- declare-globals  -----------------------------------
 #Header
 tags_style <- "
-h3 {color:red; font-size:150%}
-.panelHeader {color:#605CA8; font-size:200%}
-.table .smallish {font-size:80%; padding:2px; }
-.table .interviewEvent {color:#bb2288; background:#D8FFCC;}
-.table .interviewRow {font-size:90%; font-weight:bold}
+  h3 {color:red; font-size:150%}
+  .panelHeader {color:#605CA8; font-size:200%}
+  .table .smallish {font-size:80%; padding:2px; }
+  .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
+  .table .interviewRow {font-size:90%; font-weight:bold}
 "
 
 header <- dashboardHeader(
@@ -20,23 +23,26 @@ header <- dashboardHeader(
 )
 
 dashboardPage(
-  skin = "green",
+  skin   = "green",
   header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
     selectInput(
       inputId = "regionTag",
-      label = "Region",
-      choices = list("All", 
-                     "ao", "aq", "fm", "ii", "it", "jr", "kc", "pd", "qc", "qs", 
-                     "rv", "sx", "tq", "ua", "uq", "wn", "wr", "yn", "zi", "zj"),
+      label   = "Region",
+      choices = list(
+        "All", 
+        "ao", "aq", "fm", "ii", "it", "jr", "kc", "pd", "qc", "qs", 
+        "rv", "sx", "tq", "ua", "uq", "wn", "wr", "yn", "zi", "zj"
+      ),
       selected = "All"
     ),    
     dateRangeInput(
-      inputId = 'dateRange', 
-      separator = "-",
-      label = 'Date Format: yyyy-mm-dd',
-      start = as.Date("2015-01-01"), end = lubridate::floor_date(Sys.Date(), "month")
+      inputId    = 'dateRange', 
+      separator  = "-",
+      label      = 'Date Format: yyyy-mm-dd',
+      start      = as.Date("2015-01-01"), 
+      end        = lubridate::floor_date(Sys.Date(), "month")
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
@@ -95,4 +101,3 @@ dashboardPage(
     ) #End the tabsetPanel
   ) #End the dashboardBody
 ) #End the dashboardPage
-
