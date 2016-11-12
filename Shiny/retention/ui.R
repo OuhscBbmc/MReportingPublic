@@ -27,16 +27,16 @@ dashboardPage(
   header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
-    selectInput(
-      inputId = "regionTag",
-      label   = "Region",
-      choices = list(
-        "All", 
-        "ao", "aq", "fm", "ii", "it", "jr", "kc", "pd", "qc", "qs", 
-        "rv", "sx", "tq", "ua", "uq", "wn", "wr", "yn", "zi", "zj"
-      ),
-      selected = "All"
-    ),    
+    # selectInput(
+    #   inputId = "regionTag",
+    #   label   = "Region",
+    #   choices = list(
+    #     "All", 
+    #     "ao", "aq", "fm", "ii", "it", "jr", "kc", "pd", "qc", "qs", 
+    #     "rv", "sx", "tq", "ua", "uq", "wn", "wr", "yn", "zi", "zj"
+    #   ),
+    #   selected = "All"
+    # ),    
     dateRangeInput(
       inputId    = 'dateRange', 
       separator  = "-",
@@ -47,9 +47,7 @@ dashboardPage(
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Table", tabName="table"),
-      menuItem("Referrals (coming)", tabName="referrals"),
-      menuItem("Enrollments (coming)", tabName="enrollments"),
-      menuItem("Visits", tabName="visits"),
+      # menuItem("Visits", tabName="visits"),
       menuItem("General Links", tabName="generalLinks")
     )
   ),  
@@ -58,12 +56,10 @@ dashboardPage(
       includeCSS("./www/styles.css"), # Include our custom CSS
       tags$style(HTML(tags_style))
     ),#End tags$head 
-    h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
     tabItems( #type = "tabs",
       tabItem(
         tabName = "table",
-        DT::dataTableOutput(outputId = "ScheduleTablePast"),
-        h3("!!!Warning! This report is currently for demonstration purposes.  ETO is working on a ticket to fix some issues with the export of Visit records!!!", color="red"),
+        DT::dataTableOutput(outputId = "visit_table"),
         HTML("<br/><font color='#605CA8'>This table (will) include prototypical indicators of all four best practices outcomes.",
              "The current columns are: ",
              "<table>",
@@ -79,20 +75,12 @@ dashboardPage(
              "</table>",
              "</font>")
       ), #End the (first) tab with the 'table' table
-      tabItem(
-        tabName = "referrals",
-        HTML("<font color='#605CA8'>Referral information is coming soon.</font><br/>")
-      ), #End the (second) tab with the graph
-      tabItem(
-        tabName = "enrollments",
-        HTML("<font color='#605CA8'>Enrollment information is coming soon.</font><br/>")
-      ), #End the (third) tab with the graph
-      tabItem(
-        tabName = "visits", 
-        shiny::plotOutput(outputId = "GraphVisitCount", width='95%', height='400px'),
-        HTML("<br/>"),
-        shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
-      ), #End the (fourth) tab with the graph
+      # tabItem(
+      #   tabName = "visits", 
+      #   shiny::plotOutput(outputId = "GraphVisitCount", width='95%', height='400px'),
+      #   HTML("<br/>"),
+      #   shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
+      # ), #End the (fourth) tab with the graph
       tabItem(
         tabName = "generalLinks", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
