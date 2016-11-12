@@ -10,9 +10,11 @@ requireNamespace("readr")
 requireNamespace("dplyr")
 
 # ---- declare-globals  -----------------------------------
-# path_input_server_outside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/UpcomingSchedule.csv"
-# path_input_server_inside  <- "/var/shinydata/MReportingPublic/UpcomingSchedule.csv"
-path_input_repo             <- "../.././DataPhiFreeCache/Raw/C1/eto-visit.rds"
+# To create the 'hat' dataset, run `MReporting/OsdhReports/retention/retention.R`.
+
+# path_input_server_outside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/eto-visit-hat.csv"
+# path_input_server_inside  <- "/var/shinydata/MReportingPublic/eto-visit-hat.csv"
+path_input_repo             <- "../.././DataPhiFreeCache/Raw/C1/eto-visit-hat.rds"
 
 #Define some common cosmetics for the report.
 report_theme <- theme_light() +
@@ -58,20 +60,35 @@ function(input, output) {
   output$visit_table <- DT::renderDataTable({
     d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
     
-    # d <- d %>%
-    #   dplyr::mutate(
-    #     # ActivityMonth = strftime(ActivityMonth, "%Y-%m"),
-    #     # VisitsPerInfantNeed = round(VisitsPerInfantNeed, 3)
-    #   ) %>%
-    #   dplyr::select(
-    #     # -WicNeedPopInfant
-    #   ) %>%
-    #   dplyr::rename_(
-    #     # "Region Tag" = "RegionTag",
-    #     # "Month" = "ActivityMonth",
-    #     # "Visit Count" = "VisitCount",
-    #     # "Visits per Need" = "VisitsPerInfantNeed"
-    #   )
+    d <- d %>%
+      dplyr::mutate(
+        visit_date                   = strftime(visit_date, "%Y-%m"),
+        content_covered_percent      = paste0(content_covered_percent, "%"),
+        hat_v1                       = round(hat_v1, 2),
+        hat_v2                       = round(hat_v2, 2),
+        hat_v3                       = round(hat_v3, 2)
+      ) %>%
+      dplyr::select(
+        -response_id, -model, -model_id, -completed,
+        -people_present_count, -visit_location_home,
+        -visit_distance, -visit_duration_in_minutes,
+        -visit_month_first, -window_start,
+        -program_code_f, -time_frame_pregnant,
+        -completed_count, -content_covered_most,
+        -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
+        -client_count_in_program
+      ) %>%
+      dplyr::rename_(
+        "client"                                 = "client_index",
+        "visit_month"                            = "visit_date",
+        "content_covered"                        = "content_covered_percent",
+        "client_material_understanding"          = "client_material_understanding",
+        "<em>RR</em><sub>v1</sub>"               = "hat_v1",
+        "<em>RR</em><sub>v2</sub>"               = "hat_v2",
+        "<em>RR</em><sub>v3</sub>"               = "hat_v3"
+      )
+    
+    colnames(d)  <- gsub("_", " ", colnames(d))
     
     DT::datatable(
       d, 
@@ -79,7 +96,7 @@ function(input, output) {
       style    = 'bootstrap', 
       options  = list(
         searching  = FALSE,
-        sort       = FALSE,
+        sort       = TRUE,
         language   = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
         # rowCallback = JS( 
         #   'function(row, data) {
