@@ -18,7 +18,7 @@ report_theme <- theme_light() +
   theme(axis.title        = element_text(colour="gray40")) +
   theme(panel.border      = element_rect(colour="gray80")) +
   theme(axis.ticks        = element_line(colour="gray80")) +
-  theme(axis.ticks.length = grid::unit(0, "cm"))
+  theme(axis.ticks        = element_blank())
 
 
 # status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
@@ -109,12 +109,29 @@ function(input, output) {
     #   color = styleEqual(names(palette_status), palette_status)
     # )
   })
-  # output$GraphVisitCount <- renderPlot({
-  #   d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
-  #   highlightedRegions <- input$regionTag
-  #   ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per region)") +
-  #     scale_y_continuous(labels=comma_format())
-  # })
+  output$client_rr <- renderPlot({
+    d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
+    # highlightedRegions <- input$regionTag
+    # browser()
+    ggplot(d, aes(x=days_since_referral, y=hat_v3, group=client_index, xmin=0)) +
+      # geom_rect(data=ds_risk_palette, aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, x=NULL, y=NULL, label=NULL, color=NULL), alpha=.2) +
+      # geom_text(data=ds_hat[ds_hat$content_covered_most, ],position=position_jitter(), color="#2a3284", na.rm=T) +
+      # geom_text(data=ds_hat[!ds_hat$content_covered_most, ],position=position_jitter(), color="#CC2222", na.rm=T) +
+      geom_hline(yintercept=1, linetype="A1", color="gray70", size=1.5, alpha=.5) +
+      geom_hline(yintercept=c(.5, 2), linetype="A2", color="gray40", size=1, alpha=.2) +
+      geom_line() +
+      # geom_text(data=ds_risk_palette, aes(x=1, y=y_midpoint, label=category, color=palette_risk_dark), size=5, hjust=0) +
+      # scale_x_discrete(limits=levels(ds_hat$time_frame)) +
+      scale_y_continuous(breaks=seq(0, 4, .5)) +
+      # scale_color_identity() +
+      # scale_fill_identity() +
+      coord_cartesian(ylim=c(.45, 4.05), expand=F) +
+      report_theme +
+      theme(panel.grid.major.x=element_blank()) +
+      labs(title="Risk of Dropping Out\nModel V1 Variables: [Client Involvement]", x=NULL, y="Relative Risk of Dropping Out")
+
+    
+  })
 
   output$table_file_info <- renderText({
     return( paste0(

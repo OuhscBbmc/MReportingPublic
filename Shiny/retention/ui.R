@@ -56,8 +56,8 @@ dashboardPage(
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Table", tabName="table"),
-      # menuItem("Visits", tabName="visits"),
-      menuItem("General Links", tabName="generalLinks")
+      menuItem("Visits", tabName="visits"),
+      menuItem("General Links", tabName="general_links")
     )
   ),  
   dashboardBody(
@@ -88,14 +88,14 @@ dashboardPage(
           "</font>"
         )
       ), #End the (first) tab with the 'table' table
-      # tabItem(
-      #   tabName = "visits", 
-      #   shiny::plotOutput(outputId = "GraphVisitCount", width='95%', height='400px'),
-      #   HTML("<br/>"),
-      #   shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
-      # ), #End the (fourth) tab with the graph
       tabItem(
-        tabName = "generalLinks", 
+        tabName = "visits",
+        shiny::plotOutput(outputId = "client_rr", width='95%', height='400px')
+        # HTML("<br/>"),
+        # shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
+      ), #End the (fourth) tab with the graph
+      tabItem(
+        tabName = "general_links", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
         htmlOutput(outputId='table_file_info')
       )#, #End the (six) tab with the links & details
