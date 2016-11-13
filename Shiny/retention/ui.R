@@ -17,7 +17,7 @@ tags_style <- "
 "
 
 header <- dashboardHeader(
-  title = "C1 Activity",
+  title = "C1 Retention",
   dropdownMenuOutput("messageMenuPast"),
   dropdownMenuOutput("messageMenuUpcoming")
 )
