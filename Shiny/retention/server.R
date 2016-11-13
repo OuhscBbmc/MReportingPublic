@@ -39,7 +39,20 @@ report_theme <- theme_light() +
 path_input <- path_input_repo
 # }
 
-ds_visit <- readr::read_rds(path_input)
+ds_visit <- readr::read_rds(path_input) %>%
+  dplyr::mutate(
+    time_frame                   = dplyr::recode(time_frame, "Pregnancy"="Pregnant", "Infant"="Infancy", "Toddler"="Toddlerhood")
+  ) %>% 
+  dplyr::select(
+    -response_id, -model, -model_id, -completed,
+    -people_present_count, -visit_location_home,
+    -visit_distance, -visit_duration_in_minutes,
+    -visit_month_first, -window_start,
+    -program_code_f, -time_frame_pregnant,
+    -completed_count, -content_covered_most,
+    -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
+    -client_count_in_program
+  ) 
 
 # ---- tweak-data -----------------------------------
 
@@ -64,22 +77,10 @@ function(input, output) {
       dplyr::mutate(
         visit_date                   = strftime(visit_date, "%Y-%m"),
         content_covered_percent      = paste0(content_covered_percent, "%"),
-        # content_covered_percent      = sprintf("%5s%%", content_covered_percent),
-        time_frame                   = dplyr::recode(time_frame, "`Pregnancy`"="Pregnant"),
         final_visit                  = dplyr::if_else(final_visit, "Yes", "-"),
         hat_v1                       = sprintf("%.2f", hat_v1),
         hat_v2                       = sprintf("%.2f", hat_v2),
         hat_v3                       = sprintf("%.2f", hat_v3)
-      ) %>%
-      dplyr::select(
-        -response_id, -model, -model_id, -completed,
-        -people_present_count, -visit_location_home,
-        -visit_distance, -visit_duration_in_minutes,
-        -visit_month_first, -window_start,
-        -program_code_f, -time_frame_pregnant,
-        -completed_count, -content_covered_most,
-        -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
-        -client_count_in_program
       ) %>%
       dplyr::rename_(
         "Client"                                 = "client_index",
@@ -97,7 +98,7 @@ function(input, output) {
         "<em>RR</em><sub>v3</sub>"               = "hat_v3"
       )
 
-    colnames(d)  <- gsub("_", " ", colnames(d))
+    # colnames(d)  <- gsub("_", " ", colnames(d))
 
     DT::datatable(
       d,
