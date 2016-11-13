@@ -5,6 +5,7 @@ library(shiny)
 library(shinydashboard)
 # library(DT)
 library(ggplot2)
+requireNamespace("lubridate")
 
 # ---- declare-globals  -----------------------------------
 #Header
@@ -27,22 +28,30 @@ dashboardPage(
   header = header,
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
-    # selectInput(
-    #   inputId = "regionTag",
-    #   label   = "Region",
-    #   choices = list(
-    #     "All", 
-    #     "ao", "aq", "fm", "ii", "it", "jr", "kc", "pd", "qc", "qs", 
-    #     "rv", "sx", "tq", "ua", "uq", "wn", "wr", "yn", "zi", "zj"
-    #   ),
-    #   selected = "All"
-    # ),    
+    selectInput(
+      inputId = "client_index",
+      label   = "Client",
+      choices = c("All", sort(unique(ds_visit$client_index))),
+      selected = "All"
+    ),
+    selectInput(
+      inputId = "program_code",
+      label   = "Program",
+      choices = c("All", sort(unique(ds_visit$program_code))),
+      selected = "All"
+    ),
     dateRangeInput(
-      inputId    = 'dateRange', 
+      inputId    = 'date_range', 
       separator  = "-",
       label      = 'Date Format: yyyy-mm-dd',
       start      = as.Date("2015-01-01"), 
       end        = lubridate::floor_date(Sys.Date(), "month")
+    ),
+    selectInput(
+      inputId = "final_visit",
+      label   = "Was Final Visit",
+      choices = c("All", "Yes", "No"),
+      selected = "All"
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(

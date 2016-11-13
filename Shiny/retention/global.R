@@ -40,10 +40,12 @@ ds_visit <- readr::read_rds(determine_path())
 
 ds_visit <- ds_visit %>%
   dplyr::mutate(
-    time_frame                   = dplyr::recode(time_frame, "Pregnancy"="Pregnant", "Infant"="Infancy", "Toddler"="Toddlerhood")
+    time_frame                   = dplyr::recode(time_frame, "Pregnancy"="Pregnant", "Infant"="Infancy", "Toddler"="Toddlerhood"),
+    visit_month                  = OuhscMunge::clump_month_date(visit_date)
   ) %>% 
   dplyr::select(
     -response_id, -model, -model_id, -completed,
+    -visit_date,
     -people_present_count, -visit_location_home,
     -visit_distance, -visit_duration_in_minutes,
     -visit_month_first, -window_start,

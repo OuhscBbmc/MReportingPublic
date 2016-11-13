@@ -39,10 +39,15 @@ function(input, output) {
   filter_visit <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
     d <- ds_visit
 
-    # if( nrow(d)>0 & input$regionTag != "All" )
-    #   d <- d[d$RegionTag==input$regionTag, ]
-    #
-    # d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
+    if( nrow(d)>0 & input$client_index != "All" )
+      d <- d[d$client_index==input$client_index, ]
+    if( nrow(d)>0 & input$program_code != "All" )
+      d <- d[d$program_code==input$program_code, ]
+    if( nrow(d)>0 & input$final_visit != "All" )
+      d <- d[d$final_visit==dplyr::recode(input$final_visit, "Yes"=TRUE, "No"=FALSE), ]
+    
+    d <- d[(start_date<=d$visit_month) & (d$visit_month<=stop_date), ]
+    
     return( d )
   }
 
@@ -52,17 +57,17 @@ function(input, output) {
 
     d <- d %>%
       dplyr::mutate(
-        visit_date                   = strftime(visit_date, "%Y-%m"),
+        visit_month                  = strftime(visit_month, "%Y-%m"),
         content_covered_percent      = paste0(content_covered_percent, "%"),
         final_visit                  = dplyr::if_else(final_visit, "Yes", "-"),
         hat_v1                       = sprintf("%.2f", hat_v1),
         hat_v2                       = sprintf("%.2f", hat_v2),
         hat_v3                       = sprintf("%.2f", hat_v3)
       ) %>%
-      dplyr::rename_(
+      dplyr::select_(
         "Client"                                 = "client_index",
         "Program"                                = "program_code",
-        "Visit Month"                            = "visit_date",
+        "Visit Month"                            = "visit_month",
         "Phase"                                  = "time_frame",
         "Content Covered"                        = "content_covered_percent",
         "Involved"                               = "client_involvement",
@@ -115,8 +120,8 @@ function(input, output) {
     return( paste0(
       '<h3>Details</h3>',
       "<table border='0' cellspacing='1' cellpadding='2' >",
-      "<tr><td>Data Path:<td/><td>&nbsp;", path_input, "<td/><tr/>",
-      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(path_input)$mtime, "<td/><tr/>",
+      "<tr><td>Data Path:<td/><td>&nbsp;", determine_path(), "<td/><tr/>",
+      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(determine_path())$mtime, "<td/><tr/>",
       "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
       "<table/>"
     ) )
