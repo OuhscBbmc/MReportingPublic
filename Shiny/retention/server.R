@@ -79,10 +79,16 @@ function(input, output) {
         -client_count_in_program
       ) %>%
       dplyr::rename_(
-        "client"                                 = "client_index",
-        "visit_month"                            = "visit_date",
-        "content_covered"                        = "content_covered_percent",
-        "client_material_understanding"          = "client_material_understanding",
+        "Client"                                 = "client_index",
+        "Program"                                = "program_code",
+        "Visit Month"                            = "visit_date",
+        "Phase"                                  = "time_frame",
+        "Content Covered"                        = "content_covered_percent",
+        "Client Involvement"                     = "client_involvement",
+        "Client Conflict w/ Material"            = "client_material_conflict",
+        "Client  Understanding<br/>of Material"  = "client_material_understanding",
+        "Days Since Referral"                    = "days_since_referral",
+        "Was the Final Visit?"                   = "final_visit",
         "<em>RR</em><sub>v1</sub>"               = "hat_v1",
         "<em>RR</em><sub>v2</sub>"               = "hat_v2",
         "<em>RR</em><sub>v3</sub>"               = "hat_v3"
