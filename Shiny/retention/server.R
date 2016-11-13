@@ -12,10 +12,6 @@ requireNamespace("dplyr")
 # ---- declare-globals  -----------------------------------
 # To create the 'hat' dataset, run `MReporting/OsdhReports/retention/retention.R`.
 
-# path_input_server_outside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/eto-visit-hat.csv"
-# path_input_server_inside  <- "/var/shinydata/MReportingPublic/eto-visit-hat.csv"
-path_input_repo             <- "../.././DataPhiFreeCache/Raw/C1/eto-visit-hat.rds"
-
 #Define some common cosmetics for the report.
 report_theme <- theme_light() +
   theme(axis.text         = element_text(colour="gray40")) +
@@ -31,28 +27,9 @@ report_theme <- theme_light() +
 
 
 # ---- load-data -----------------------------------
-# if( file.exists(pathUpcomingScheduleServerOutside) ) {
-#   pathUpcomingSchedule <- pathUpcomingScheduleServerOutside
-# } else if( file.exists(pathUpcomingScheduleServerInside) ) {
-#   pathUpcomingSchedule <- pathUpcomingScheduleServerInside
-# } else {
-path_input <- path_input_repo
-# }
+# Dataset is loaded  & tweaked once in 'global.R'.
 
-ds_visit <- readr::read_rds(path_input) %>%
-  dplyr::mutate(
-    time_frame                   = dplyr::recode(time_frame, "Pregnancy"="Pregnant", "Infant"="Infancy", "Toddler"="Toddlerhood")
-  ) %>% 
-  dplyr::select(
-    -response_id, -model, -model_id, -completed,
-    -people_present_count, -visit_location_home,
-    -visit_distance, -visit_duration_in_minutes,
-    -visit_month_first, -window_start,
-    -program_code_f, -time_frame_pregnant,
-    -completed_count, -content_covered_most,
-    -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
-    -client_count_in_program
-  ) 
+
 
 # ---- tweak-data -----------------------------------
 
