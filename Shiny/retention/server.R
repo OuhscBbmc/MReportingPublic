@@ -41,8 +41,8 @@ function(input, output) {
 
     if( nrow(d)>0 & input$client_index != "All" )
       d <- d[d$client_index==input$client_index, ]
-    if( nrow(d)>0 & input$program_code != "All" )
-      d <- d[d$program_code==input$program_code, ]
+    if( nrow(d)>0 & input$program_index != "All" )
+      d <- d[d$program_index==input$program_index, ]
     if( nrow(d)>0 & input$final_visit != "All" )
       d <- d[d$final_visit==dplyr::recode(input$final_visit, "Yes"=TRUE, "No"=FALSE), ]
     
@@ -66,7 +66,7 @@ function(input, output) {
       ) %>%
       dplyr::select_(
         "Client"                                 = "client_index",
-        "Program"                                = "program_code",
+        "Program"                                = "program_index",
         "Visit Month"                            = "visit_month",
         "Phase"                                  = "time_frame",
         "Content Covered"                        = "content_covered_percent",

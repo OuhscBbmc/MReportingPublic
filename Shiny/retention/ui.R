@@ -35,9 +35,9 @@ dashboardPage(
       selected = "All"
     ),
     selectInput(
-      inputId = "program_code",
+      inputId = "program_index",
       label   = "Program",
-      choices = c("All", sort(unique(ds_visit$program_code))),
+      choices = c("All", sort(unique(ds_visit$program_index))),
       selected = "All"
     ),
     dateRangeInput(
@@ -74,7 +74,7 @@ dashboardPage(
           "The columns are: ",
           "<table>",
           "  <tr><td><code>Client</code></td><td> The client's ID (which is obfuscated for this demo).</td></tr>", # <td> is standard cells that contain the data
-          "  <tr><td><code>Program</code></td><td> The program's ID (a 'program' is defined as a specific HV model adminstered from a specific site.)</td></tr>",
+          "  <tr><td><code>Program</code></td><td> The program's ID (which is obfuscated for this demo).  A 'program' is defined as a specific HV model adminstered from a specific site.</td></tr>",
           "  <tr><td><code>Visit Month</code></td><td> Month of the Visit (YYYY-MM).</td></tr>",
           "  <tr><td><code>Phase</code></td><td>The child's developmental phase (<em>e.g.</em>, pregnant, infant, or toddler).</td></tr>",
           "  <tr><td><code>Content Covered</code></td><td>Percent of the material covered (during the visit; 0%-100%).</td></tr>",

@@ -38,12 +38,20 @@ ds_visit <- readr::read_rds(determine_path())
 
 # ---- tweak-data --------------------------------------------------------------
 
+ds_program <- ds_visit %>% 
+  dplyr::distinct(program_code, .keep_all=FALSE) %>% 
+  dplyr::mutate(
+    program_index   = sample(seq_len(n()), replace = FALSE)
+  )
+
 ds_visit <- ds_visit %>%
   dplyr::mutate(
     time_frame                   = dplyr::recode(time_frame, "Pregnancy"="Pregnant", "Infant"="Infancy", "Toddler"="Toddlerhood"),
     visit_month                  = OuhscMunge::clump_month_date(visit_date)
   ) %>% 
+  dplyr::left_join(ds_program, by="program_code") %>% 
   dplyr::select(
+    -program_code,
     -response_id, -model, -model_id, -completed,
     -visit_date,
     -people_present_count, -visit_location_home,
@@ -54,6 +62,8 @@ ds_visit <- ds_visit %>%
     -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
     -client_count_in_program
   ) 
+
+
 
 
 # ---- verify-values -----------------------------------------------------------
