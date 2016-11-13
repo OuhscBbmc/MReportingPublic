@@ -60,7 +60,7 @@ dashboardPage(
       tabItem(
         tabName = "table",
         DT::dataTableOutput(outputId = "visit_table"),
-        HTML("<br/><font color='#605CA8'>Each row in this table describe's a completed home visit.",
+        HTML("<br/><font color='#605CA8'>Each row in this table describes a completed home visit.",
              "The columns are: ",
              "<table>",
              "  <tr><td><code>Client</code></td><td> The client's ID (which is obfuscated for this demo).</td></tr>", # <td> is standard cells that contain the data
@@ -76,21 +76,6 @@ dashboardPage(
              "  <tr><td><code><em>RR</em><sub>v1</sub></code> - <code><em>RR</em><sub>v3</sub></code></td><td>Predicted relative risk of dropping out before the next visit.  Each <em>RR</em> version corresponds to a different model.  The last one is our recommendation.</td></tr>",
              "</table>",
              "</font>")
-        
-# Client
-# Program
-# Visit Month
-# Phase
-# Content Covered
-# Client Involvement
-# Client Conflict w/ Material
-# Client  Understanding<br/>of Material
-# Days Since Referral
-# Final Visit?
-# <em>RR</em><sub>v1</sub>
-# <em>RR</em><sub>v2</sub>
-# <em>RR</em><sub>v3</sub>
-
 
       ), #End the (first) tab with the 'table' table
       # tabItem(

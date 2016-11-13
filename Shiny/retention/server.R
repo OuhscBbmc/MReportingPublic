@@ -32,41 +32,44 @@ report_theme <- theme_light() +
 
 # ---- load-data -----------------------------------
 # if( file.exists(pathUpcomingScheduleServerOutside) ) {
-#   pathUpcomingSchedule <- pathUpcomingScheduleServerOutside  
+#   pathUpcomingSchedule <- pathUpcomingScheduleServerOutside
 # } else if( file.exists(pathUpcomingScheduleServerInside) ) {
-#   pathUpcomingSchedule <- pathUpcomingScheduleServerInside  
+#   pathUpcomingSchedule <- pathUpcomingScheduleServerInside
 # } else {
 path_input <- path_input_repo
 # }
 
-ds_visit <- readr::read_rds(path_input) 
+ds_visit <- readr::read_rds(path_input)
 
 # ---- tweak-data -----------------------------------
 
 # Define a server for the Shiny app  -----------------------------------
 function(input, output) {
-  
+
   filter_visit <- function( start_date=as.Date("2000-01-01"), stop_date=as.Date("2100-12-12")) {# Filter schedule based on selections
     d <- ds_visit
-    
+
     # if( nrow(d)>0 & input$regionTag != "All" )
     #   d <- d[d$RegionTag==input$regionTag, ]
-    # 
+    #
     # d <- d[(start_date<=d$ActivityMonth) & (d$ActivityMonth<=stop_date), ]
     return( d )
-  }  
+  }
 
 
   output$visit_table <- DT::renderDataTable({
     d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
-    
+
     d <- d %>%
       dplyr::mutate(
         visit_date                   = strftime(visit_date, "%Y-%m"),
         content_covered_percent      = paste0(content_covered_percent, "%"),
-        hat_v1                       = round(hat_v1, 2),
-        hat_v2                       = round(hat_v2, 2),
-        hat_v3                       = round(hat_v3, 2)
+        # content_covered_percent      = sprintf("%5s%%", content_covered_percent),
+        time_frame                   = dplyr::recode(time_frame, "`Pregnancy`"="Pregnant"),
+        final_visit                  = dplyr::if_else(final_visit, "Yes", "-"),
+        hat_v1                       = sprintf("%.2f", hat_v1),
+        hat_v2                       = sprintf("%.2f", hat_v2),
+        hat_v3                       = sprintf("%.2f", hat_v3)
       ) %>%
       dplyr::select(
         -response_id, -model, -model_id, -completed,
@@ -93,24 +96,24 @@ function(input, output) {
         "<em>RR</em><sub>v2</sub>"               = "hat_v2",
         "<em>RR</em><sub>v3</sub>"               = "hat_v3"
       )
-    
+
     colnames(d)  <- gsub("_", " ", colnames(d))
-    
+
     DT::datatable(
-      d, 
+      d,
       rownames = FALSE,
-      style    = 'bootstrap', 
+      style    = 'bootstrap',
       options  = list(
         searching  = FALSE,
         sort       = TRUE,
         language   = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
-        # rowCallback = JS( 
+        # rowCallback = JS(
         #   'function(row, data) {
         #     if (data[3].indexOf("Interview") > -1 ) {
-        #       $("td", row).addClass("interviewRow"); 
-        #       $("td:eq(3)", row).addClass("interviewEvent"); 
+        #       $("td", row).addClass("interviewRow");
+        #       $("td:eq(3)", row).addClass("interviewEvent");
         #     } else if (data[3].indexOf("Reminder") > -1 ) {
-        #       $("td:eq(3)", row).addClass("reminderEvent"); 
+        #       $("td:eq(3)", row).addClass("reminderEvent");
         #     }
         #   }'
         # )
@@ -119,17 +122,17 @@ function(input, output) {
       escape       = FALSE
     ) #%>%
     # formatStyle(
-    #   columns = 'Status', 
+    #   columns = 'Status',
     #   color = styleEqual(names(palette_status), palette_status)
     # )
-  })  
+  })
   # output$GraphVisitCount <- renderPlot({
   #   d <- FilterMonth(start_date=input$dateRange[1], stop_date=input$dateRange[2])
   #   highlightedRegions <- input$regionTag
-  #   ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per region)") + 
-  #     scale_y_continuous(labels=comma_format())  
+  #   ActivityEachMonth(d, responseVariable="VisitCount", highlightedRegions=highlightedRegions, mainTitle="Visits Each Month (per region)") +
+  #     scale_y_continuous(labels=comma_format())
   # })
- 
+
   output$table_file_info <- renderText({
     return( paste0(
       '<h3>Details</h3>',
