@@ -18,6 +18,7 @@ report_theme <- theme_light(base_size = 18) +
   theme(axis.title        = element_text(colour="gray40")) +
   theme(panel.border      = element_rect(colour="gray80"))  +
   theme(axis.ticks        = element_blank())
+color_benchmark <- "#77777766"
 
 
 # status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
@@ -109,7 +110,8 @@ function(input, output) {
     # )
   })
   output$rr_longitudinal <- renderPlot({
-    d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
+    d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2]) %>% 
+      dplyr::arrange(rev(final_visit))
 
     if( dplyr::n_distinct(d$program_index) == 1L) {
       subtitle_text <- sprintf("For %s clients across 1 program"  , scales::comma(dplyr::n_distinct(d$client_index)))
@@ -143,8 +145,7 @@ function(input, output) {
     } else {
       subtitle_text <- sprintf("For %s clients across %i programs", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
     }
-    x_max <- dplyr::coalesce(max(ds_visit$days_since_referral), 5L) #Use a common x-axis for all graphs
-    
+
     set.seed(8) #To keep the jittering from creating new graphs
     ggplot(d, aes(x=time_frame, y=hat_v3, label=client_index, color=content_covered_most)) +
       geom_rect(data=ds_risk_palette, aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, x=NULL, y=NULL, label=NULL, color=NULL), alpha=.2) +
@@ -161,6 +162,35 @@ function(input, output) {
       report_theme +
       theme(panel.grid.major.x=element_blank()) +
       labs(title="Relative Risk of Dropping Out after each Visit (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
+  })
+  output$survival <- renderPlot({
+    d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2]) %>% 
+      dplyr::arrange(rev(final_visit))
+
+    if( dplyr::n_distinct(d$program_index) == 1L) {
+      subtitle_text <- sprintf("For %s clients across 1 program"  , scales::comma(dplyr::n_distinct(d$client_index)))
+    } else {
+      subtitle_text <- sprintf("For %s clients across %i programs", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
+    }
+    x_max <- dplyr::coalesce(max(ds_visit$days_since_referral), 5L) #Use a common x-axis for all graphs
+    
+    eq_3 <- Surv(time=window_start, time2=days_since_referral, event=final_visit) ~ 1 + client_involvement + client_material_conflict + client_material_understanding + content_covered_most + time_frame
+    c_3 <- coxph(eq_3, d)
+    f_3 <- survfit(c_3)
+    
+    set.seed(8) #To keep the jittering from creating new graphs
+    GGally::ggsurv(f_3)  +
+      coord_cartesian(ylim=c(0,1)) +
+      scale_y_continuous(labels=scales::percent) +
+      # scale_color_manual(values=pallete_model) +
+      geom_vline(aes(xintercept=365.25/4), color=color_benchmark, size=4, alpha=.05) +
+      geom_vline(aes(xintercept=365.25/2), color=color_benchmark, size=4, alpha=.05) +
+      geom_vline(aes(xintercept=365.25/1), color=color_benchmark, size=4, alpha=.05) +
+      annotate("point", x=c(365.25/c(4, 2, 1)), y=c(.85, .73, .58), color=color_benchmark, shape=13, size=8) +
+      report_theme +
+      theme(legend.position=c(1,1), legend.justification=c(1,1)) +
+      guides(color = guide_legend(override.aes=list(alpha=1, size=4))) + 
+      labs(title="Retention Model (V3)", subtitle=subtitle_text, x="Days Since Referral", y="Retention Proportion")
   })
 
   output$table_file_info <- renderText({

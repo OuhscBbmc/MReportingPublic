@@ -5,7 +5,9 @@ library(shiny)
 library(shinydashboard)
 # library(DT)
 library(ggplot2)
+library(survival)
 requireNamespace("lubridate")
+requireNamespace("GGally")
 
 # ---- declare-globals  -----------------------------------
 #Header
@@ -58,6 +60,7 @@ dashboardPage(
       menuItem("Table", tabName="table"),
       menuItem("RR Longitudinal", tabName="rr_longitudinal"),
       menuItem("RR Phase", tabName="rr_phase"),
+      menuItem("Survival", tabName="survival"),
       menuItem("General Links", tabName="general_links")
     )
   ),  
@@ -133,6 +136,25 @@ dashboardPage(
           </font>
         ")
       ), #End the (third) tab with the phase RR graph
+      tabItem(
+        tabName = "survival",
+        shiny::plotOutput(outputId = "survival", width='95%', height='500px'),
+        HTML("
+          <br/>
+          <font color='#605CA8'>
+            Explanation of graph:
+            <ul>
+              <li>Each red plus represents the last observed visit of a client.</li>
+              <li>The <em>x</em>-value is the number of days since the client's referral.</li>  
+              <li>The <em>y</em>-value is the proportion of clients retained after <em>x</em> number of days.</li>
+              <li>The solid black is is the predicted proportion.</li>
+              <li>The dashed black lines mark the survival's 95% CI.</li>
+              <li>National benchmarks (from <a href='http://hv-coiin.edc.org/sites/hv-coiin.edc.org/files/HV%20CoIIN%20Family%20Engagement%20Charter%202016.pdf'>HV CoIIN Family Engagement Charter, 2016</a>) are shown at 3, 6, and 12 months.  The survival lines for the four programs fall well below the values of 85%, 73%, and 58%.</li>
+              <li>Filter points using the drop-down boxes in the lefthand panel.</li>
+            </ul>
+          </font>
+        ")
+      ), #End the (fourth) tab with the cox survival graph
       tabItem(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
