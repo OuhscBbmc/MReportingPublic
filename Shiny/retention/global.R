@@ -16,6 +16,20 @@ requireNamespace("testit")
 
 # ---- declare-globals ---------------------------------------------------------
 
+palette_risk_light <- c("Low Risk:"="#5dd3b0", "Baseline Risk:"="#b9f3ec", "Elevated Risk:"="#fee090", "High Risk:"="#f06e3d") #http://colrd.com/image-dna/25396/
+palette_risk_dark  <- c("Low Risk:"="#017351", "Baseline Risk:"="#03c383", "Elevated Risk:"="#fbbf45", "High Risk:"="#ef6a32") #http://colrd.com/image-dna/25396/
+threshold_risk <- c(7/8, 8/7, 1.5)
+ds_risk_palette <- tibble::tibble(
+  # x          = factor("(Risk Level)", levels=levels(ds_hat$time_frame)),
+  y_midpoint = c(5.5/8, 1,(8/7 + 1.5)/2, 2.25),
+  category   = names(palette_risk_light),
+  color      = palette_risk_dark,
+  fill       = palette_risk_light,
+  ymin       = c(-Inf, threshold_risk),
+  ymax       = c(threshold_risk, Inf)
+)
+
+
 determine_path <- function( ) {
   # path_input_server_outside <- "//bbmc-shiny-public/Anonymous/MReportingPublic/eto-visit-hat.csv"
   # path_input_server_inside  <- "/var/shinydata/MReportingPublic/eto-visit-hat.csv"

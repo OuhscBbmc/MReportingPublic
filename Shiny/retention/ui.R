@@ -56,7 +56,7 @@ dashboardPage(
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Table", tabName="table"),
-      menuItem("Visits", tabName="visits"),
+      menuItem("Visits Graph", tabName="visits"),
       menuItem("General Links", tabName="general_links")
     )
   ),  
@@ -90,7 +90,7 @@ dashboardPage(
       ), #End the (first) tab with the 'table' table
       tabItem(
         tabName = "visits",
-        shiny::plotOutput(outputId = "client_rr", width='95%', height='400px')
+        shiny::plotOutput(outputId = "client_rr", width='95%', height='700px')
         # HTML("<br/>"),
         # shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
       ), #End the (fourth) tab with the graph

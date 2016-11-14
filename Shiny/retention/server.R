@@ -13,11 +13,10 @@ requireNamespace("dplyr")
 # To create the 'hat' dataset, run `MReporting/OsdhReports/retention/retention.R`.
 
 #Define some common cosmetics for the report.
-report_theme <- theme_light() +
+report_theme <- theme_light(base_size = 18) +
   theme(axis.text         = element_text(colour="gray40")) +
   theme(axis.title        = element_text(colour="gray40")) +
-  theme(panel.border      = element_rect(colour="gray80")) +
-  theme(axis.ticks        = element_line(colour="gray80")) +
+  theme(panel.border      = element_rect(colour="gray80"))  +
   theme(axis.ticks        = element_blank())
 
 
@@ -111,24 +110,28 @@ function(input, output) {
   })
   output$client_rr <- renderPlot({
     d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
-    # highlightedRegions <- input$regionTag
-    # browser()
-    ggplot(d, aes(x=days_since_referral, y=hat_v3, group=client_index, xmin=0)) +
-      # geom_rect(data=ds_risk_palette, aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, x=NULL, y=NULL, label=NULL, color=NULL), alpha=.2) +
-      # geom_text(data=ds_hat[ds_hat$content_covered_most, ],position=position_jitter(), color="#2a3284", na.rm=T) +
-      # geom_text(data=ds_hat[!ds_hat$content_covered_most, ],position=position_jitter(), color="#CC2222", na.rm=T) +
+
+    if( dplyr::n_distinct(d$program_index) == 1L) {
+      subtitle_text <- sprintf("For %s Clients Across 1 Program."  , scales::comma(dplyr::n_distinct(d$client_index)))
+    } else {
+      subtitle_text <- sprintf("For %s Clients Across %i Programs.", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
+    }
+    ggplot() +
+      geom_rect(data=ds_risk_palette, mapping=aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, color=NULL, group=NULL), alpha=.15) + #, x=NULL, y=NULL, label=NULL
+      geom_line(data=d, aes(x=days_since_referral, y=hat_v3, group=client_index), color="gray50", alpha=.5, na.rm=T) +
+      geom_text(data=d[!d$final_visit, ], aes(x=days_since_referral, y=hat_v3, label=client_index), color="gray50" , alpha=.3, na.rm=T) +
+      geom_text(data=d[ d$final_visit, ], aes(x=days_since_referral, y=hat_v3, label=client_index), color="#CC2222", alpha=.8, na.rm=T) +
       geom_hline(yintercept=1, linetype="A1", color="gray70", size=1.5, alpha=.5) +
       geom_hline(yintercept=c(.5, 2), linetype="A2", color="gray40", size=1, alpha=.2) +
-      geom_line() +
-      # geom_text(data=ds_risk_palette, aes(x=1, y=y_midpoint, label=category, color=palette_risk_dark), size=5, hjust=0) +
+      geom_text(data=ds_risk_palette, aes(x=0, y=y_midpoint, label=category, color=palette_risk_dark, group=NULL), size=5, hjust=0) +
       # scale_x_discrete(limits=levels(ds_hat$time_frame)) +
       scale_y_continuous(breaks=seq(0, 4, .5)) +
-      # scale_color_identity() +
-      # scale_fill_identity() +
-      coord_cartesian(ylim=c(.45, 4.05), expand=F) +
+      scale_color_identity() +
+      scale_fill_identity() +
+      coord_cartesian(ylim=c(.45, 4.05), expand=T) +
       report_theme +
       theme(panel.grid.major.x=element_blank()) +
-      labs(title="Risk of Dropping Out\nModel V1 Variables: [Client Involvement]", x=NULL, y="Relative Risk of Dropping Out")
+      labs(title="Risk of Dropping Out (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
 
     
   })
