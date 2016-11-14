@@ -72,7 +72,8 @@ ds_visit <- ds_visit %>%
     -visit_distance, -visit_duration_in_minutes,
     -visit_month_first, -window_start,
     -program_code_f, -time_frame_pregnant,
-    -completed_count, -content_covered_most,
+    -completed_count, 
+    # -content_covered_most,
     -client_involvement_f, -client_material_conflict_f, -client_material_understanding_f,
     -client_count_in_program
   ) 

@@ -120,6 +120,7 @@ function(input, output) {
     
     ggplot() +
       geom_rect(data=ds_risk_palette, mapping=aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, color=NULL, group=NULL), alpha=.15) + #, x=NULL, y=NULL, label=NULL
+      geom_vline(xintercept=0, color="gray70", size=1, alpha=.2) +
       geom_line(data=d, aes(x=days_since_referral, y=hat_v3, group=client_index), color="gray50", alpha=.5, na.rm=T) +
       geom_text(data=d[!d$final_visit, ], aes(x=days_since_referral, y=hat_v3, label=client_index), color="gray50" , alpha=.3, na.rm=T) +
       geom_text(data=d[ d$final_visit, ], aes(x=days_since_referral, y=hat_v3, label=client_index), color="#CC2222", alpha=.8, na.rm=T) +
@@ -131,6 +132,34 @@ function(input, output) {
       scale_fill_identity() +
       coord_cartesian(xlim=c(0, x_max), ylim=c(.45, 4.05), expand=T) +
       report_theme +
+      labs(title="Relative Risk of Dropping Out after each Visit (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
+  })
+  output$rr_phase <- renderPlot({
+    d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2]) %>% 
+      dplyr::arrange(rev(final_visit))
+
+    if( dplyr::n_distinct(d$program_index) == 1L) {
+      subtitle_text <- sprintf("For %s clients across 1 program"  , scales::comma(dplyr::n_distinct(d$client_index)))
+    } else {
+      subtitle_text <- sprintf("For %s clients across %i programs", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
+    }
+    x_max <- dplyr::coalesce(max(ds_visit$days_since_referral), 5L) #Use a common x-axis for all graphs
+    
+    set.seed(8) #To keep the jittering from creating new graphs
+    ggplot(d, aes(x=time_frame, y=hat_v3, label=client_index, color=content_covered_most)) +
+      geom_rect(data=ds_risk_palette, aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, x=NULL, y=NULL, label=NULL, color=NULL), alpha=.2) +
+      geom_text(data=d[!d$final_visit, ],position=position_jitter(), color="#2a3284", na.rm=T) +
+      geom_text(data=d[ d$final_visit, ],position=position_jitter(), color="#CC2222", na.rm=T) +
+      geom_hline(yintercept=1, linetype="A1", color="gray70", size=1.5, alpha=.5) +
+      geom_hline(yintercept=c(.5, 2), linetype="A2", color="gray40", size=1, alpha=.2) +
+      geom_text(data=ds_risk_palette, aes(x=1, y=y_midpoint, label=category, color=palette_risk_dark), size=5, hjust=0) +
+      scale_x_discrete(limits=levels(d$time_frame)) +
+      scale_y_continuous(breaks=seq(0, 4, .5)) +
+      scale_color_identity() +
+      scale_fill_identity() +
+      coord_cartesian(ylim=c(.45, 4.05), expand=T) +
+      report_theme +
+      theme(panel.grid.major.x=element_blank()) +
       labs(title="Relative Risk of Dropping Out after each Visit (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
   })
 

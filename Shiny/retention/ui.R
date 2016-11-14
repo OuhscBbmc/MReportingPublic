@@ -57,6 +57,7 @@ dashboardPage(
     sidebarMenu(
       menuItem("Table", tabName="table"),
       menuItem("RR Longitudinal", tabName="rr_longitudinal"),
+      menuItem("RR Phase", tabName="rr_phase"),
       menuItem("General Links", tabName="general_links")
     )
   ),  
@@ -109,7 +110,29 @@ dashboardPage(
             </ul>
           </font>
         ")
-      ), #End the (fourth) tab with the graph
+      ), #End the (second) tab with the longitudinal RR graph
+      tabItem(
+        tabName = "rr_phase",
+        shiny::plotOutput(outputId = "rr_phase", width='95%', height='700px'),
+        HTML("
+          <br/>
+          <font color='#605CA8'>
+            Explanation of graph:
+            <ul>
+              <li>Each point/number represents a single client visit.</li>
+              <li>The <em>x</em>-value is the developmental phase during the visit.</li>  
+              <li>The <em>y</em>-value is the risk of dropping out after that visit, relative to baseline risk.  
+                <ul>
+                  <li>A value of '1' means the client currently has the typical amount of risk of dropping out.</li>
+                  <li>A value less than 1 appears relatively stable and less likely to drop out.  For instance, a '2' is twice as likely to drop out.</li>
+                  <li>A value greater than 1 isat greater risk (than most clients) of dropping out.  Consider if additional measures can be taken with this client.  For instance, a '.5' is half as likely to drop out.</li>
+                </ul>
+              <li>The client's ID is shown at each visit.  Red numbers mark the client's likely final NFP visit.</li>
+              <li>Filter points using the drop-down boxes in the lefthand panel.</li>
+            </ul>
+          </font>
+        ")
+      ), #End the (third) tab with the phase RR graph
       tabItem(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
