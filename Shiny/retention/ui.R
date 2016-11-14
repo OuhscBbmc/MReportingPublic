@@ -40,15 +40,15 @@ dashboardPage(
   dashboardSidebar(
     HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
     selectInput(
-      inputId = "client_index",
-      label   = "Client",
-      choices = c("All", sort(unique(ds_visit$client_index))),
+      inputId  = "client_index",
+      label    = "Client",
+      choices  = c("All", sort(unique(ds_visit$client_index))),
       selected = "All"
     ),
     selectInput(
-      inputId = "program_index",
-      label   = "Program",
-      choices = c("All", sort(unique(ds_visit$program_index))),
+      inputId  = "program_index",
+      label    = "Program",
+      choices  = c("All", sort(unique(ds_visit$program_index))),
       selected = "All"
     ),
     dateRangeInput(
@@ -59,9 +59,9 @@ dashboardPage(
       end        = lubridate::floor_date(Sys.Date(), "month")
     ),
     selectInput(
-      inputId = "final_visit",
-      label   = "Was Final Visit",
-      choices = c("All", "Yes", "No"),
+      inputId  = "final_visit",
+      label    = "Was Final Visit",
+      choices  = c("All", "Yes", "No"),
       selected = "All"
     ),
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
@@ -168,7 +168,7 @@ dashboardPage(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
         htmlOutput(outputId='table_file_info')
-      )#, #End the (six) tab with the links & details
+      ) #End the (fift) tab with the links & details
     ) #End the tabsetPanel
   ) #End the dashboardBody
 ) #End the dashboardPage

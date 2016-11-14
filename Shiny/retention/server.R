@@ -4,10 +4,11 @@ library(htmlwidgets)
 library(magrittr)
 library(scales)
 library(ggplot2)
-requireNamespace("grid")
+# requireNamespace("grid")
 requireNamespace("DT")
 requireNamespace("readr")
 requireNamespace("dplyr")
+requireNamespace("GGally") #Special survival graph
 
 # ---- declare-globals  -----------------------------------
 # To create the 'hat' dataset, run `MReporting/OsdhReports/retention/retention.R`.
@@ -20,18 +21,12 @@ report_theme <- theme_light(base_size = 18) +
   theme(axis.ticks        = element_blank())
 color_benchmark <- "#77777766"
 
-
-# status_levels <- c("0" = "Due Date", "1" = "Scheduled", "2" = "Confirmed", "3" = "Cancelled", "4" = "No Show")
 # icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
 # order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
 
-
-# ---- load-data -----------------------------------
-# Dataset is loaded  & tweaked once in 'global.R'.
-
-
-
+# ---- load-data ------------------------------------
 # ---- tweak-data -----------------------------------
+# Dataset is loaded  & tweaked once in 'global.R'.
 
 # Define a server for the Shiny app  -----------------------------------
 function(input, output) {
@@ -46,9 +41,7 @@ function(input, output) {
     if( nrow(d)>0 & input$final_visit != "All" )
       d <- d[d$final_visit==dplyr::recode(input$final_visit, "Yes"=TRUE, "No"=FALSE), ]
     
-    d <- d[(start_date<=d$visit_month) & (d$visit_month<=stop_date), ]
-    
-    return( d )
+    return( d[(start_date<=d$visit_month) & (d$visit_month<=stop_date), ] )
   }
 
 
@@ -84,8 +77,6 @@ function(input, output) {
         "<em>RR</em><sub>v2</sub>"               = "hat_v2",
         "<em>RR</em><sub>v3</sub>"               = "hat_v3"
       )
-
-    # colnames(d)  <- gsub("_", " ", colnames(d))
 
     DT::datatable(
       d,

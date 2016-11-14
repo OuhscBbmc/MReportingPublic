@@ -9,16 +9,11 @@ requireNamespace("dplyr")
 requireNamespace("readr")
 requireNamespace("testit")
 
-
-
-
-
-
 # ---- declare-globals ---------------------------------------------------------
-
 palette_risk_light <- c("Low Risk"="#5dd3b0", "Baseline Risk"="#b9f3ec", "Elevated Risk"="#fee090", "High Risk"="#f06e3d") #http://colrd.com/image-dna/25396/
 palette_risk_dark  <- c("Low Risk"="#017351", "Baseline Risk"="#03c383", "Elevated Risk"="#fbbf45", "High Risk"="#ef6a32") #http://colrd.com/image-dna/25396/
 threshold_risk <- c(7/8, 8/7, 1.5)
+
 ds_risk_palette <- tibble::tibble(
   # x          = factor("(Risk Level)", levels=levels(ds_hat$time_frame)),
   y_midpoint = c(5.5/8, 1,(8/7 + 1.5)/2, 2.25),
@@ -48,11 +43,9 @@ determine_path <- function( ) {
 }
 
 # ---- load-data ---------------------------------------------------------------
-
 ds_visit <- readr::read_rds(determine_path())
 
 # ---- tweak-data --------------------------------------------------------------
-
 ds_program <- ds_visit %>% 
   dplyr::distinct(program_code, .keep_all=FALSE) %>% 
   dplyr::mutate(
@@ -80,9 +73,5 @@ ds_visit <- ds_visit %>%
     -client_count_in_program
   ) 
 
-
-
-
 # ---- verify-values -----------------------------------------------------------
 # testit::assert("All IDs should be nonmissing and positive.", all(!is.na(ds$CountyID) & (ds$CountyID>0)))
-
