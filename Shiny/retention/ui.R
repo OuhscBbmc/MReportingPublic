@@ -56,7 +56,7 @@ dashboardPage(
     HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
     sidebarMenu(
       menuItem("Table", tabName="table"),
-      menuItem("Visits Graph", tabName="visits"),
+      menuItem("RR Longitudinal", tabName="rr_longitudinal"),
       menuItem("General Links", tabName="general_links")
     )
   ),  
@@ -89,10 +89,26 @@ dashboardPage(
         )
       ), #End the (first) tab with the 'table' table
       tabItem(
-        tabName = "visits",
-        shiny::plotOutput(outputId = "client_rr", width='95%', height='700px')
-        # HTML("<br/>"),
-        # shiny::plotOutput(outputId = "GraphVisitPerNeed", width='95%', height='400px')
+        tabName = "rr_longitudinal",
+        shiny::plotOutput(outputId = "rr_longitudinal", width='95%', height='700px'),
+        HTML("
+          <br/>
+          <font color='#605CA8'>
+            Explanation of graph:
+            <ul>
+              <li>Each gray line represents a single client over time (starting at their referral date).</li>
+              <li>The <em>x</em>-value is the number of days since the client's referral.</li>  
+              <li>The <em>y</em>-value is the risk of dropping out after that visit, relative to baseline risk.  
+                <ul>
+                  <li>A value of '1' means the client currently has the typical amount of risk of dropping out.</li>
+                  <li>A value less than 1 appears relatively stable and less likely to drop out.  For instance, a '2' is twice as likely to drop out.</li>
+                  <li>A value greater than 1 isat greater risk (than most clients) of dropping out.  Consider if additional measures can be taken with this client.  For instance, a '.5' is half as likely to drop out.</li>
+                </ul>
+              <li>The client's ID is shown at each visit.  Red numbers mark the client's likely final NFP visit.</li>
+              <li>Filter points using the drop-down boxes in the lefthand panel.</li>
+            </ul>
+          </font>
+        ")
       ), #End the (fourth) tab with the graph
       tabItem(
         tabName = "general_links", 

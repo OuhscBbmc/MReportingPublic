@@ -108,14 +108,16 @@ function(input, output) {
     #   color = styleEqual(names(palette_status), palette_status)
     # )
   })
-  output$client_rr <- renderPlot({
+  output$rr_longitudinal <- renderPlot({
     d <- filter_visit(start_date=input$date_range[1], stop_date=input$date_range[2])
 
     if( dplyr::n_distinct(d$program_index) == 1L) {
-      subtitle_text <- sprintf("For %s Clients Across 1 Program."  , scales::comma(dplyr::n_distinct(d$client_index)))
+      subtitle_text <- sprintf("For %s clients across 1 program"  , scales::comma(dplyr::n_distinct(d$client_index)))
     } else {
-      subtitle_text <- sprintf("For %s Clients Across %i Programs.", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
+      subtitle_text <- sprintf("For %s clients across %i programs", scales::comma(dplyr::n_distinct(d$client_index)), dplyr::n_distinct(d$program_index))
     }
+    x_max <- dplyr::coalesce(max(ds_visit$days_since_referral), 5L) #Use a common x-axis for all graphs
+    
     ggplot() +
       geom_rect(data=ds_risk_palette, mapping=aes(ymin=ymin, ymax=ymax, fill=fill, xmin=-Inf, xmax=Inf, color=NULL, group=NULL), alpha=.15) + #, x=NULL, y=NULL, label=NULL
       geom_line(data=d, aes(x=days_since_referral, y=hat_v3, group=client_index), color="gray50", alpha=.5, na.rm=T) +
@@ -123,17 +125,13 @@ function(input, output) {
       geom_text(data=d[ d$final_visit, ], aes(x=days_since_referral, y=hat_v3, label=client_index), color="#CC2222", alpha=.8, na.rm=T) +
       geom_hline(yintercept=1, linetype="A1", color="gray70", size=1.5, alpha=.5) +
       geom_hline(yintercept=c(.5, 2), linetype="A2", color="gray40", size=1, alpha=.2) +
-      geom_text(data=ds_risk_palette, aes(x=0, y=y_midpoint, label=category, color=palette_risk_dark, group=NULL), size=5, hjust=0) +
-      # scale_x_discrete(limits=levels(ds_hat$time_frame)) +
+      geom_text(data=ds_risk_palette, aes(x=Inf, y=y_midpoint, label=category, color=palette_risk_dark, group=NULL), size=5, hjust=1) +
       scale_y_continuous(breaks=seq(0, 4, .5)) +
       scale_color_identity() +
       scale_fill_identity() +
-      coord_cartesian(ylim=c(.45, 4.05), expand=T) +
+      coord_cartesian(xlim=c(0, x_max), ylim=c(.45, 4.05), expand=T) +
       report_theme +
-      theme(panel.grid.major.x=element_blank()) +
-      labs(title="Risk of Dropping Out (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
-
-    
+      labs(title="Relative Risk of Dropping Out after each Visit (V3 model)", subtitle=subtitle_text, x="Days Since Referral", y="Relative Risk of Dropping Out")
   })
 
   output$table_file_info <- renderText({
