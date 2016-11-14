@@ -89,6 +89,10 @@ function(input, output) {
       options  = list(
         searching  = FALSE,
         sort       = TRUE,
+        columnDefs = list(
+          list(className = 'dt-center', targets = c(0:3, 5:7, 9)),
+          list(className = 'dt-right', targets = c(4))
+        ),
         language   = list(emptyTable="--No data to populate this table.  Consider using less restrictive filters.--")#,
         # rowCallback = JS(
         #   'function(row, data) {
