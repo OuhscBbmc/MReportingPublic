@@ -60,9 +60,14 @@ function(input, output) {
         visit_month                  = strftime(visit_month, "%Y-%m"),
         content_covered_percent      = paste0(content_covered_percent, "%"),
         final_visit                  = dplyr::if_else(final_visit, "Yes", "-"),
-        hat_v1                       = sprintf("%.2f", hat_v1),
-        hat_v2                       = sprintf("%.2f", hat_v2),
-        hat_v3                       = sprintf("%.2f", hat_v3)
+
+        css_class_v1                 = as.character(cut(hat_v1, breaks=c(-Inf, ds_risk_palette$ymax), labels=ds_risk_palette$class_light)),
+        css_class_v2                 = as.character(cut(hat_v2, breaks=c(-Inf, ds_risk_palette$ymax), labels=ds_risk_palette$class_light)),
+        css_class_v3                 = as.character(cut(hat_v3, breaks=c(-Inf, ds_risk_palette$ymax), labels=ds_risk_palette$class_light)),
+
+        hat_v1                       = sprintf('<a class="%s">%.2f</a>', css_class_v1, hat_v1),
+        hat_v2                       = sprintf('<a class="%s">%.2f</a>', css_class_v2, hat_v2),
+        hat_v3                       = sprintf('<a class="%s">%.2f</a>', css_class_v3, hat_v3)
       ) %>%
       dplyr::select_(
         "Client"                                 = "client_index",

@@ -26,7 +26,8 @@ ds_risk_palette <- tibble::tibble(
   color      = palette_risk_dark,
   fill       = palette_risk_light,
   ymin       = c(-Inf, threshold_risk),
-  ymax       = c(threshold_risk, Inf)
+  ymax       = c(threshold_risk, Inf),
+  class_light= c("risk_light_low", "risk_light_baseline", "risk_light_elevated", "risk_light_high")
 )
 
 

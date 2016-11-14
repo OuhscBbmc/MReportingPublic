@@ -15,8 +15,17 @@ tags_style <- "
   h3 {color:red; font-size:150%}
   .panelHeader {color:#605CA8; font-size:200%}
   .table .smallish {font-size:80%; padding:2px; }
-  .table .interviewEvent {color:#bb2288; background:#D8FFCC;}
   .table .interviewRow {font-size:90%; font-weight:bold}
+
+  .table .risk_dark_high     {color:#000000; background:#ef6a32;}
+  .table .risk_dark_elevated {color:#000000; background:#fbbf45;}
+  .table .risk_dark_baseline {color:#000000; background:#03c383;}
+  .table .risk_dark_low      {color:#000000; background:#017351;}
+
+  .table .risk_light_high     {color:#000000; background:#f06e3d;}
+  .table .risk_light_elevated {color:#000000; background:#fee090;}
+  .table .risk_light_baseline {color:#000000; background:#b9f3ec;}
+  .table .risk_light_low      {color:#000000; background:#5dd3b0;}
 "
 
 header <- dashboardHeader(
@@ -144,7 +153,7 @@ dashboardPage(
           <font color='#605CA8'>
             Explanation of graph:
             <ul>
-              <li>Each red plus represents the last observed visit of a client.</li>
+              <li>Each red plus represents an observed visit.</li>
               <li>The <em>x</em>-value is the number of days since the client's referral.</li>  
               <li>The <em>y</em>-value is the proportion of clients retained after <em>x</em> number of days.</li>
               <li>The solid black is is the predicted proportion.</li>
