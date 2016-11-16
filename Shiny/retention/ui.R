@@ -12,20 +12,21 @@ requireNamespace("GGally")
 # ---- declare-globals  -----------------------------------
 #Header
 tags_style <- "
-  h3 {color:red; font-size:150%}
-  .panelHeader {color:#605CA8; font-size:200%}
+  h3 {color:#605CA8; font-size:150%}
+  .panel_header {color:#605CA8; font-size:200%}
+  .table_legend {color:#605CA8}
   .table .smallish {font-size:80%; padding:2px; }
-  .table .interviewRow {font-size:90%; font-weight:bold}
+  .table .interview_row {font-size:90%; font-weight:bold}
 
-  .table .risk_dark_high     {color:#000000; background:#ef6a32;}
-  .table .risk_dark_elevated {color:#000000; background:#fbbf45;}
-  .table .risk_dark_baseline {color:#000000; background:#03c383;}
-  .table .risk_dark_low      {color:#000000; background:#017351;}
+  .table .risk_dark_high      { background:#ef6a32; }
+  .table .risk_dark_elevated  { background:#fbbf45; }
+  .table .risk_dark_baseline  { background:#03c383; }
+  .table .risk_dark_low       { background:#017351; }
 
-  .table .risk_light_high     {color:#000000; background:#f06e3d;}
-  .table .risk_light_elevated {color:#000000; background:#fee090;}
-  .table .risk_light_baseline {color:#000000; background:#b9f3ec;}
-  .table .risk_light_low      {color:#000000; background:#5dd3b0;}
+  .table .risk_light_high     { background:#f06e3d; }
+  .table .risk_light_elevated { background:#fee090; }
+  .table .risk_light_baseline { background:#b9f3ec; }
+  .table .risk_light_low      { background:#5dd3b0; }
 "
 
 header <- dashboardHeader(
@@ -38,7 +39,7 @@ dashboardPage(
   skin   = "green",
   header = header,
   dashboardSidebar(
-    HTML('<i class="fa fa-filter panelHeader"> Filters</i>'),
+    HTML('<i class="fa fa-filter panel_header"> Filters</i>'),
     selectInput(
       inputId  = "client_index",
       label    = "Client",
@@ -64,7 +65,7 @@ dashboardPage(
       choices  = c("All", "Yes", "No"),
       selected = "All"
     ),
-    HTML('<i class="fa fa-camera panelHeader"> Views</i>'),
+    HTML('<i class="fa fa-camera panel_header"> Views</i>'),
     sidebarMenu(
       menuItem("Table", tabName="table"),
       menuItem("RR Longitudinal", tabName="rr_longitudinal"),
@@ -83,8 +84,9 @@ dashboardPage(
         tabName = "table",
         DT::dataTableOutput(outputId = "visit_table"),
         HTML(
-          "<br/><font color='#605CA8'>Each row in this table describes a completed home visit.",
-          "The columns are: ",
+          "<br/>",
+          "<div class='table_legend'>",
+          "Each row in this table describes a completed home visit. The columns are: ",
           "<table>",
           "  <tr><td><code>Client</code></td><td> The client's ID (which is obfuscated for this demo).</td></tr>", # <td> is standard cells that contain the data
           "  <tr><td><code>Program</code></td><td> The program's ID (which is obfuscated for this demo).  A 'program' is defined as a specific HV model adminstered from a specific site.</td></tr>",
@@ -98,7 +100,7 @@ dashboardPage(
           "  <tr><td><code>Final Visit?</code></td><td> Does this appear to be the client's final NFP visit?</td></tr>",
           "  <tr><td><code><em>RR</em><sub>v1</sub></code> - <code><em>RR</em><sub>v3</sub></code></td><td>Predicted relative risk of dropping out before the next visit.  Each <em>RR</em> version corresponds to a different model.  The last one is our recommendation.</td></tr>",
           "</table>",
-          "</font>"
+          "</div>"
         )
       ), #End the (first) tab with the 'table' table
       tabItem(
@@ -106,7 +108,7 @@ dashboardPage(
         shiny::plotOutput(outputId = "rr_longitudinal", width='95%', height='700px'),
         HTML("
           <br/>
-          <font color='#605CA8'>
+          <div class='table_legend'>
             Explanation of graph:
             <ul>
               <li>Each gray line represents a single client over time (starting at their referral date).</li>
@@ -120,7 +122,7 @@ dashboardPage(
               <li>The client's ID is shown at each visit.  Red numbers mark the client's likely final NFP visit.</li>
               <li>Filter points using the drop-down boxes in the lefthand panel.</li>
             </ul>
-          </font>
+          </div>
         ")
       ), #End the (second) tab with the longitudinal RR graph
       tabItem(
@@ -128,7 +130,7 @@ dashboardPage(
         shiny::plotOutput(outputId = "rr_phase", width='95%', height='700px'),
         HTML("
           <br/>
-          <font color='#605CA8'>
+          <div class='table_legend'>
             Explanation of graph:
             <ul>
               <li>Each point/number represents a single client visit.</li>
@@ -142,7 +144,7 @@ dashboardPage(
               <li>The client's ID is shown at each visit.  Red numbers mark the client's likely final NFP visit.</li>
               <li>Filter points using the drop-down boxes in the lefthand panel.</li>
             </ul>
-          </font>
+          </div>
         ")
       ), #End the (third) tab with the phase RR graph
       tabItem(
@@ -150,7 +152,7 @@ dashboardPage(
         shiny::plotOutput(outputId = "survival", width='95%', height='500px'),
         HTML("
           <br/>
-          <font color='#605CA8'>
+          <div class='table_legend'>
             Explanation of graph:
             <ul>
               <li>Each red plus represents an observed visit.</li>
@@ -161,14 +163,14 @@ dashboardPage(
               <li>National benchmarks (from <a href='http://hv-coiin.edc.org/sites/hv-coiin.edc.org/files/HV%20CoIIN%20Family%20Engagement%20Charter%202016.pdf'>HV CoIIN Family Engagement Charter, 2016</a>) are shown at 3, 6, and 12 months.  The survival lines for the four programs fall well below the values of 85%, 73%, and 58%.</li>
               <li>Filter points using the drop-down boxes in the lefthand panel.</li>
             </ul>
-          </font>
+          </div>
         ")
       ), #End the (fourth) tab with the cox survival graph
       tabItem(
         tabName = "general_links", 
         HTML("<font color='green'>{<em>What explanatory text would be helpful here?</em>}</font><br/>"),
         htmlOutput(outputId='table_file_info')
-      ) #End the (fift) tab with the links & details
+      ) #End the (fifth) tab with the links & details
     ) #End the tabsetPanel
   ) #End the dashboardBody
 ) #End the dashboardPage

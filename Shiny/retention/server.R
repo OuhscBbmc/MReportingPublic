@@ -93,10 +93,10 @@ function(input, output) {
         # rowCallback = JS(
         #   'function(row, data) {
         #     if (data[3].indexOf("Interview") > -1 ) {
-        #       $("td", row).addClass("interviewRow");
-        #       $("td:eq(3)", row).addClass("interviewEvent");
+        #       $("td", row).addClass("interview_row");
+        #       $("td:eq(3)", row).addClass("interview_event");
         #     } else if (data[3].indexOf("Reminder") > -1 ) {
-        #       $("td:eq(3)", row).addClass("reminderEvent");
+        #       $("td:eq(3)", row).addClass("reminder_event");
         #     }
         #   }'
         # )
@@ -196,11 +196,11 @@ function(input, output) {
   output$table_file_info <- renderText({
     return( paste0(
       '<h3>Details</h3>',
-      "<table border='0' cellspacing='1' cellpadding='2' >",
-      "<tr><td>Data Path:<td/><td>&nbsp;", determine_path(), "<td/><tr/>",
-      "<tr><td>Data Last Modified:<td/><td>&nbsp;", file.info(determine_path())$mtime, "<td/><tr/>",
-      "<tr><td>App Restart Time:<td/><td>&nbsp;", file.info("restart.txt")$mtime, "<td/><tr/>",
-      "<table/>"
+      "<table border='0' cellspacing='1' cellpadding='2'>",
+      "<tr><td>Data Path:</td><td><code>&nbsp;", determine_path(), "</code></td></tr>",
+      "<tr><td>Data Last Modified:</td><td>&nbsp;", file.info(determine_path())$mtime, "</td></tr>",
+      "<tr><td>App Restart Time:</td><td>&nbsp;", file.info("restart.txt")$mtime, "</td></tr>",
+      "</table>"
     ) )
   })
 }
