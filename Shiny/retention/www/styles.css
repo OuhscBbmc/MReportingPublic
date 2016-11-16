@@ -1,3 +1,18 @@
+.panel_header {color:#605CA8; font-size:200%}
+.table_legend {color:#605CA8}
+.table .smallish {font-size:80%; padding:2px; }
+.table .interview_row {font-size:90%; font-weight:bold}
+
+.table .risk_dark_high      { background:#ef6a32; }
+.table .risk_dark_elevated  { background:#fbbf45; }
+.table .risk_dark_baseline  { background:#03c383; }
+.table .risk_dark_low       { background:#017351; }
+
+.table .risk_light_high     { background:#f06e3d; }
+.table .risk_light_elevated { background:#fee090; }
+.table .risk_light_baseline { background:#b9f3ec; }
+.table .risk_light_low      { background:#5dd3b0; }
+
 input[type="number"] {
   max-width: 80%;
 }
@@ -17,7 +32,8 @@ body, label, input, button, select {
   font-family: 'Helvetica Neue', Helvetica;
   font-weight: 200;
 }
-h1, h2, h3, h4 { font-weight: 400; }
+h1, h2, h4 { font-weight: 400; }
+h3 {font-weight: 400; color:#605CA8; font-size:150%; }
 
 #controls {
   /* Appearance */

@@ -11,24 +11,6 @@ requireNamespace("GGally")
 
 # ---- declare-globals  -----------------------------------
 #Header
-tags_style <- "
-  h3 {color:#605CA8; font-size:150%}
-  .panel_header {color:#605CA8; font-size:200%}
-  .table_legend {color:#605CA8}
-  .table .smallish {font-size:80%; padding:2px; }
-  .table .interview_row {font-size:90%; font-weight:bold}
-
-  .table .risk_dark_high      { background:#ef6a32; }
-  .table .risk_dark_elevated  { background:#fbbf45; }
-  .table .risk_dark_baseline  { background:#03c383; }
-  .table .risk_dark_low       { background:#017351; }
-
-  .table .risk_light_high     { background:#f06e3d; }
-  .table .risk_light_elevated { background:#fee090; }
-  .table .risk_light_baseline { background:#b9f3ec; }
-  .table .risk_light_low      { background:#5dd3b0; }
-"
-
 header <- dashboardHeader(
   title = "C1 Retention",
   dropdownMenuOutput("messageMenuPast"),
@@ -76,8 +58,7 @@ dashboardPage(
   ),  
   dashboardBody(
     shiny::tags$head(
-      includeCSS("./www/styles.css"), # Include our custom CSS
-      tags$style(HTML(tags_style))
+      includeCSS("./www/styles.css") # Include our custom CSS
     ),#End tags$head 
     tabItems( #type = "tabs",
       tabItem(
