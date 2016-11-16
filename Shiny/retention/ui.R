@@ -49,11 +49,11 @@ dashboardPage(
     ),
     HTML('<i class="fa fa-camera panel_header"> Views</i>'),
     sidebarMenu(
-      menuItem("Table", tabName="table"),
-      menuItem("RR Longitudinal", tabName="rr_longitudinal"),
-      menuItem("RR Phase", tabName="rr_phase"),
-      menuItem("Survival", tabName="survival"),
-      menuItem("General Links", tabName="general_links")
+      menuItem("Table"               , tabName = "table"                ),
+      menuItem("RR Longitudinal"     , tabName = "rr_longitudinal"      ),
+      menuItem("RR Phase"            , tabName = "rr_phase"             ),
+      menuItem("Survival"            , tabName = "survival"             ),
+      menuItem("General Links"       , tabName = "general_links"        )
     )
   ),  
   dashboardBody(
@@ -64,25 +64,25 @@ dashboardPage(
       tabItem(
         tabName = "table",
         DT::dataTableOutput(outputId = "visit_table"),
-        HTML(
-          "<br/>",
-          "<div class='table_legend'>",
-          "Each row in this table describes a completed home visit. The columns are: ",
-          "<table>",
-          "  <tr><td><code>Client</code></td><td> The client's ID (which is obfuscated for this demo).</td></tr>", # <td> is standard cells that contain the data
-          "  <tr><td><code>Program</code></td><td> The program's ID (which is obfuscated for this demo).  A 'program' is defined as a specific HV model adminstered from a specific site.</td></tr>",
-          "  <tr><td><code>Visit Month</code></td><td> Month of the Visit (YYYY-MM).</td></tr>",
-          "  <tr><td><code>Phase</code></td><td>The child's developmental phase (<em>e.g.</em>, pregnant, infant, or toddler).</td></tr>",
-          "  <tr><td><code>Content Covered</code></td><td>Percent of the material covered (during the visit; 0%-100%).</td></tr>",
-          "  <tr><td><code>Involved</code></td><td>Subjective judgment how involved the client seemed (during the visit; 1-5).</td></tr>",
-          "  <tr><td><code>Conflict with Material</code></td><td>Subjective judgment how much conflict the client had with the material (during the visit; 1-5).</td></tr>",
-          "  <tr><td><code>Understands Material</code></td><td>Subjective judgment how well the client understood the material (during the visit; 1-5).</td></tr>",
-          "  <tr><td><code>Days Since Referral</code></td><td>Number of days between the referral and this visit.</td></tr>",
-          "  <tr><td><code>Final Visit?</code></td><td> Does this appear to be the client's final NFP visit?</td></tr>",
-          "  <tr><td><code><em>RR</em><sub>v1</sub></code> - <code><em>RR</em><sub>v3</sub></code></td><td>Predicted relative risk of dropping out before the next visit.  Each <em>RR</em> version corresponds to a different model.  The last one is our recommendation.</td></tr>",
-          "</table>",
-          "</div>"
-        )
+        HTML("
+          <br/>
+          <div class='table_legend'>
+            Each row in this table describes a completed home visit. The columns are: 
+            <table>
+              <tr><td><code>Client</code></td><td> The client's ID (which is obfuscated for this demo).</td></tr>
+              <tr><td><code>Program</code></td><td> The program's ID (which is obfuscated for this demo).  A 'program' is defined as a specific HV model adminstered from a specific site.</td></tr>
+              <tr><td><code>Visit Month</code></td><td> Month of the Visit (YYYY-MM).</td></tr>
+              <tr><td><code>Phase</code></td><td>The child's developmental phase (<em>e.g.</em>, pregnant, infant, or toddler).</td></tr>
+              <tr><td><code>Content Covered</code></td><td>Percent of the material covered (during the visit; 0%-100%).</td></tr>
+              <tr><td><code>Involved</code></td><td>Subjective judgment how involved the client seemed (during the visit; 1-5).</td></tr>
+              <tr><td><code>Conflict with Material</code></td><td>Subjective judgment how much conflict the client had with the material (during the visit; 1-5).</td></tr>
+              <tr><td><code>Understands Material</code></td><td>Subjective judgment how well the client understood the material (during the visit; 1-5).</td></tr>
+              <tr><td><code>Days Since Referral</code></td><td>Number of days between the referral and this visit.</td></tr>
+              <tr><td><code>Final Visit?</code></td><td> Does this appear to be the client's final NFP visit?</td></tr>
+              <tr><td><code><em>RR</em><sub>v1</sub></code> - <code><em>RR</em><sub>v3</sub></code></td><td>Predicted relative risk of dropping out before the next visit.  Each <em>RR</em> version corresponds to a different model.  The last one is our recommendation.</td></tr>
+            </table>
+          </div>
+        ")
       ), #End the (first) tab with the 'table' table
       tabItem(
         tabName = "rr_longitudinal",
