@@ -4,7 +4,6 @@ library(htmlwidgets)
 library(magrittr)
 library(scales)
 library(ggplot2)
-# requireNamespace("grid")
 requireNamespace("DT")
 requireNamespace("readr")
 requireNamespace("dplyr")
@@ -12,14 +11,17 @@ requireNamespace("GGally") #Special survival graph
 
 # ---- declare-globals  -----------------------------------
 # To create the 'hat' dataset, run `MReporting/OsdhReports/retention/retention.R`.
-
 #Define some common cosmetics for the report.
+theme_purple_dark    <- "#504C88"
+theme_purple_light   <- "#605CA8"
+theme_green_dark     <- "#008d4c"
+color_benchmark      <- "#77777766"
 report_theme <- theme_light(base_size = 18) +
-  theme(axis.text         = element_text(colour="gray40")) +
-  theme(axis.title        = element_text(colour="gray40")) +
-  theme(panel.border      = element_rect(colour="gray80"))  +
+  theme(title             = element_text(color=theme_purple_dark)) +
+  theme(axis.text         = element_text(color=theme_purple_dark)) +
+  theme(axis.title        = element_text(color=theme_purple_dark)) +
+  theme(panel.border      = element_rect(color="gray80"))  +
   theme(axis.ticks        = element_blank())
-color_benchmark <- "#77777766"
 
 # icons_status <- c("Due Date"="bicycle", "Scheduled"="book", "Confirmed"="bug", "Cancelled"="bolt", "No Show"="ban")
 # order_status  <- as.integer(names(status_levels)); names(order_status) <- status_levels
@@ -71,7 +73,7 @@ function(input, output) {
         "Involved"                               = "client_involvement",
         "Conflict<br/>with Material"             = "client_material_conflict",
         "Understands<br/>Material"               = "client_material_understanding",
-        "Days<br/> Since Referral"               = "days_since_referral",
+        "Days<br/>Since Referral"                = "days_since_referral",
         "Final Visit?"                           = "final_visit",
         "<em>RR</em><sub>v1</sub>"               = "hat_v1",
         "<em>RR</em><sub>v2</sub>"               = "hat_v2",
@@ -179,7 +181,7 @@ function(input, output) {
     f_3 <- survfit(c_3)
     
     set.seed(8) #To keep the jittering from creating new graphs
-    GGally::ggsurv(f_3)  +
+    GGally::ggsurv(f_3, cens.col=theme_green_dark, surv.col = theme_purple_light)  +
       coord_cartesian(ylim=c(0,1)) +
       scale_y_continuous(labels=scales::percent) +
       # scale_color_manual(values=pallete_model) +

@@ -1,9 +1,9 @@
 /* Note: the RStudio browser has to be closed and reopened for changes to be applied. */
 /* Color taken from AdminLTE-2.0.6/_all-skins.min.css */
-/* lighter green: 00a65a */
-/* darker green: 008d4c */
-/* darker purple: 504C88 */
-/* lighter purple: 605CA8 */
+/* green lighter  : 00a65a */
+/* green darker   : 008d4c */
+/* purple lighter : 605CA8 */
+/* purple darker  : 504C88 */
 
 .panel_header {color:#00a65a; font-size:200%}
 .table_legend {color:#504C88}
