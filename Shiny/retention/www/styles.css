@@ -1,8 +1,20 @@
-.panel_header {color:#605CA8; font-size:200%}
-.table_legend {color:#605CA8}
+/* Note: the RStudio browser has to be closed and reopened for changes to be applied. */
+/* Color taken from AdminLTE-2.0.6/_all-skins.min.css */
+/* lighter green: 00a65a */
+/* darker green: 008d4c */
+/* darker purple: 504C88 */
+/* lighter purple: 605CA8 */
+
+.panel_header {color:#00a65a; font-size:200%}
+.table_legend {color:#504C88}
 .table .smallish {font-size:80%; padding:2px; }
 .table .interview_row {font-size:90%; font-weight:bold}
 
+td      { color:#504C88;}
+th      { color:#f6f6f6; background-color:#008d4c; }
+
+.dataTables_length     { color:#888; }
+.dataTables_info     { color:#888; }
 .table .risk_dark_high      { background:#ef6a32; }
 .table .risk_dark_elevated  { background:#fbbf45; }
 .table .risk_dark_baseline  { background:#03c383; }
@@ -33,7 +45,7 @@ body, label, input, button, select {
   font-weight: 200;
 }
 h1, h2, h4 { font-weight: 400; }
-h3 {font-weight: 400; color:#605CA8; font-size:150%; }
+h3 {font-weight: 400; color:#504C88; font-size:150%; }
 
 #controls {
   /* Appearance */
