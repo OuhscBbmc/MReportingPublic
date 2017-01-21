@@ -34,6 +34,14 @@
 
 ## Interactive Timeline
 
+V4:
+<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1gkcrHndq4hdGpTCSUXNkeohGikKqvZi-CGcPu4LpU2s&font=Default&lang=en&initial_zoom=2&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+
+
+V3:
+<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1RMZcA4et_ZW6NjZU53-vbhJiI2n7dglq7yYN_KT0n48&font=Default&lang=en&initial_zoom=2&start_at_slide=2&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+
+V2:
 <iframe src='https://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=1W378rcBIvRdFRIf5owQE0n_54phb7jZWD8P9V3i5TWI&font=Bevan-PotanoSans&maptype=toner&lang=en&start_zoom_adjust=-2&height=700' width='100%' height='700' frameborder='0'></iframe>
 
 
@@ -172,27 +180,28 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by Will at 2016-01-12, 13:32 -0600
+Report rendered by wibeasley at 2017-01-20, 23:17 -0600
 ```
 
 ```
-R version 3.2.3 Patched (2015-12-12 r69765)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows >= 8 x64 (build 9200)
+R version 3.3.1 (2016-06-21)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.1 LTS
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_2.0.0 knitr_1.12   
+[1] ggplot2_2.2.1 knitr_1.15.1 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.3      lubridate_1.5.0  digest_0.6.9     plyr_1.8.3       grid_3.2.3       gtable_0.1.2    
- [7] formatR_1.2.1    magrittr_1.5     evaluate_0.8     scales_0.3.0     highr_0.5.1      stringi_1.0-1   
-[13] rmarkdown_0.9.2  tools_3.2.3      stringr_1.0.0    munsell_0.4.2    yaml_2.1.13      colorspace_1.2-6
-[19] htmltools_0.3   
+ [1] Rcpp_0.12.9      lubridate_1.6.0  assertthat_0.1   digest_0.6.11    rprojroot_1.1    plyr_1.8.4      
+ [7] grid_3.3.1       gtable_0.2.0     backports_1.0.4  magrittr_1.5     evaluate_0.10    scales_0.4.1    
+[13] highr_0.6        stringi_1.1.2    lazyeval_0.2.0   rmarkdown_1.3    tools_3.3.1      stringr_1.1.0   
+[19] munsell_0.4.3    yaml_2.1.14      colorspace_1.3-2 htmltools_0.3.5  tibble_1.2      
 ```
