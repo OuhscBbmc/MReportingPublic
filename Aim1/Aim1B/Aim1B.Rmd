@@ -68,15 +68,7 @@ read_chunk("./Aim1/Aim1B/Aim1B.R") #This allows knitr to call chunks tagged in t
 
 ## Interactive Timeline
 
-V4:
 <iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1gkcrHndq4hdGpTCSUXNkeohGikKqvZi-CGcPu4LpU2s&font=Default&lang=en&initial_zoom=2&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
-
-
-V3:
-<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1RMZcA4et_ZW6NjZU53-vbhJiI2n7dglq7yYN_KT0n48&font=Default&lang=en&initial_zoom=2&start_at_slide=2&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
-
-V2:
-<iframe src='https://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=1W378rcBIvRdFRIf5owQE0n_54phb7jZWD8P9V3i5TWI&font=Bevan-PotanoSans&maptype=toner&lang=en&start_zoom_adjust=-2&height=700' width='100%' height='700' frameborder='0'></iframe>
 
 
 ## Searchable Table
