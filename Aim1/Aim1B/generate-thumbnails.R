@@ -17,6 +17,7 @@ requireNamespace("testit"    , quietly=TRUE) #For asserting conditions meet expe
 
 # ---- declare-globals ---------------------------------------------------------
 path_input     <- "./DataPhiFree/Raw/miechv-progress-timeline.csv"
+path_output    <- "./DataPhiFree/Derived/miechv-progress-timeline.csv"
 directory      <- "./DataPhiFree/Derived/timeline-thumbnails"
 
 col_types <- readr::cols(
@@ -85,16 +86,22 @@ ds <- ds %>%
 # basename(ds$media)
 for( i in seq_len(nrow(ds)) ) {
   cat(i, "\n")
-  # i <- 4
+  # i <- 1
   ds$`Media Thumbnail` <- ""
   
-  
-  try({
-    webshot::webshot(
-      url   = ds$Media[i],
-      file  = ds$file_path[i]
+  if( !is.na(ds$Media[i]) ) {
+    try({
+      webshot::webshot(
+        url   = ds$Media[i],
+        file  = ds$file_path[i]
+      )
+      ds$`Media Thumbnail`[i] <- ds$file_path[i]
+    }, silent = TRUE
     )
-    ds$`Media Thumbnail` <- ds$file_path[i]
-  }, silent = TRUE
-  )
+  }
 }
+
+
+# ---- save-to-disk ------------------------------------------------------------
+readr::write_csv(ds, path_output, na="")
+
