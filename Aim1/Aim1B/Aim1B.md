@@ -172,17 +172,18 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wbeasley at 2017-01-31, 11:16 -0600
+Report rendered by wibeasley at 2017-02-01, 02:04 -0600
 ```
 
 ```
-R version 3.3.2 Patched (2017-01-07 r71934)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 7 x64 (build 7601) Service Pack 1
+R version 3.3.1 (2016-06-21)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.1 LTS
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -192,7 +193,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] Rcpp_0.12.9      lubridate_1.6.0  assertthat_0.1   digest_0.6.12    rprojroot_1.2    plyr_1.8.4      
- [7] grid_3.3.2       gtable_0.2.0     backports_1.0.5  magrittr_1.5     evaluate_0.10    scales_0.4.1    
-[13] highr_0.6        stringi_1.1.2    lazyeval_0.2.0   rmarkdown_1.3    tools_3.3.2      stringr_1.1.0   
+ [7] grid_3.3.1       gtable_0.2.0     backports_1.0.5  magrittr_1.5     evaluate_0.10    scales_0.4.1    
+[13] highr_0.6        stringi_1.1.2    lazyeval_0.2.0   rmarkdown_1.3    tools_3.3.1      stringr_1.1.0   
 [19] munsell_0.4.3    yaml_2.1.14      colorspace_1.3-2 htmltools_0.3.5  tibble_1.2      
 ```
